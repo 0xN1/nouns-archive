@@ -3,10 +3,12 @@ import Head from 'next/head'
 import { ConnectKitButton } from 'connectkit'
 import DatabaseView from '@/components/DatabaseView'
 import BlockView from '@/components/BlockView'
+import ProposalListView from '@/components/ProposalListView'
+import PropSinglePage from '@/components/prop/PropSinglePage'
 
 const Home = () => {
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center py-2 font-inter">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 font-inter text-white">
             <Head>
                 <title>Nouns Archive</title>
                 <link rel="icon" href="/mono.svg" />
@@ -19,12 +21,16 @@ const Home = () => {
             {/* <DatabaseView databaseId="b15b373008624074a2da2600b1674ce5" /> */}
             {/* <BlockView blockId="da52f93301dd4ed59e5b876bd5151d93" /> */}
             {/* <BlockView blockId="f3f57f057fb1454393914d626d487648" /> */}
-            <BlockView blockId="92a26d32-4ef3-4ad6-90f7-3d760f6ddcf6" />
+            {/* <BlockView blockId="92a26d32-4ef3-4ad6-90f7-3d760f6ddcf6" /> */}
             {/* <DatabaseView databaseId="67079226-a645-48ca-9d3f-feb7fe092bc0" /> */}
 
             {/* <div className="mt-6 select-none text-center text-6xl font-bold">
                 {APP_NAME}
             </div> */}
+
+            {/* <ProposalListView proposalDB="7560d477d44b404baa2e70afd5ecf52b" /> */}
+            <ProposalListView proposalDB="1330bf9251614e64ae3de2b26b522051" />
+            {/* <PropSinglePage propId="80f38e6c-f846-4457-b811-1ff7cfbf5130" /> */}
         </div>
     )
 }

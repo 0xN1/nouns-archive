@@ -1,6 +1,6 @@
 import { queryDatabase } from '@/lib/notion'
 
-export default async (req, res) => {
+const db = async (req, res) => {
     const dbId = req.query.id
     const data = await queryDatabase(dbId)
 
@@ -12,5 +12,7 @@ export default async (req, res) => {
     }
 
     // If the data is retrieved successfully, return it as JSON
-    res.status(200).json(data)
+    return res.status(200).json(data)
 }
+
+export default db

@@ -1,0 +1,210 @@
+{
+    "object": "list",
+    "results": [
+        {
+            "object": "page",
+            "id": "644b8f94-ae7c-4a09-b66d-d8d97274ee91",
+            "created_time": "2023-03-09T16:35:00.000Z",
+            "last_edited_time": "2023-03-09T16:49:00.000Z",
+            "created_by": {
+                "object": "user",
+                "id": "7411f0ab-33f4-43f4-ba5a-eff5f38696eb"
+            },
+            "last_edited_by": {
+                "object": "user",
+                "id": "7411f0ab-33f4-43f4-ba5a-eff5f38696eb"
+            },
+            "cover": null,
+            "icon": null,
+            "parent": {
+                "type": "database_id",
+                "database_id": "7560d477-d44b-404b-aa2e-70afd5ecf52b"
+            },
+            "archived": false,
+            "properties": {
+                "Description": {
+                    "id": "BTDp",
+                    "type": "rich_text",
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Danit Peleg, one of the world's leading experts and innovators in 3D-printed clothes and textiles, is producing the DANIT PELEG x Nouns fashion collection as originally funded in Props 26 and 41. The collection includes 5 looks and accessories, all printed using various 3D-printed technologies (Polyjet, FDM, Jet Fusion). All the looks will be wearable by real human models.\nThe collection will be showcased at NFT Paris alongside the world's top luxury brands with more than 15,000 people expected to attend, and will also be made available to show in future events where Nouns have presence (like NFT NYC, NFT Aus, ETH Bogota/SF etc.). Danit will also introduce Nouns at her lectures in various events, e.g. at a recent workshop for executives at a very large luxury multinational corp. The exhibition area for the collection will be a custom-built interactive experience, including an AR installation and holograms representing the collection & Nouns.\n",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Danit Peleg, one of the world's leading experts and innovators in 3D-printed clothes and textiles, is producing the DANIT PELEG x Nouns fashion collection as originally funded in Props 26 and 41. The collection includes 5 looks and accessories, all printed using various 3D-printed technologies (Polyjet, FDM, Jet Fusion). All the looks will be wearable by real human models.\nThe collection will be showcased at NFT Paris alongside the world's top luxury brands with more than 15,000 people expected to attend, and will also be made available to show in future events where Nouns have presence (like NFT NYC, NFT Aus, ETH Bogota/SF etc.). Danit will also introduce Nouns at her lectures in various events, e.g. at a recent workshop for executives at a very large luxury multinational corp. The exhibition area for the collection will be a custom-built interactive experience, including an AR installation and holograms representing the collection & Nouns.\n",
+                            "href": null
+                        },
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Nouns DAO X Danit Peleg Youtube Shorts by Nounish",
+                                "link": {
+                                    "url": "https://www.youtube.com/shorts/JAvMm9alQB8"
+                                }
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Nouns DAO X Danit Peleg Youtube Shorts by Nounish",
+                            "href": "https://www.youtube.com/shorts/JAvMm9alQB8"
+                        }
+                    ]
+                },
+                "Status": {
+                    "id": "HPge",
+                    "type": "select",
+                    "select": {
+                        "id": "127bc37b-c7cb-44bc-8e3f-f82cf170e6d8",
+                        "name": "Completed",
+                        "color": "green"
+                    }
+                },
+                "ETH": { "id": "Rxbq", "type": "number", "number": 105 },
+                "Voting": {
+                    "id": "YJu%7B",
+                    "type": "select",
+                    "select": {
+                        "id": "ecda2b89-35af-456f-95da-4c2e0a02de0a",
+                        "name": "Passed",
+                        "color": "green"
+                    }
+                },
+                "Thumbnails": {
+                    "id": "iu%40X",
+                    "type": "files",
+                    "files": [
+                        {
+                            "name": "NounsDAO X Danit_4 (1).jpg",
+                            "type": "file",
+                            "file": {
+                                "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/fd229fa6-0b9c-4ef4-84eb-b68102f76128/NounsDAO_X_Danit_4_%281%29.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230309%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230309T165107Z&X-Amz-Expires=3600&X-Amz-Signature=29448798b64c3840cd6d45a9dd2619f4612c716a22ddf9c29dd750b39a7f9b11&X-Amz-SignedHeaders=host&x-id=GetObject",
+                                "expiry_time": "2023-03-09T17:51:07.059Z"
+                            }
+                        }
+                    ]
+                },
+                "Date": {
+                    "id": "j%7Bqg",
+                    "type": "date",
+                    "date": {
+                        "start": "2022-12-22",
+                        "end": null,
+                        "time_zone": null
+                    }
+                },
+                "End Product": {
+                    "id": "lc%7Cs",
+                    "type": "files",
+                    "files": [
+                        {
+                            "name": "NounsDAO X Danit_1.jpg",
+                            "type": "file",
+                            "file": {
+                                "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/de73fbc2-0497-407d-a829-321e2b4c71c6/NounsDAO_X_Danit_1.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230309%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230309T165107Z&X-Amz-Expires=3600&X-Amz-Signature=06d38c61bfa7e11afd25294870c4bd042cce2721986623a2cc916cc975ab022e&X-Amz-SignedHeaders=host&x-id=GetObject",
+                                "expiry_time": "2023-03-09T17:51:07.061Z"
+                            }
+                        },
+                        {
+                            "name": "NounsDAO X Danit_2.jpg",
+                            "type": "file",
+                            "file": {
+                                "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0d8afb97-3f57-4edf-9421-35920e95e68a/NounsDAO_X_Danit_2.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230309%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230309T165107Z&X-Amz-Expires=3600&X-Amz-Signature=9ccf85441930f2d5755b332f340d1353079ef64dc38f2fec165acc448877823a&X-Amz-SignedHeaders=host&x-id=GetObject",
+                                "expiry_time": "2023-03-09T17:51:07.063Z"
+                            }
+                        },
+                        {
+                            "name": "NounsDAO X Danit_3.jpg",
+                            "type": "file",
+                            "file": {
+                                "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/829ffb9d-4f49-4db3-85e9-69ff4be27ea6/NounsDAO_X_Danit_3.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230309%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230309T165107Z&X-Amz-Expires=3600&X-Amz-Signature=ba3636170067c2fe443b64ab8736b00beac10f329c831f6e183c38eef927ce63&X-Amz-SignedHeaders=host&x-id=GetObject",
+                                "expiry_time": "2023-03-09T17:51:07.065Z"
+                            }
+                        },
+                        {
+                            "name": "NounsDAO X Danit_4.jpg",
+                            "type": "file",
+                            "file": {
+                                "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/19d91c98-5a93-40ff-bff9-33c60dffd3ff/NounsDAO_X_Danit_4.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230309%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230309T165107Z&X-Amz-Expires=3600&X-Amz-Signature=9ace7b30dbce882d018becfdc68aacfab73ce243901f1057604cb990ba4f8882&X-Amz-SignedHeaders=host&x-id=GetObject",
+                                "expiry_time": "2023-03-09T17:51:07.067Z"
+                            }
+                        },
+                        {
+                            "name": "NounsDAO X Danit_5.jpg",
+                            "type": "file",
+                            "file": {
+                                "url": "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/34507cdd-6dfa-407b-b9a4-14f522ec1a0d/NounsDAO_X_Danit_5.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20230309%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230309T165107Z&X-Amz-Expires=3600&X-Amz-Signature=81248362582597a8126a04dde41a9bba4a3f7448e17b5cb87ce5f7b5f994d519&X-Amz-SignedHeaders=host&x-id=GetObject",
+                                "expiry_time": "2023-03-09T17:51:07.068Z"
+                            }
+                        }
+                    ]
+                },
+                "Category": {
+                    "id": "tD%60A",
+                    "type": "multi_select",
+                    "multi_select": [
+                        {
+                            "id": "1e452933-0076-4491-82ad-5227257667fe",
+                            "name": "Marketing",
+                            "color": "pink"
+                        },
+                        {
+                            "id": "f8e22e8c-31cd-4e7f-adf6-41850f7dba3b",
+                            "name": "Physical",
+                            "color": "brown"
+                        }
+                    ]
+                },
+                "No": { "id": "wzuB", "type": "number", "number": 197 },
+                "USDC": { "id": "yLb%40", "type": "number", "number": 125246 },
+                "Team ": {
+                    "id": "~pcY",
+                    "type": "relation",
+                    "relation": [],
+                    "has_more": false
+                },
+                "Name": {
+                    "id": "title",
+                    "type": "title",
+                    "title": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Finalize the Nouns 3D-Printed Fashion Collection & showcase it at NFT Paris",
+                                "link": null
+                            },
+                            "annotations": {
+                                "bold": false,
+                                "italic": false,
+                                "strikethrough": false,
+                                "underline": false,
+                                "code": false,
+                                "color": "default"
+                            },
+                            "plain_text": "Finalize the Nouns 3D-Printed Fashion Collection & showcase it at NFT Paris",
+                            "href": null
+                        }
+                    ]
+                }
+            },
+            "url": "https://www.notion.so/Finalize-the-Nouns-3D-Printed-Fashion-Collection-showcase-it-at-NFT-Paris-644b8f94ae7c4a09b66dd8d97274ee91"
+        }
+    ],
+    "next_cursor": null,
+    "has_more": false,
+    "type": "page",
+    "page": {}
+}

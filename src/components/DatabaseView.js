@@ -43,16 +43,17 @@ export default function DatabaseView({ databaseId }) {
     )
 }
 
-export async function getStaticPaths() {
-    // Generate an array of paths based on your databases
-    const paths = [
-        { params: { databaseId: 'databaseId1' } },
-        { params: { databaseId: 'databaseId2' } },
-        // Add more paths as needed
-    ]
+// export async function getStaticPaths() {
+//     // Generate an array of paths based on your databases
+//     const paths = [
+//         { params: { databaseId: 'databaseId1' } },
+//         { params: { databaseId: 'databaseId2' } },
 
-    return { paths, fallback: false }
-}
+//         // Add more paths as needed
+//     ]
+
+//     return { paths, fallback: false }
+// }
 
 export async function getStaticProps({ params }) {
     const { databaseId } = params
