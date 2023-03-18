@@ -3,7 +3,8 @@
 import { queryDatabase } from '@/lib/notion'
 
 const getProposalID = async (req, res) => {
-    const pageId = '1330bf9251614e64ae3de2b26b522051'
+    // const propDB = req.query.propDB
+    const pageId = '1330bf9251614e64ae3de2b26b522051' // onchain prop prod db
     // const pageId = '7560d477d44b404baa2e70afd5ecf52b' // onchain prop test db
     const data = await queryDatabase(pageId)
 

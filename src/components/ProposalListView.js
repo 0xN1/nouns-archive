@@ -61,7 +61,8 @@ export default function ProposalListView({ proposalDB }) {
                             <img
                                 className="my-4 h-32 w-full rounded-lg object-cover object-top shadow-lg shadow-black"
                                 src={
-                                    item.properties.Thumbnails.files[0].file.url
+                                    item.properties.Thumbnails.files[0]?.file
+                                        .url
                                 }
                                 // alt={item.properties.Name.title[0].plain_text}
                             />

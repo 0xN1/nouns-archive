@@ -5,6 +5,8 @@ import DatabaseView from '@/components/DatabaseView'
 import BlockView from '@/components/BlockView'
 import ProposalListView from '@/components/ProposalListView'
 import PropSinglePage from '@/components/prop/PropSinglePage'
+import OnChainPropListView from '@/components/prop/OnChainPropListView'
+import OnChainView from '@/components/prop/OnChainView'
 
 const Home = () => {
     return (
@@ -29,8 +31,11 @@ const Home = () => {
             </div> */}
 
             {/* <ProposalListView proposalDB="7560d477d44b404baa2e70afd5ecf52b" /> */}
-            <ProposalListView proposalDB="1330bf9251614e64ae3de2b26b522051" />
+            {/* <ProposalListView proposalDB="1330bf9251614e64ae3de2b26b522051" /> */}
             {/* <PropSinglePage propId="80f38e6c-f846-4457-b811-1ff7cfbf5130" /> */}
+
+            {/* <OnChainPropListView proposalDB="1330bf9251614e64ae3de2b26b522051" /> */}
+            <OnChainView />
         </div>
     )
 }
