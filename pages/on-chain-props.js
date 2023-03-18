@@ -10,10 +10,14 @@ export default function OnChainProps({ initialData }) {
         const filteredData = initialData.filter((entry) => {
             const tempTitle = entry['Project Title'].toLowerCase()
             const tempDesc = entry.Description.toLowerCase()
+            const tempTeam = entry['Team']?.toLowerCase()
+
+            console.log(tempTeam)
 
             return (
                 tempTitle.includes(searchQuery) ||
-                tempDesc.includes(searchQuery)
+                tempDesc.includes(searchQuery) ||
+                tempTeam?.includes(searchQuery)
             )
         })
 
@@ -74,6 +78,25 @@ export default function OnChainProps({ initialData }) {
         }
 
         setData(sortedData)
+    }
+
+    // handle filter by category
+    const handleFilter = (e) => {
+        const filterQuery = e.target.value
+
+        if (filterQuery === 'all') {
+            setData(initialData)
+        } else {
+            const filteredData = initialData.filter((entry) => {
+                const tempCategory = entry.Category.map((item) =>
+                    item.toLowerCase(),
+                )
+
+                return tempCategory.includes(filterQuery)
+            })
+
+            setData(filteredData)
+        }
     }
 
     // console.log(data)
@@ -141,7 +164,7 @@ export default function OnChainProps({ initialData }) {
                     </g>
                 </svg>
             </div>
-            <h1 className="p-8 text-center text-7xl font-black">
+            <h1 className="p-8 text-center font-gibson text-7xl uppercase">
                 Onchain Proposals
             </h1>
             <div className="flex w-1/2 flex-col items-center gap-4">
@@ -152,22 +175,44 @@ export default function OnChainProps({ initialData }) {
                     onChange={handleSearch}
                 />
 
-                <select
-                    className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                    onChange={handleSort}
-                >
-                    <option value="oldest">Oldest</option>
-                    <option value="latest">Recent</option>
-                    <option value="atoz">A to Z</option>
-                    <option value="ztoa">Z to A</option>
-                </select>
+                <div className="flex w-full flex-row items-center justify-center gap-4">
+                    <select
+                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
+                        onChange={handleFilter}
+                    >
+                        <option value="all">All</option>
+                        <option value="art">Art</option>
+                        <option value="tech">Tech</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="charity">Charity</option>
+                        <option value="physical">Physical</option>
+                        <option value="operational">Operational</option>
+                        <option value="investment">Investment</option>
+                        <option value="staking">Staking</option>
+                        <option value="community">Community</option>
+                        <option value="other">Other</option>
+                    </select>
+
+                    <select
+                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
+                        onChange={handleSort}
+                    >
+                        <option value="oldest">Oldest</option>
+                        <option value="latest">Recent</option>
+                        <option value="atoz">A to Z</option>
+                        <option value="ztoa">Z to A</option>
+                    </select>
+                </div>
             </div>
 
-            <span class="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
+            <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
 
             <ul className="grid-rows grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {data.map((proposal) => (
-                    <Link href={`/on-chain-props/${proposal.No}`}>
+                    <Link
+                        href={`/on-chain-props/${proposal.No}`}
+                        key={proposal.id}
+                    >
                         <li
                             className="relative h-[400px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black [border-bottom-width:12px]"
                             key={proposal.id}

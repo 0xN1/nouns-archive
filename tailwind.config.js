@@ -8,6 +8,8 @@ module.exports = {
         extend: {
             fontFamily: {
                 inter: ['Inter', 'sans-serif'],
+                termina: ['Termina', 'sans-serif'],
+                gibson: ['canada-type-gibson', 'sans-serif'],
             },
         },
     },

@@ -21,7 +21,7 @@ redis.on('connect', () => {
 })
 
 export async function queryDatabase(databaseId) {
-    const cachedData = await redis.get(`notion:${databaseId}`)
+    const cachedData = await redis.get(`notion-db:${databaseId}`)
 
     if (cachedData) {
         return JSON.parse(cachedData)
@@ -32,7 +32,7 @@ export async function queryDatabase(databaseId) {
     })
 
     await redis.set(
-        `notion:${databaseId}`,
+        `notion-db:${databaseId}`,
         JSON.stringify(response),
         'EX',
         3600,
@@ -42,7 +42,7 @@ export async function queryDatabase(databaseId) {
 }
 
 export async function retrieveDatabase(databaseId) {
-    const cachedData = await redis.get(`notion:${databaseId}`)
+    const cachedData = await redis.get(`notion-dbo:${databaseId}`)
 
     if (cachedData) {
         return JSON.parse(cachedData)
@@ -53,7 +53,7 @@ export async function retrieveDatabase(databaseId) {
     })
 
     await redis.set(
-        `notion:${databaseId}`,
+        `notion-dbo:${databaseId}`,
         JSON.stringify(response),
         'EX',
         3600,
@@ -63,7 +63,7 @@ export async function retrieveDatabase(databaseId) {
 }
 
 export async function getBlock(blockId) {
-    const cachedData = await redis.get(`notion:${blockId}`)
+    const cachedData = await redis.get(`notion-block:${blockId}`)
 
     if (cachedData) {
         return JSON.parse(cachedData)
@@ -73,13 +73,18 @@ export async function getBlock(blockId) {
         block_id: blockId,
     })
 
-    await redis.set(`notion:${blockId}`, JSON.stringify(response), 'EX', 3600) // cache for 1 hour
+    await redis.set(
+        `notion-block:${blockId}`,
+        JSON.stringify(response),
+        'EX',
+        3600,
+    ) // cache for 1 hour
 
     return response
 }
 
 export async function getBlockChildren(blockId) {
-    const cachedData = await redis.get(`notion:${blockId}`)
+    const cachedData = await redis.get(`notion-block-child:${blockId}`)
 
     if (cachedData) {
         return JSON.parse(cachedData)
@@ -89,13 +94,18 @@ export async function getBlockChildren(blockId) {
         block_id: blockId,
     })
 
-    await redis.set(`notion:${blockId}`, JSON.stringify(response), 'EX', 3600) // cache for 1 hour
+    await redis.set(
+        `notion-block-child:${blockId}`,
+        JSON.stringify(response),
+        'EX',
+        3600,
+    ) // cache for 1 hour
 
     return response
 }
 
 export async function getPage(pageId) {
-    const cachedData = await redis.get(`notion:${pageId}`)
+    const cachedData = await redis.get(`notion-page:${pageId}`)
 
     if (cachedData) {
         return JSON.parse(cachedData)
@@ -105,7 +115,12 @@ export async function getPage(pageId) {
         page_id: pageId,
     })
 
-    await redis.set(`notion:${pageId}`, JSON.stringify(response), 'EX', 3600) // cache for 1 hour
+    await redis.set(
+        `notion-page:${pageId}`,
+        JSON.stringify(response),
+        'EX',
+        3600,
+    ) // cache for 1 hour
 
     return response
 }
