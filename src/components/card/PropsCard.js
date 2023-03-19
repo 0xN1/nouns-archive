@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Links = {
     'Prop House': '/props/prop-house',
@@ -13,7 +14,7 @@ function PropsCard({ prop }) {
             key={prop.No}
         >
             <Link href={Links[prop['Project Title']]}>
-                <img
+                <Image
                     className="h-[236px] w-[300px] border-b-4 border-black object-cover"
                     src={
                         prop.Thumbnails?.[0].url
@@ -21,10 +22,21 @@ function PropsCard({ prop }) {
                             : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                     }
                     alt={prop.Thumbnails?.[0].name}
+                    width={300}
+                    height={236}
                 />
+                {/* <img
+                    className="h-[236px] w-[300px] border-b-4 border-black object-cover"
+                    src={
+                        prop.Thumbnails?.[0].url
+                            ? prop.Thumbnails?.[0].url
+                            : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
+                    }
+                    alt={prop.Thumbnails?.[0].name}
+                /> */}
             </Link>
 
-            <h1 className="h-20 overflow-hidden break-words px-5 py-4 text-2xl font-semibold">
+            <h1 className="h-20 overflow-hidden break-words px-5 py-4 text-xl font-medium">
                 {prop['Project Title']}
             </h1>
 

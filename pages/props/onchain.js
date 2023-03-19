@@ -12,13 +12,15 @@ export default function OnChain({ initialData }) {
             const tempTitle = entry['Project Title'].toLowerCase()
             const tempDesc = entry.Description.toLowerCase()
             const tempTeam = entry['Team']?.toLowerCase()
+            const tempCategory = entry['Category']
 
-            console.log(tempTeam)
+            console.log(tempCategory)
 
             return (
                 tempTitle.includes(searchQuery) ||
                 tempDesc.includes(searchQuery) ||
-                tempTeam?.includes(searchQuery)
+                tempTeam?.includes(searchQuery) ||
+                tempCategory?.includes(searchQuery)
             )
         })
 
@@ -105,9 +107,11 @@ export default function OnChain({ initialData }) {
     return (
         <div className="flex flex-col items-center justify-center gap-4 bg-[#FBF9F5] p-4 pt-32 font-inter">
             <Noggles />
+
             <h1 className="p-8 text-center font-gibson text-7xl uppercase">
-                Onchain Proposals
+                On-chain Proposals
             </h1>
+
             <div className="flex w-1/2 flex-col items-center gap-4">
                 <input
                     className="mx-2 w-full rounded-xl border-2 border-black bg-transparent p-2"

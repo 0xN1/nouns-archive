@@ -1,4 +1,5 @@
 import ImageModal from '@/components/modal/ImageModal'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -40,24 +41,62 @@ export default function Proposal({ proposal }) {
 
     return (
         <div className="flex flex-col items-center bg-[#FBF9F5] p-4 pt-32 font-inter">
-            <h1 className="mb-8 p-8 text-center font-gibson text-6xl uppercase">
+            <h1 className="p-8 text-center font-gibson text-6xl uppercase">
                 {proposal['Project Title']}
             </h1>
-            <img
-                className=" h-[400px] w-[800px] rounded-md object-cover shadow-xl shadow-[#878282]"
+            <div className="mb-8 flex flex-row gap-4 p-4">
+                {proposal.Category.map((category) => (
+                    <div
+                        key={category}
+                        className=" text-md flex flex-row items-center justify-center rounded-full border-2 border-black bg-[#FFBD12] px-4 py-2 font-medium text-gray-900"
+                    >
+                        {category}
+                    </div>
+                ))}
+            </div>
+            <div className="grid grid-cols-3 justify-items-center gap-8 rounded-3xl border-2 border-black bg-white p-4 px-12 text-center">
+                <div className="flex flex-col gap-4 ">
+                    <span className="text-md">Voting</span>
+                    <span className="text-lg font-bold">{proposal.Voting}</span>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <span className="text-md">Total Funded</span>
+                    <span className="text-lg font-bold">
+                        {proposal.ETH} ETH
+                    </span>
+                </div>
+                <div className="flex flex-col gap-4">
+                    <span className="text-md">Status</span>
+                    <span className="text-lg font-bold">{proposal.Status}</span>
+                </div>
+            </div>
+
+            <span className="my-8 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
+            <Image
+                className=" w-[800px] scale-75 rounded-md object-cover shadow-xl shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-xl md:h-[400px] md:scale-100"
                 src={
                     proposal.Thumbnails?.[0].url
                         ? proposal.Thumbnails?.[0].url
                         : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                 }
-                alt={proposal.Thumbnails?.[0].name}
+                alt={
+                    proposal.Thumbnails?.[0].name
+                        ? proposal.Thumbnails?.[0].name
+                        : 'Nouns Archive'
+                }
                 onClick={() => {
-                    setImageModalURL(proposal.Thumbnails?.[0].url)
+                    setImageModalURL(
+                        proposal.Thumbnails?.[0].url
+                            ? proposal.Thumbnails?.[0].url
+                            : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway',
+                    )
                     setShowImageModal(true)
                 }}
+                width={800}
+                height={400}
             />
 
-            <h1 className="mt-4 mb-8  p-8 text-center font-gibson text-5xl uppercase">
+            <h1 className="mt-8 mb-8 p-8 text-center font-gibson text-5xl uppercase">
                 Description
             </h1>
             <p className="w-3/4 whitespace-pre-wrap break-words p-2 text-justify">
@@ -78,17 +117,19 @@ export default function Proposal({ proposal }) {
                 Media
             </h1>
             <div
-                className="grid w-3/4 grid-cols-1 justify-items-center gap-4 py-4 sm:grid-cols-3
+                className="grid w-3/4 justify-items-center gap-4 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
             "
             >
                 <ImageModal
                     isVisible={showImageModal}
                     onClose={() => setShowImageModal(false)}
                 >
-                    <img
+                    <Image
                         className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
                         src={imageModalURL}
                         alt={imageModalURL}
+                        width={800}
+                        height={400}
                     />
                 </ImageModal>
 
@@ -118,8 +159,8 @@ export default function Proposal({ proposal }) {
                             // }}
                         />
                     ) : (
-                        <img
-                            className=" h-32 w-full rounded-md object-cover shadow-black transition-all duration-500 ease-in-out hover:shadow-lg sm:w-64"
+                        <Image
+                            className=" h-32 w-full rounded-md object-cover shadow-md shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-lg sm:w-64"
                             key={item.name}
                             src={item.url}
                             alt={item.name}
@@ -127,6 +168,8 @@ export default function Proposal({ proposal }) {
                                 setImageModalURL(item.url)
                                 setShowImageModal(true)
                             }}
+                            width={800}
+                            height={400}
                         />
                     ),
                 )}
