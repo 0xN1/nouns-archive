@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import PropSingleCard from '@/components/card/PropSingleCard'
-import Noggles from '@/components/asset/noggles'
+import Noggles from '@/components/asset/Noggles'
+import BaseTemplate from '@/template/BaseTemplate'
+import BackLink from '@/components/BackLink'
 
 export default function OnChain({ initialData }) {
     const [data, setData] = useState(initialData)
@@ -13,6 +15,7 @@ export default function OnChain({ initialData }) {
             const tempDesc = entry.Description.toLowerCase()
             const tempTeam = entry['Team']?.toLowerCase()
             const tempCategory = entry['Category']
+            const tempNumber = entry.No.toString()
 
             console.log(tempCategory)
 
@@ -20,7 +23,8 @@ export default function OnChain({ initialData }) {
                 tempTitle.includes(searchQuery) ||
                 tempDesc.includes(searchQuery) ||
                 tempTeam?.includes(searchQuery) ||
-                tempCategory?.includes(searchQuery)
+                tempCategory?.includes(searchQuery) ||
+                tempNumber.includes(searchQuery)
             )
         })
 
@@ -102,12 +106,28 @@ export default function OnChain({ initialData }) {
         }
     }
 
+    const handleStatusFilter = (e) => {
+        const filterQuery = e.target.value
+
+        if (filterQuery === 'all') {
+            setData(initialData)
+        } else {
+            const filteredData = initialData.filter((entry) => {
+                const tempStatus = entry.Status?.toLowerCase()
+
+                return tempStatus === filterQuery
+            })
+
+            setData(filteredData)
+        }
+    }
+
     // console.log(data)
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 bg-[#FBF9F5] p-4 pt-32 font-inter">
+        <BaseTemplate>
+            <BackLink url="/props" name="Funded Proposals" />
             <Noggles />
-
             <h1 className="p-8 text-center font-gibson text-7xl uppercase">
                 On-chain Proposals
             </h1>
@@ -125,7 +145,7 @@ export default function OnChain({ initialData }) {
                         className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
                         onChange={handleFilter}
                     >
-                        <option value="all">All</option>
+                        <option value="all">Category</option>
                         <option value="art">Art</option>
                         <option value="tech">Tech</option>
                         <option value="marketing">Marketing</option>
@@ -136,6 +156,19 @@ export default function OnChain({ initialData }) {
                         <option value="staking">Staking</option>
                         <option value="community">Community</option>
                         <option value="other">Other</option>
+                    </select>
+
+                    <select
+                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
+                        onChange={handleStatusFilter}
+                    >
+                        <option value="all">Status</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="on-schedule">On-schedule</option>
+                        <option value="behind schedule">Behind Sch.</option>
+                        <option value="uncertain">Uncertain</option>
+                        <option value="abandoned">Abandoned</option>
                     </select>
 
                     <select
@@ -157,7 +190,7 @@ export default function OnChain({ initialData }) {
                     <PropSingleCard key={proposal.id} proposal={proposal} />
                 ))}
             </ul>
-        </div>
+        </BaseTemplate>
     )
 }
 

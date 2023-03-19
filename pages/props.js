@@ -1,6 +1,7 @@
-import BlockList from '@/template/BlockList'
 import PropsCard from '@/components/card/PropsCard'
-import Noggles from '@/components/asset/noggles'
+import Noggles from '@/components/asset/Noggles'
+import BaseTemplate from '@/template/BaseTemplate'
+import BackLink from '@/components/BackLink'
 
 export async function getStaticProps() {
     const res = await fetch(
@@ -19,8 +20,8 @@ export async function getStaticProps() {
 const Props = ({ data }) => {
     console.log(data)
     return (
-        <BlockList>
-            <div className="pt-4"></div>
+        <BaseTemplate>
+            <BackLink url="/" name="Home" />
             <Noggles />
             <h1 className="p-8 font-gibson text-7xl uppercase">
                 Funded Proposals
@@ -32,7 +33,7 @@ const Props = ({ data }) => {
                     ))}
                 </div>
             </div>
-        </BlockList>
+        </BaseTemplate>
     )
 }
 

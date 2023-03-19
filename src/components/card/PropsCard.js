@@ -10,7 +10,7 @@ const Links = {
 function PropsCard({ prop }) {
     return (
         <div
-            className="relative h-[400px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black [border-bottom-width:12px]"
+            className="relative h-[400px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl transition-all duration-150 [border-bottom-width:12px] hover:-translate-y-2 hover:shadow-gray-300"
             key={prop.No}
         >
             <Link href={Links[prop['Project Title']]}>

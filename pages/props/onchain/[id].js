@@ -1,4 +1,5 @@
 import ImageModal from '@/components/modal/ImageModal'
+import BaseTemplate from '@/template/BaseTemplate'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -15,7 +16,7 @@ export async function getStaticPaths() {
         params: { id: proposal.No.toString() },
     }))
 
-    return { paths, fallback: 'blocking' }
+    return { paths, fallback: true }
 }
 
 export async function getStaticProps({ params }) {
@@ -40,7 +41,7 @@ export default function Proposal({ proposal }) {
     const [videoModalURL, setVideoModalURL] = useState('')
 
     return (
-        <div className="flex flex-col items-center bg-[#FBF9F5] p-4 pt-32 font-inter">
+        <BaseTemplate>
             <h1 className="p-8 text-center font-gibson text-6xl uppercase">
                 {proposal['Project Title']}
             </h1>
@@ -108,7 +109,7 @@ export default function Proposal({ proposal }) {
                 rel="noreferrer"
                 className="p-8"
             >
-                <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white hover:bg-gray-500">
+                <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
                     More Details
                 </button>
             </a>
@@ -189,7 +190,7 @@ export default function Proposal({ proposal }) {
                             target="_blank"
                             rel="noreferrer"
                         >
-                            <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white hover:bg-gray-500">
+                            <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
                                 {member.split('|')[0]}
                             </button>
                         </a>
@@ -207,7 +208,7 @@ export default function Proposal({ proposal }) {
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white hover:bg-gray-500">
+                        <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
                             {link.split('|')[0]}
                         </button>
                     </a>
@@ -217,10 +218,10 @@ export default function Proposal({ proposal }) {
             <span className="my-16 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
 
             <Link href="/props/onchain">
-                <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white hover:bg-gray-500">
+                <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
                     Back
                 </button>
             </Link>
-        </div>
+        </BaseTemplate>
     )
 }
