@@ -44,11 +44,11 @@ export default function Proposal({ proposal }) {
                 {proposal['Project Title']}
             </h1>
             <img
-                className=" h-[400px] w-[800px] rounded-md object-cover shadow-md shadow-black"
+                className=" h-[400px] w-[800px] rounded-md object-cover shadow-xl shadow-[#878282]"
                 src={
                     proposal.Thumbnails?.[0].url
                         ? proposal.Thumbnails?.[0].url
-                        : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=montserrat'
+                        : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                 }
                 alt={proposal.Thumbnails?.[0].name}
                 onClick={() => {
@@ -57,7 +57,7 @@ export default function Proposal({ proposal }) {
                 }}
             />
 
-            <h1 className="mt-4 p-8 text-center font-gibson text-5xl uppercase">
+            <h1 className="mt-4 mb-8  p-8 text-center font-gibson text-5xl uppercase">
                 Description
             </h1>
             <p className="w-3/4 whitespace-pre-wrap break-words p-2 text-justify">
@@ -74,11 +74,11 @@ export default function Proposal({ proposal }) {
                 </button>
             </a>
 
-            <h1 className="mt-4 p-8 text-center font-gibson text-5xl uppercase">
+            <h1 className="mt-4 mb-8 p-8 text-center font-gibson text-5xl uppercase">
                 Media
             </h1>
             <div
-                className="mt-8 grid w-3/4 grid-cols-1 gap-4 py-4 sm:grid-cols-3
+                className="grid w-3/4 grid-cols-1 justify-items-center gap-4 py-4 sm:grid-cols-3
             "
             >
                 <ImageModal
@@ -131,12 +131,12 @@ export default function Proposal({ proposal }) {
                     ),
                 )}
             </div>
-            <h1 className="mt-4 p-8 text-center font-gibson text-5xl uppercase">
+            <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
                 Team
             </h1>
 
             <div className="flex flex-col gap-4">
-                {proposal['Team'].split('\n').map((member) => (
+                {proposal['Team']?.split('\n').map((member) => (
                     <div
                         key={member.split('|')[0]}
                         className="flex flex-row items-center justify-center gap-4"
@@ -153,7 +153,7 @@ export default function Proposal({ proposal }) {
                     </div>
                 ))}
             </div>
-            <h1 className="mt-4 p-8 text-center font-gibson text-5xl uppercase">
+            <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
                 Links
             </h1>
             <div className="flex flex-col items-center justify-center gap-4">
@@ -173,7 +173,7 @@ export default function Proposal({ proposal }) {
 
             <span className="my-16 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
 
-            <Link href="/on-chain-props">
+            <Link href="/props/onchain">
                 <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white hover:bg-gray-500">
                     Back
                 </button>

@@ -18,6 +18,7 @@
     "wagmi": "^0.9.2"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.12",
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
