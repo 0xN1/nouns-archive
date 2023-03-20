@@ -33,7 +33,7 @@ export default function PropSingleCard({ proposal }) {
                             👨‍💻{' '}
                             {proposal['Team']?.split('\n').map((member) => (
                                 <span
-                                    className="pr-1"
+                                    className="pr-2"
                                     key={member.split('|')[0]}
                                 >
                                     {member.split('|')[0]}

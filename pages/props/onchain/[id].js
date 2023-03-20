@@ -37,8 +37,6 @@ export default function Proposal({ proposal }) {
 
     const [showImageModal, setShowImageModal] = useState(false)
     const [imageModalURL, setImageModalURL] = useState('')
-    const [showVideoModal, setShowVideoModal] = useState(false)
-    const [videoModalURL, setVideoModalURL] = useState('')
 
     return (
         <BaseTemplate>
@@ -73,6 +71,7 @@ export default function Proposal({ proposal }) {
             </div>
 
             <span className="my-8 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
+
             <Image
                 className=" w-[800px] scale-75 rounded-md object-cover shadow-xl shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-xl md:h-[400px] md:scale-100"
                 src={
@@ -114,67 +113,68 @@ export default function Proposal({ proposal }) {
                 </button>
             </a>
 
-            <h1 className="mt-4 mb-8 p-8 text-center font-gibson text-5xl uppercase">
-                Media
-            </h1>
-            <div
-                className="grid w-3/4 justify-items-center gap-4 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+            {proposal['Medias'] && (
+                <div className="flex flex-col items-center">
+                    <h1 className="mt-4 mb-8 p-8 text-center font-gibson text-5xl uppercase">
+                        Media
+                    </h1>
+                    <div
+                        className="grid w-3/4 justify-items-center gap-4 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
             "
-            >
-                <ImageModal
-                    isVisible={showImageModal}
-                    onClose={() => setShowImageModal(false)}
-                >
-                    <Image
-                        className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
-                        src={imageModalURL}
-                        alt={imageModalURL}
-                        width={800}
-                        height={400}
-                    />
-                </ImageModal>
+                    >
+                        <ImageModal
+                            isVisible={showImageModal}
+                            onClose={() => setShowImageModal(false)}
+                        >
+                            <Image
+                                className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
+                                src={imageModalURL}
+                                alt={imageModalURL}
+                                width={800}
+                                height={400}
+                            />
+                        </ImageModal>
 
-                {/* <ImageModal
-                    isVisible={showVideoModal}
-                    onClose={() => setShowImageModal(false)}
-                >
-                    <video
-                        src={videoModalURL}
-                        className="rounded-lg shadow-lg shadow-black"
-                        alt={videoModalURL}
-                        controls={true}
-                    />
-                </ImageModal> */}
+                        {proposal['Medias']?.map((item) => (
+                            <Image
+                                className=" h-32 w-full rounded-md object-cover shadow-md shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-lg sm:w-64"
+                                key={item.name}
+                                src={item.url}
+                                alt={item.name}
+                                onClick={() => {
+                                    setImageModalURL(item.url)
+                                    setShowImageModal(true)
+                                }}
+                                width={800}
+                                height={400}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
 
-                {proposal['Product / Progress']?.map((item) =>
-                    item.url.includes('.mp4') ? (
-                        <video
-                            key={item.name}
-                            src={item.url}
-                            className="rounded-lg shadow-lg shadow-black"
-                            alt={item.name}
-                            controls={true}
-                            // onClick={() => {
-                            //     setVideoModalURL(item.url)
-                            //     setShowVideoModal(true)
-                            // }}
-                        />
-                    ) : (
-                        <Image
-                            className=" h-32 w-full rounded-md object-cover shadow-md shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-lg sm:w-64"
-                            key={item.name}
-                            src={item.url}
-                            alt={item.name}
-                            onClick={() => {
-                                setImageModalURL(item.url)
-                                setShowImageModal(true)
-                            }}
-                            width={800}
-                            height={400}
-                        />
-                    ),
-                )}
-            </div>
+            {proposal['Video'] && (
+                <div className="flex flex-col items-center">
+                    <h1 className="mt-4 mb-8 p-8 text-center font-gibson text-5xl uppercase">
+                        Video
+                    </h1>
+                    <div
+                        className="grid w-3/4 grid-cols-1 justify-items-center gap-4 py-4
+            "
+                    >
+                        {proposal['Video']?.split('\n').map((item) => (
+                            <video
+                                key={item.split('|')[0]}
+                                src={item.split('|')[1]}
+                                className="rounded-lg shadow-lg shadow-black"
+                                alt={item.split('|')[0]}
+                                controls={true}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
                 Team
             </h1>
@@ -215,7 +215,7 @@ export default function Proposal({ proposal }) {
                 ))}
             </div>
 
-            <span className="my-16 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
+            <span className="my-8 mt-16 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
 
             <Link href="/props/onchain">
                 <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">

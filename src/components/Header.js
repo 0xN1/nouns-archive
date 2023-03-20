@@ -17,9 +17,11 @@ export default function Header() {
                 </div>
             </Link>
             <div className="flex">
-                <span className="rounded-2xl border-2 border-black bg-transparent px-6 py-2 font-gibson text-xl tracking-wide transition-all duration-500 ease-in-out hover:bg-[#FFBD12]">
-                    ???
-                </span>
+                <Link href="/faq">
+                    <span className="rounded-2xl border-2 border-black bg-transparent px-6 py-2 font-gibson text-xl tracking-wide transition-all duration-500 ease-in-out hover:bg-[#FFBD12]">
+                        FAQ
+                    </span>
+                </Link>
             </div>
         </header>
     )
