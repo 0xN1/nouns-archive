@@ -1,4 +1,4 @@
-import Noggles from '@/components/asset/Noggles'
+import Noggles from '@/components/asset/noggles'
 import BackLink from '@/components/BackLink'
 import BaseTemplate from '@/template/BaseTemplate'
 

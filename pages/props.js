@@ -1,5 +1,5 @@
 import PropsCard from '@/components/card/PropsCard'
-import Noggles from '@/components/asset/Noggles'
+import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
 import BackLink from '@/components/BackLink'
 

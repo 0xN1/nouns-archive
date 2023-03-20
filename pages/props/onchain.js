@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import PropSingleCard from '@/components/card/PropSingleCard'
-import Noggles from '@/components/asset/Noggles'
+import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
 import BackLink from '@/components/BackLink'
 
