@@ -24,7 +24,7 @@ const Home = () => {
             <h1 className="w-full p-4 text-center font-gibson text-5xl uppercase leading-tight tracking-wide sm:p-8 md:w-10/12">
                 we archive{' '}
                 <span className="underline underline-offset-4">all medias</span>{' '}
-                in nounsdao's ecosystem
+                in nounsdao&apos;s ecosystem
             </h1>
             <div className="grid w-2/3 grid-rows-1 items-center justify-center justify-items-center p-4 text-center md:grid-cols-3 ">
                 <Link href="/props">

@@ -1,11 +1,17 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Header() {
     return (
         <header className="mb-8 flex w-full flex-row items-center justify-between px-8 py-4">
             <Link href="/">
                 <div className="flex flex-row">
-                    <img src="/nouns-archive.svg" alt="logo" />
+                    <Image
+                        src="/nouns-archive.svg"
+                        alt="logo"
+                        width={50}
+                        height={50}
+                    />
                     <div className="flex flex-col p-4">
                         <h1 className="font-gibson text-2xl uppercase">
                             Nouns Archive
