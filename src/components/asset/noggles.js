@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Noggles() {
     return (
         <div className="my-8 -translate-x-2 transition-all duration-500 ease-in-out hover:translate-x-3">

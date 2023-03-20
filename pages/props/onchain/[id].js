@@ -16,7 +16,7 @@ export async function getStaticPaths() {
         params: { id: proposal.No.toString() },
     }))
 
-    return { paths, fallback: true }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {
@@ -175,45 +175,54 @@ export default function Proposal({ proposal }) {
                 </div>
             )}
 
-            <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
-                Team
-            </h1>
+            {proposal['Team'] && (
+                <div className="flex flex-col items-center">
+                    <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
+                        Team
+                    </h1>
 
-            <div className="flex flex-col gap-4">
-                {proposal['Team']?.split('\n').map((member) => (
-                    <div
-                        key={member.split('|')[0]}
-                        className="flex flex-row items-center justify-center gap-4"
-                    >
-                        <a
-                            href={member.split('|')[1]}
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
-                                {member.split('|')[0]}
-                            </button>
-                        </a>
+                    <div className="flex flex-col gap-4">
+                        {proposal['Team']?.split('\n').map((member) => (
+                            <div
+                                key={member.split('|')[0]}
+                                className="flex flex-row items-center justify-center gap-4"
+                            >
+                                <a
+                                    href={member.split('|')[1]}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
+                                        {member.split('|')[0]}
+                                    </button>
+                                </a>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
-                Links
-            </h1>
-            <div className="flex flex-col items-center justify-center gap-4">
-                {proposal['Links'].split('\n').map((link) => (
-                    <a
-                        key={link}
-                        href={link.split('|')[1]}
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
-                            {link.split('|')[0]}
-                        </button>
-                    </a>
-                ))}
-            </div>
+                </div>
+            )}
+
+            {proposal['Links'] && (
+                <div className="flex flex-col items-center">
+                    <h1 className="mt-4 mb-8 p-8  text-center font-gibson text-5xl uppercase">
+                        Links
+                    </h1>
+                    <div className="flex flex-col items-center justify-center gap-4">
+                        {proposal['Links']?.split('\n').map((link) => (
+                            <a
+                                key={link}
+                                href={link.split('|')[1]}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
+                                    {link.split('|')[0]}
+                                </button>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             <span className="my-8 mt-16 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
 
