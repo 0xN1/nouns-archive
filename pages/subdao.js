@@ -64,5 +64,6 @@ export async function getStaticProps() {
             pageData: pageData[0],
             raw: data,
         },
+        revalidate: 60,
     }
 }

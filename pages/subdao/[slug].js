@@ -66,13 +66,14 @@ export async function getStaticProps({ params }) {
                 initialData: filteredData,
                 pageData: pageData[0],
                 raw: data,
+                dao: dao,
             },
             revalidate: 60,
         }
     }
 }
 
-const SubDAOContestList = ({ initialData, pageData, raw }) => {
+const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
     const [data, setData] = useState(initialData)
 
     // handle search base on id / title
@@ -105,7 +106,11 @@ const SubDAOContestList = ({ initialData, pageData, raw }) => {
             <div className="p-4">
                 <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {data.map((contest) => (
-                        <ContestCard contest={contest} key={contest.id} />
+                        <ContestCard
+                            contest={contest}
+                            key={contest.id}
+                            parentSlug={toSlug(dao['Project Title'])}
+                        />
                     ))}
                 </div>
             </div>
