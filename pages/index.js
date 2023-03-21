@@ -1,16 +1,6 @@
-import { APP_NAME } from '@/lib/constants'
 import Head from 'next/head'
-import { ConnectKitButton } from 'connectkit'
-import DatabaseView from '@/components/DatabaseView'
-import BlockView from '@/components/BlockView'
-import ProposalListView from '@/components/ProposalListView'
-import PropSinglePage from '@/components/prop/PropSinglePage'
-import OnChainPropListView from '@/components/prop/OnChainPropListView'
-import OnChainView from '@/components/prop/OnChainView'
 import Noggles from '@/components/asset/noggles'
 import Link from 'next/link'
-import Image from 'next/image'
-import Header from '@/components/Header'
 
 const Home = () => {
     return (
