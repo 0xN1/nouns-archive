@@ -2,7 +2,10 @@ import { useState } from 'react'
 import PropSingleCard from '@/components/card/PropSingleCard'
 import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
-import BackLink from '@/components/BackLink'
+import BackLink from '@/components/page/BackLink'
+import Title from '@/components/page/Title'
+import SearchBar from '@/components/page/SearchBar'
+import Description from '@/components/page/Description'
 
 export default function OnChain({ initialData }) {
     const [data, setData] = useState(initialData)
@@ -128,19 +131,15 @@ export default function OnChain({ initialData }) {
         <BaseTemplate>
             <BackLink url="/props" name="Funded Proposals" />
             <Noggles />
-            <h1 className="p-8 text-center font-gibson text-7xl uppercase">
-                On-chain Proposals
-            </h1>
+            <Title title="On-chain Proposals" />
+            <Description
+                desc="Nouns govern Nouns DAO. Nouns can vote on proposals or delegate their vote to a third party. A minimum of 2 Nouns is required to submit proposals."
+                link={`NounsDAO Governance|https://nouns.wtf/vote`}
+            />
+            <div className="flex w-full flex-col items-center gap-2">
+                <SearchBar handleSearch={handleSearch} />
 
-            <div className="flex w-1/2 flex-col items-center gap-4">
-                <input
-                    className="mx-2 w-full rounded-xl border-2 border-black bg-transparent p-2"
-                    type="text"
-                    placeholder=" Search here"
-                    onChange={handleSearch}
-                />
-
-                <div className="flex w-full flex-row items-center justify-center gap-4">
+                <div className="flex w-1/2 flex-row items-center justify-center gap-4">
                     <select
                         className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
                         onChange={handleFilter}

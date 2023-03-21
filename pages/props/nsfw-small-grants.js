@@ -1,5 +1,5 @@
 import Noggles from '@/components/asset/noggles'
-import BackLink from '@/components/BackLink'
+import BackLink from '@/components/page/BackLink'
 import BaseTemplate from '@/template/BaseTemplate'
 
 export default function NSFWSmallGrants() {

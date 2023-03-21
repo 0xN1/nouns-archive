@@ -1,5 +1,5 @@
 import Noggles from '@/components/asset/noggles'
-import BackLink from '@/components/BackLink'
+import BackLink from '@/components/page/BackLink'
 import Link from 'next/link'
 
 export default function ErrorPage() {

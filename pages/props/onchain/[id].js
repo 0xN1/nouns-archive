@@ -73,7 +73,7 @@ export default function Proposal({ proposal }) {
             <span className="my-8 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
 
             <Image
-                className=" w-[800px] scale-75 rounded-md object-cover shadow-xl shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-xl md:h-[400px] md:scale-100"
+                className=" w-[800px] scale-75 rounded-md object-cover shadow-xl shadow-[#878282] transition-all duration-500 ease-in-out hover:cursor-pointer hover:shadow-xl md:h-[400px] md:scale-100"
                 src={
                     proposal.Thumbnails?.[0].url
                         ? proposal.Thumbnails?.[0].url
@@ -137,7 +137,7 @@ export default function Proposal({ proposal }) {
 
                         {proposal['Medias']?.map((item) => (
                             <Image
-                                className=" h-32 w-full rounded-md object-cover shadow-md shadow-[#878282] transition-all duration-500 ease-in-out hover:shadow-lg sm:w-64"
+                                className=" h-32 w-full rounded-md object-cover shadow-md shadow-[#878282] transition-all duration-500 ease-in-out hover:cursor-pointer hover:shadow-lg sm:w-64"
                                 key={item.name}
                                 src={item.url}
                                 alt={item.name}

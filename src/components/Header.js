@@ -9,8 +9,8 @@ export default function Header() {
                     <Image
                         src="/nouns-archive.svg"
                         alt="logo"
-                        width={50}
-                        height={50}
+                        width={80}
+                        height={80}
                     />
                     <div className="flex flex-col p-4">
                         <h1 className="font-gibson text-2xl uppercase">

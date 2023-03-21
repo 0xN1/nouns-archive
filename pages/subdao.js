@@ -1,27 +1,13 @@
-import PropsCard from '@/components/card/PropsCard'
-import Noggles from '@/components/asset/noggles'
+import { useState } from 'react'
 import BaseTemplate from '@/template/BaseTemplate'
+import Noggles from '@/components/asset/noggles'
+import DAOCard from '@/components/card/DAOCard'
 import BackLink from '@/components/page/BackLink'
 import SearchBar from '@/components/page/SearchBar'
-import { useState } from 'react'
 import Description from '@/components/page/Description'
 import Title from '@/components/page/Title'
 
-export async function getStaticProps() {
-    const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/6b8443b4ebbc45e881f52cc09d4e1d10',
-    )
-
-    const data = await res.json()
-
-    return {
-        props: {
-            initialData: data,
-        },
-    }
-}
-
-const Props = ({ initialData }) => {
+export default function SubDAOList({ initialData, pageData, raw }) {
     const [data, setData] = useState(initialData)
 
     const handleSearch = (e) => {
@@ -43,16 +29,14 @@ const Props = ({ initialData }) => {
         <BaseTemplate>
             <BackLink url="/" name="Home" />
             <Noggles />
-            <Title title="Funded Proposals" />
-            <Description
-                desc="Looking to get funding for a Nounish project? There are many ways to go about doing so! Through NSFW : Small Grants, Prop House & On-Chain Proposals."
-                link={`Get Funded|https://nouns.center/funding\nDiscourse|https://discourse.nouns.wtf`}
-            />
+            <Title title="SubDAOs" />
+            <Description desc={pageData.Description} link={pageData.Link} />
             <SearchBar handleSearch={handleSearch} />
+            {/* <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span> */}
             <div className="p-4">
                 <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {data?.map((prop) => (
-                        <PropsCard key={prop.id} prop={prop} />
+                    {data.map((dao) => (
+                        <DAOCard dao={dao} key={dao.No} />
                     ))}
                 </div>
             </div>
@@ -60,4 +44,25 @@ const Props = ({ initialData }) => {
     )
 }
 
-export default Props
+export async function getStaticProps() {
+    const res = await fetch(
+        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
+    )
+    const data = await res.json()
+
+    const filteredData = data.filter((entry) => {
+        return entry['No'] > 0
+    })
+
+    const pageData = data.filter((entry) => {
+        return entry['No'] === undefined
+    })
+
+    return {
+        props: {
+            initialData: filteredData,
+            pageData: pageData[0],
+            raw: data,
+        },
+    }
+}

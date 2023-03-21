@@ -25,15 +25,6 @@ function PropsCard({ prop }) {
                     width={300}
                     height={236}
                 />
-                {/* <img
-                    className="h-[236px] w-[300px] border-b-4 border-black object-cover"
-                    src={
-                        prop.Thumbnails?.[0].url
-                            ? prop.Thumbnails?.[0].url
-                            : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
-                    }
-                    alt={prop.Thumbnails?.[0].name}
-                /> */}
             </Link>
 
             <h1 className="h-20 overflow-hidden break-words px-5 py-4 text-xl font-medium">
