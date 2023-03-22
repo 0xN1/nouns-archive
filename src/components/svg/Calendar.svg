@@ -1,0 +1,20 @@
+<svg id="feather_map-pin" data-name="feather / map-pin" xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" width="14" height="16" viewBox="0 0 14 16">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="Combined_Shape" data-name="Combined Shape"
+                d="M2.1,16A2.144,2.144,0,0,1,0,13.818V3.636A2.144,2.144,0,0,1,2.1,1.454H3.5V.727A.7.7,0,0,1,4.9.643L4.9.727v.727H9.1V.727A.7.7,0,0,1,10.5.643L10.5.727v.727h1.4A2.144,2.144,0,0,1,14,3.636V13.818A2.144,2.144,0,0,1,11.9,16Zm-.7-2.182a.714.714,0,0,0,.7.727h9.8a.714.714,0,0,0,.7-.727V7.273H1.4Zm11.2-8V3.636a.715.715,0,0,0-.7-.727H10.5v.728a.7.7,0,0,1-1.4.084L9.1,3.637V2.909H4.9v.728a.7.7,0,0,1-1.4.084l0-.084V2.909H2.1a.715.715,0,0,0-.7.727V5.818Z"
+                fill="#18191f" />
+        </clipPath>
+    </defs>
+    <g id="Group_5" data-name="Group 5">
+        <path id="Combined_Shape-2" data-name="Combined Shape"
+            d="M2.1,16A2.144,2.144,0,0,1,0,13.818V3.636A2.144,2.144,0,0,1,2.1,1.454H3.5V.727A.7.7,0,0,1,4.9.643L4.9.727v.727H9.1V.727A.7.7,0,0,1,10.5.643L10.5.727v.727h1.4A2.144,2.144,0,0,1,14,3.636V13.818A2.144,2.144,0,0,1,11.9,16Zm-.7-2.182a.714.714,0,0,0,.7.727h9.8a.714.714,0,0,0,.7-.727V7.273H1.4Zm11.2-8V3.636a.715.715,0,0,0-.7-.727H10.5v.728a.7.7,0,0,1-1.4.084L9.1,3.637V2.909H4.9v.728a.7.7,0,0,1-1.4.084l0-.084V2.909H2.1a.715.715,0,0,0-.7.727V5.818Z"
+            fill="#18191f" />
+        <g id="Mask_Group_5" data-name="Mask Group 5" clip-path="url(#clip-path)">
+            <g id="COLOR_black" data-name="COLOR/ black" transform="translate(-1.4 -0.727)">
+                <rect id="Rectangle" width="16.8" height="17.454" fill="#18191f" />
+            </g>
+        </g>
+    </g>
+</svg>

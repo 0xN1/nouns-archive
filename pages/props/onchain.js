@@ -90,6 +90,15 @@ export default function OnChain({ initialData }) {
         setData(sortedData)
     }
 
+    const categories = Array.from(
+        new Set(
+            initialData
+                .map((entry) => entry.Category)
+                .flat()
+                .filter((category) => category),
+        ),
+    )
+
     // handle filter by category
     const handleFilter = (e) => {
         const filterQuery = e.target.value
@@ -108,6 +117,15 @@ export default function OnChain({ initialData }) {
             setData(filteredData)
         }
     }
+
+    const statusCategories = Array.from(
+        new Set(
+            initialData
+                .map((entry) => entry.Status)
+                .flat()
+                .filter((category) => category),
+        ),
+    )
 
     const handleStatusFilter = (e) => {
         const filterQuery = e.target.value
@@ -145,16 +163,14 @@ export default function OnChain({ initialData }) {
                         onChange={handleFilter}
                     >
                         <option value="all">Category</option>
-                        <option value="art">Art</option>
-                        <option value="tech">Tech</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="charity">Charity</option>
-                        <option value="physical">Physical</option>
-                        <option value="operational">Operational</option>
-                        <option value="investment">Investment</option>
-                        <option value="staking">Staking</option>
-                        <option value="community">Community</option>
-                        <option value="other">Other</option>
+                        {categories.map((category) => (
+                            <option
+                                key={category}
+                                value={category.toLowerCase()}
+                            >
+                                {category}
+                            </option>
+                        ))}
                     </select>
 
                     <select
@@ -162,12 +178,11 @@ export default function OnChain({ initialData }) {
                         onChange={handleStatusFilter}
                     >
                         <option value="all">Status</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="on-schedule">On-schedule</option>
-                        <option value="behind schedule">Behind Sch.</option>
-                        <option value="uncertain">Uncertain</option>
-                        <option value="abandoned">Abandoned</option>
+                        {statusCategories.map((status) => (
+                            <option key={status} value={status.toLowerCase()}>
+                                {status}
+                            </option>
+                        ))}
                     </select>
 
                     <select

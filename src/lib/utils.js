@@ -14,3 +14,13 @@ export const getLinkName = (link) => {
     const linkArray = link.split('|')
     return linkArray[0]
 }
+
+export function formatDate(dateStr) {
+    const date = new Date(dateStr)
+    const options = {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+    }
+    return date.toLocaleDateString('en-GB', options).replace(',', '')
+}

@@ -1,5 +1,7 @@
+import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import { CalendarIcon, PersonIcon } from '@/components/svg'
 
 export default function PropSingleCard({ proposal }) {
     return (
@@ -29,16 +31,24 @@ export default function PropSingleCard({ proposal }) {
                         <>{proposal['Project Title']}</>
                     )}
                 </h1>
-                <div className="px-5 py-1">
-                    <p className="h-6 w-full gap-2 overflow-hidden text-sm">
-                        👨‍💻{' '}
-                        {proposal['Team']?.split('\n').map((member) => (
-                            <span className="pr-2" key={member.split('|')[0]}>
-                                {member.split('|')[0]}
-                            </span>
-                        ))}
+                <div className="px-5 py-1 ">
+                    <div className="flex flex-row gap-2">
+                        <PersonIcon />
+                        <p className="h-6 overflow-hidden break-all text-sm">
+                            {proposal['Team']?.split('\n').map((member) => (
+                                <span
+                                    className="pr-2 leading-normal"
+                                    key={member.split('|')[0]}
+                                >
+                                    {member.split('|')[0]}
+                                </span>
+                            ))}
+                        </p>
+                    </div>
+                    <p className="flex flex-row gap-2 text-sm">
+                        <CalendarIcon />
+                        {formatDate(proposal.Date)}
                     </p>
-                    <p className="text-sm">🗓️ {proposal.Date}</p>
                 </div>
 
                 <div className="flex flex-row gap-2 px-4 py-3">

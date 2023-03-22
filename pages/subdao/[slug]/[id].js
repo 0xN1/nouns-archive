@@ -42,7 +42,6 @@ export async function getStaticPaths() {
     )
 
     const flattenedPaths = paths.flat()
-    // console.log('flattenedPaths =>', flattenedPaths)
 
     return {
         paths: flattenedPaths,
@@ -82,8 +81,6 @@ export async function getStaticProps({ params }) {
 
     const contest = filteredData2.find((c) => c['ID DB'] === id)
 
-    // console.log('contest =>', contest)
-
     if (!contest) {
         // If no matching contest was found, return a 404 page
         return { notFound: true }
@@ -96,9 +93,14 @@ export async function getStaticProps({ params }) {
     const data3 = res3 ? await res3.json() : {}
 
     // sort by oldest to newest
-    data3.sort((a, b) => {
-        return new Date(a.Dates) - new Date(b.Dates)
-    })
+    // data3.sort((a, b) => {
+    //     return new Date(a.Dates) - new Date(b.Dates)
+    // })
+
+    // sort based on No
+    // data3.sort((a, b) => {
+    //     return a['No'] - b['No']
+    // })
 
     return {
         props: {
@@ -180,6 +182,15 @@ export default function Contest({ initialData, contest, dao }) {
         setData(sortedData)
     }
 
+    const categories = Array.from(
+        new Set(
+            initialData
+                .map((entry) => entry.Categories)
+                .flat()
+                .filter((category) => category),
+        ),
+    )
+
     const handleFilter = (e) => {
         const filterQuery = e.target.value
 
@@ -192,6 +203,20 @@ export default function Contest({ initialData, contest, dao }) {
                 )
 
                 return tempCategory.includes(filterQuery)
+            })
+
+            setData(filteredData)
+        }
+    }
+
+    const handleFilterWinner = (e) => {
+        const filterQuery = e.target.value
+
+        if (filterQuery === 'all') {
+            setData(initialData)
+        } else {
+            const filteredData = initialData.filter((entry) => {
+                return entry['No'] > 0
             })
 
             setData(filteredData)
@@ -232,13 +257,25 @@ export default function Contest({ initialData, contest, dao }) {
                     onChange={handleFilter}
                 >
                     <option value="all">Category</option>
-                    <option value="2d illustrations">2D</option>
-                    <option value="3d illustrations">3D</option>
-                    <option value="sketches">Sketches</option>
-                    <option value="sculpture">Sculpture</option>
-                    <option value="video">Video</option>
-                    <option value="cc0">CC0</option>
+                    {categories.map((category) => (
+                        <option key={category} value={category.toLowerCase()}>
+                            {category}
+                        </option>
+                    ))}
                 </select>
+
+                {
+                    // check if any of the artwork has a winner number
+                    initialData.some((artwork) => artwork['No'] > 0) && (
+                        <select
+                            className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
+                            onChange={handleFilterWinner}
+                        >
+                            <option value="all">Everyone</option>
+                            <option value="winner">Winners</option>
+                        </select>
+                    )
+                }
             </div>
 
             <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
