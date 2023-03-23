@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import PropSingleCard from '@/components/card/PropSingleCard'
 import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
@@ -9,6 +9,9 @@ import Description from '@/components/page/Description'
 
 export default function OnChain({ initialData }) {
     const [data, setData] = useState(initialData)
+    const searchRef = useRef(null)
+    const categoryRef = useRef(null)
+    const statusRef = useRef(null)
 
     // handle search base on project title and description
     const handleSearch = (e) => {
@@ -32,6 +35,9 @@ export default function OnChain({ initialData }) {
         })
 
         setData(filteredData)
+
+        statusRef.current.value = 'all'
+        categoryRef.current.value = 'all'
     }
 
     // handle sort by project alphabetical / date
@@ -116,6 +122,9 @@ export default function OnChain({ initialData }) {
 
             setData(filteredData)
         }
+
+        statusRef.current.value = 'all'
+        searchRef.current.value = ''
     }
 
     const statusCategories = Array.from(
@@ -141,6 +150,9 @@ export default function OnChain({ initialData }) {
 
             setData(filteredData)
         }
+
+        searchRef.current.value = ''
+        categoryRef.current.value = 'all'
     }
 
     // console.log(data)
@@ -155,12 +167,13 @@ export default function OnChain({ initialData }) {
                 link={`NounsDAO Governance|https://nouns.wtf/vote`}
             />
             <div className="flex w-full flex-col items-center gap-2">
-                <SearchBar handleSearch={handleSearch} />
+                <SearchBar handleSearch={handleSearch} ref={searchRef} />
 
                 <div className="flex w-1/2 flex-row items-center justify-center gap-4">
                     <select
                         className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
                         onChange={handleFilter}
+                        ref={categoryRef}
                     >
                         <option value="all">Category</option>
                         {categories.map((category) => (
@@ -176,6 +189,7 @@ export default function OnChain({ initialData }) {
                     <select
                         className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
                         onChange={handleStatusFilter}
+                        ref={statusRef}
                     >
                         <option value="all">Status</option>
                         {statusCategories.map((status) => (

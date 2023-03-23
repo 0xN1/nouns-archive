@@ -9,6 +9,7 @@ module.exports = {
             'nouns.wtf',
             'placehold.co',
             'www.notion.so',
+            'arweave.net',
         ],
     },
     webpack(config) {

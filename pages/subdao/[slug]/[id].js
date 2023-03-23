@@ -5,9 +5,12 @@ import { toSlug } from '@/lib/utils'
 import BaseTemplate from '@/template/BaseTemplate'
 import BackLink from '@/components/page/BackLink'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import ContestArtCard from '@/components/card/ContestArtCard'
 import SearchBar from '@/components/page/SearchBar'
+
+import ImageModal from '@/components/modal/ImageModal'
+import Image from 'next/image'
 
 export async function getStaticPaths() {
     const res = await fetch(
@@ -33,7 +36,7 @@ export async function getStaticPaths() {
             const contestPaths = filteredData2.map((contest) => ({
                 params: {
                     slug: toSlug(dao['Project Title']),
-                    id: contest['ID DB'],
+                    id: toSlug(contest['Project Title']),
                 },
             }))
 
@@ -79,7 +82,7 @@ export async function getStaticProps({ params }) {
         return entry['No'] > 0
     })
 
-    const contest = filteredData2.find((c) => c['ID DB'] === id)
+    const contest = filteredData2.find((c) => toSlug(c['Project Title']) === id)
 
     if (!contest) {
         // If no matching contest was found, return a 404 page
@@ -92,15 +95,18 @@ export async function getStaticProps({ params }) {
     const res3 = contestUrl ? await fetch(contestUrl) : ''
     const data3 = res3 ? await res3.json() : {}
 
-    // sort by oldest to newest
-    // data3.sort((a, b) => {
-    //     return new Date(a.Dates) - new Date(b.Dates)
-    // })
+    // sort based on No, if No is not available, sort by title
+    data3.sort((a, b) => {
+        // If either "No" value is undefined, move to end of array
+        if (a['No'] === undefined) {
+            return 1
+        } else if (b['No'] === undefined) {
+            return -1
+        }
 
-    // sort based on No
-    // data3.sort((a, b) => {
-    //     return a['No'] - b['No']
-    // })
+        // Sort based on "No" value
+        return a['No'] - b['No']
+    })
 
     return {
         props: {
@@ -114,6 +120,12 @@ export async function getStaticProps({ params }) {
 
 export default function Contest({ initialData, contest, dao }) {
     const [data, setData] = useState(initialData)
+    const searchRef = useRef(null)
+    const categoryRef = useRef(null)
+    const winnerRef = useRef(null)
+
+    const [showImageModal, setShowImageModal] = useState(false)
+    const [imageModalURL, setImageModalURL] = useState('')
 
     // handle search base on id / title
     const handleSearch = (e) => {
@@ -125,6 +137,10 @@ export default function Contest({ initialData, contest, dao }) {
         })
 
         setData(filteredData)
+        categoryRef.current.value = 'all'
+        if (winnerRef.current) {
+            winnerRef.current.value = 'all'
+        }
     }
 
     const handleSort = (e) => {
@@ -207,6 +223,10 @@ export default function Contest({ initialData, contest, dao }) {
 
             setData(filteredData)
         }
+        searchRef.current.value = ''
+        if (winnerRef.current) {
+            winnerRef.current.value = 'all'
+        }
     }
 
     const handleFilterWinner = (e) => {
@@ -221,6 +241,9 @@ export default function Contest({ initialData, contest, dao }) {
 
             setData(filteredData)
         }
+
+        searchRef.current.value = ''
+        categoryRef.current.value = 'all'
     }
 
     return (
@@ -230,31 +253,17 @@ export default function Contest({ initialData, contest, dao }) {
                 name={`Back to ${dao['Project Title']}`}
             />
             <Noggles />
-
             <Title title={contest['Project Title']} />
-
             <Description desc={contest['Project Title']} />
-
             {/* <p className="mx-auto w-2/3 whitespace-pre-wrap p-8 text-justify">
                 {JSON.stringify(dao, null, 2)}
             </p> */}
-
-            <SearchBar handleSearch={handleSearch} />
-
+            <SearchBar handleSearch={handleSearch} ref={searchRef} />
             <div className="flex w-1/2 flex-row items-center justify-center gap-4">
                 <select
                     className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                    onChange={handleSort}
-                >
-                    <option value="oldest">Oldest</option>
-                    <option value="latest">Recent</option>
-                    <option value="atoz">Artist - A to Z</option>
-                    <option value="ztoa">Artist - Z to A</option>
-                </select>
-
-                <select
-                    className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
                     onChange={handleFilter}
+                    ref={categoryRef}
                 >
                     <option value="all">Category</option>
                     {categories.map((category) => (
@@ -270,20 +279,50 @@ export default function Contest({ initialData, contest, dao }) {
                         <select
                             className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
                             onChange={handleFilterWinner}
+                            ref={winnerRef}
                         >
                             <option value="all">Everyone</option>
                             <option value="winner">Winners</option>
                         </select>
                     )
                 }
-            </div>
 
+                <select
+                    className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
+                    onChange={handleSort}
+                >
+                    <option value="oldest">Oldest</option>
+                    <option value="latest">Recent</option>
+                    <option value="atoz">Artist - A to Z</option>
+                    <option value="ztoa">Artist - Z to A</option>
+                </select>
+            </div>
             <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
+
+            <ImageModal
+                isVisible={showImageModal}
+                onClose={() => setShowImageModal(false)}
+            >
+                <Image
+                    className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
+                    src={imageModalURL}
+                    alt={imageModalURL}
+                    width={800}
+                    height={400}
+                />
+            </ImageModal>
 
             <div className="p-4">
                 <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {data.map((artwork) => (
-                        <ContestArtCard key={artwork.id} artwork={artwork} />
+                        <ContestArtCard
+                            key={artwork.id}
+                            artwork={artwork}
+                            onClick={(a) => {
+                                setImageModalURL(a['Storage Link'])
+                                setShowImageModal(true)
+                            }}
+                        />
                     ))}
                 </div>
             </div>

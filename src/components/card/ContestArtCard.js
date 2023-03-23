@@ -1,15 +1,18 @@
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
-import Link from 'next/link'
 import { CalendarIcon, PersonIcon } from '../svg'
 
-export default function ContestArtCard({ artwork }) {
+export default function ContestArtCard({ artwork, onClick }) {
+    // handle click
+    const handleClick = () => {
+        onClick(artwork)
+    }
+
     return (
         <div className="transition-all duration-200 hover:-translate-y-2">
             <div className="relative h-[370px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl [border-bottom-width:12px] hover:shadow-gray-300">
-                {/* <Link href={`/subdao/${parentSlug}/${contest['ID DB']}`}> */}
                 <Image
-                    className="h-[236px] w-[300px] border-b-4 border-black object-cover"
+                    className="h-[236px] w-[300px] border-b-4 border-black object-cover hover:cursor-pointer"
                     src={
                         artwork.Thumbnails?.[0].url
                             ? artwork.Thumbnails?.[0].url
@@ -18,8 +21,8 @@ export default function ContestArtCard({ artwork }) {
                     alt={artwork.Thumbnails?.[0].name}
                     width={300}
                     height={236}
+                    onClick={handleClick}
                 />
-                {/* </Link> */}
 
                 <div className="mt-4 px-5 py-1 ">
                     <div className="flex flex-row gap-2">
@@ -45,6 +48,18 @@ export default function ContestArtCard({ artwork }) {
                     ))}
                 </div>
 
+                {artwork['Storage Link'] && (
+                    <a
+                        href={artwork['Storage Link']}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div className="absolute bottom-[14px] right-12">
+                            <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`DL`}</div>
+                        </div>
+                    </a>
+                )}
+
                 {artwork['Twitter Post Link'] && (
                     <a
                         href={artwork['Twitter Post Link']}
@@ -57,10 +72,11 @@ export default function ContestArtCard({ artwork }) {
                     </a>
                 )}
 
-                {/* IF CCO */}
-                {/* <div className="absolute bottom-16 right-3">
-                    <div className="rounded-full border-2 border-black bg-[#00C6AE] px-1 py-2 text-[10px] font-extrabold hover:bg-[#FFBD12]">{`CC0`}</div>
-                </div> */}
+                {artwork['CC0'] && artwork['CC0'] === 'Yes' && (
+                    <div className="absolute bottom-16 right-3">
+                        <div className="rounded-full border-2 border-black bg-[#00C6AE] px-1 py-2 text-[10px] font-extrabold ">{`CC0`}</div>
+                    </div>
+                )}
 
                 {artwork.No && (
                     // STAR SVG

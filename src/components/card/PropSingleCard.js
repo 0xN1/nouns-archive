@@ -6,7 +6,7 @@ import { CalendarIcon, PersonIcon } from '@/components/svg'
 export default function PropSingleCard({ proposal }) {
     return (
         <div className="transition-all duration-200 hover:-translate-y-2">
-            <li
+            <div
                 className="relative h-[410px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl [border-bottom-width:12px] hover:shadow-gray-300"
                 key={proposal.id}
             >
@@ -25,8 +25,8 @@ export default function PropSingleCard({ proposal }) {
                 </Link>
 
                 <h1 className="h-12 overflow-hidden break-words px-5 py-4 text-xl font-medium">
-                    {proposal['Project Title'].length > 40 ? (
-                        <>{proposal['Project Title'].slice(0, 37)} ...</>
+                    {proposal['Project Title']?.length > 40 ? (
+                        <>{proposal['Project Title']?.slice(0, 37)} ...</>
                     ) : (
                         <>{proposal['Project Title']}</>
                     )}
@@ -52,7 +52,7 @@ export default function PropSingleCard({ proposal }) {
                 </div>
 
                 <div className="flex flex-row gap-2 px-4 py-3">
-                    {proposal.Category.map((category) => (
+                    {proposal.Category?.map((category) => (
                         <div
                             key={category}
                             className="flex flex-row items-center justify-center rounded-full border-2 border-black bg-transparent px-2 py-1 text-sm font-medium text-gray-900 hover:bg-[#FFBD12]"
@@ -70,7 +70,7 @@ export default function PropSingleCard({ proposal }) {
                         <p className=" text-lg">Nouns Prop #{proposal.No}</p>
                         <p className="text-sm">Date: {proposal.Date}</p>
                     </div> */}
-            </li>
+            </div>
         </div>
     )
 }

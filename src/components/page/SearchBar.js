@@ -1,4 +1,6 @@
-export default function SearchBar({ handleSearch }) {
+import { forwardRef } from 'react'
+
+const SearchBar = forwardRef(({ handleSearch }, ref) => {
     return (
         <div className="mb-8 flex w-1/2 flex-col items-center gap-4">
             <input
@@ -6,7 +8,12 @@ export default function SearchBar({ handleSearch }) {
                 type="text"
                 placeholder="Search here"
                 onChange={handleSearch}
+                ref={ref}
             />
         </div>
     )
-}
+})
+
+SearchBar.displayName = 'SearchBar'
+
+export default SearchBar

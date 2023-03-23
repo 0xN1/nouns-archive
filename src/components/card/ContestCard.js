@@ -1,11 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { toSlug } from '@/lib/utils'
 
 export default function ContestCard({ contest, parentSlug }) {
     return (
         <div className="transition-all duration-200 hover:-translate-y-2">
             <div className="relative h-[410px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl [border-bottom-width:12px] hover:shadow-gray-300">
-                <Link href={`/subdao/${parentSlug}/${contest['ID DB']}`}>
+                <Link
+                    href={`/subdao/${parentSlug}/${toSlug(
+                        contest['Project Title'],
+                    )}`}
+                >
                     <Image
                         className="h-[236px] w-[300px] border-b-4 border-black object-cover"
                         src={

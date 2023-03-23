@@ -1,6 +1,7 @@
 import ImageModal from '@/components/modal/ImageModal'
 import BackLink from '@/components/page/BackLink'
 import Title from '@/components/page/Title'
+import { toSlug } from '@/lib/utils'
 import BaseTemplate from '@/template/BaseTemplate'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,27 +10,29 @@ import { useState } from 'react'
 export async function getStaticPaths() {
     // Fetch the data from the API
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/1330bf9251614e64ae3de2b26b522051',
+        'https://notion-api.splitbee.io/v1/table/67079226a64548ca9d3ffeb7fe092bc0',
     )
     const data = await res.json()
 
     // Generate the paths for each proposal
     const paths = data.map((proposal) => ({
-        params: { id: proposal.No.toString() },
+        params: { slug: toSlug(proposal['Project Title'].toLowerCase()) },
     }))
 
     return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }) {
-    const { id } = params
+    const { slug } = params
 
     // Fetch the data for the specified proposal
     const res = await fetch(
-        `https://notion-api.splitbee.io/v1/table/1330bf9251614e64ae3de2b26b522051`,
+        `https://notion-api.splitbee.io/v1/table/67079226a64548ca9d3ffeb7fe092bc0`,
     )
     const data = await res.json()
-    const proposal = data.find((proposal) => proposal.No.toString() === id)
+    const proposal = data.find((proposal) => {
+        return toSlug(proposal['Project Title'].toLowerCase()) === slug
+    })
 
     return { props: { proposal }, revalidate: 60 }
 }
@@ -42,10 +45,9 @@ export default function Proposal({ proposal }) {
 
     return (
         <BaseTemplate>
-            <BackLink url="/props/onchain" name="Back to On-Chain Proposal" />
+            <BackLink url="/props/prop-house" name="Back to Prop House" />
             <div className="spacer p-8"></div>
             <Title title={proposal['Project Title']} />
-
             <div className="mb-8 flex flex-row gap-4 p-4">
                 {proposal.Category.map((category) => (
                     <div
@@ -56,15 +58,14 @@ export default function Proposal({ proposal }) {
                     </div>
                 ))}
             </div>
-
             <div className="grid grid-cols-4 justify-items-center gap-8 rounded-3xl border-2 border-black bg-white p-4 px-12 text-center">
                 <div className="flex flex-col gap-4 ">
-                    <span className="text-md">Proposal No</span>
-                    <span className="text-lg font-bold">{proposal.No}</span>
+                    <span className="text-md">House</span>
+                    <span className="text-lg font-bold">{proposal.House}</span>
                 </div>
                 <div className="flex flex-col gap-4 ">
-                    <span className="text-md">Voting</span>
-                    <span className="text-lg font-bold">{proposal.Voting}</span>
+                    <span className="text-md">Round</span>
+                    <span className="text-lg font-bold">{proposal.Round}</span>
                 </div>
                 <div className="flex flex-col gap-4">
                     <span className="text-md">Total Funded</span>
@@ -123,7 +124,7 @@ export default function Proposal({ proposal }) {
             <p className="w-3/4 whitespace-pre-wrap break-words p-2 text-justify">
                 {proposal.Description}
             </p>
-            <a
+            {/* <a
                 href={`https://nouns.wtf/vote/${proposal.No}`}
                 target="_blank"
                 rel="noreferrer"
@@ -132,7 +133,7 @@ export default function Proposal({ proposal }) {
                 <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
                     More Details
                 </button>
-            </a>
+            </a> */}
 
             {proposal['Media'] && (
                 <div className="flex flex-col items-center">
@@ -143,6 +144,19 @@ export default function Proposal({ proposal }) {
                         className="grid w-3/4 justify-items-center gap-4 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
             "
                     >
+                        <ImageModal
+                            isVisible={showImageModal}
+                            onClose={() => setShowImageModal(false)}
+                        >
+                            <Image
+                                className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
+                                src={imageModalURL}
+                                alt={imageModalURL}
+                                width={800}
+                                height={400}
+                            />
+                        </ImageModal>
+
                         {proposal['Media']?.map((item) => (
                             <Image
                                 className=" h-32 w-full rounded-md object-cover shadow-md shadow-[#878282] transition-all duration-500 ease-in-out hover:cursor-pointer hover:shadow-lg sm:w-64"
@@ -235,7 +249,7 @@ export default function Proposal({ proposal }) {
             <span className="my-8 mt-16 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
 
             <Link href="#">
-                <button className=" rounded-3xl bg-blue-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-blue-700">
+                <button className=" rounded-3xl bg-gray-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-gray-400">
                     Top
                 </button>
             </Link>
