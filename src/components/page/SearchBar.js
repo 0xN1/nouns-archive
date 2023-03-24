@@ -1,6 +1,20 @@
-import { forwardRef } from 'react'
+import { forwardRef, useEffect } from 'react'
 
 const SearchBar = forwardRef(({ handleSearch }, ref) => {
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            // If Cmd/Ctrl + K is pressed, focus on the search input
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                ref.current.focus()
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyPress)
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress)
+        }
+    }, [ref])
+
     return (
         <div className="mb-8 flex w-1/2 flex-col items-center gap-4">
             <input

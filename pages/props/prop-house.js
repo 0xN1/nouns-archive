@@ -1,14 +1,17 @@
+import { useRef, useState, useEffect } from 'react'
 import Noggles from '@/components/asset/noggles'
 import BackLink from '@/components/page/BackLink'
-import Description from '@/components/page/Description'
 import Title from '@/components/page/Title'
-import BaseTemplate from '@/template/BaseTemplate'
-import Link from 'next/link'
-import Image from 'next/image'
-import { CalendarIcon, PersonIcon } from '@/components/svg'
-import { formatDate, toSlug } from '@/lib/utils'
-import { useRef, useState } from 'react'
+import Description from '@/components/page/Description'
 import SearchBar from '@/components/page/SearchBar'
+import BaseTemplate from '@/template/BaseTemplate'
+import useLocalStorage from '@/hooks/useLocalStorage'
+import PropHouseCard from '@/components/card/PropHouseCard'
+import FilterSelect from '@/components/page/FilterSelect'
+import FilterSelectContainer from '@/components/page/FilterSelectContainer'
+import useScrollPosition from '@/hooks/useScrollPosition'
+
+const DEBUG_MODE = false
 
 export async function getStaticProps() {
     const res = await fetch(
@@ -33,30 +36,29 @@ export default function PropHouse({ initialData }) {
     const roundSelectRef = useRef(null)
     const houseSelectRef = useRef(null)
     const searchRef = useRef(null)
+    const [scroll, setScroll] = useLocalStorage(`prop-house-scroll`, 0)
+    const [category, setCategory] = useLocalStorage(
+        `prop-house-category`,
+        'all',
+    )
+    const [round, setRound] = useLocalStorage(`prop-house-round`, 'all')
+    const [house, setHouse] = useLocalStorage(`prop-house-house`, 'all')
+    const [search, setSearch] = useLocalStorage(`prop-house-search`, '')
 
-    // handle search base on project title and description
-    const handleSearch = (e) => {
-        const searchQuery = e.target.value.toLowerCase()
-        const filteredData = initialData.filter((entry) => {
-            const tempTitle = entry['Project Title'].toLowerCase()
-            const tempDesc = entry.Description.toLowerCase()
-            const tempTeam = entry['Team']?.toLowerCase()
-            const tempCategory = entry['Category']
-            const tempRound = entry['Round'].toString()
+    // SCROLL POSITION
+    useScrollPosition(setScroll, scroll)
 
-            return (
-                tempTitle.includes(searchQuery) ||
-                tempDesc.includes(searchQuery) ||
-                tempTeam?.includes(searchQuery) ||
-                tempCategory?.includes(searchQuery) ||
-                tempRound.includes(searchQuery)
-            )
-        })
-
-        setData(filteredData)
-
-        roundSelectRef.current.value = 'all'
-        categorySelectRef.current.value = 'all'
+    function debounce(func, delay) {
+        let timeoutId
+        return function (...args) {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
+            timeoutId = setTimeout(() => {
+                func.apply(this, args)
+                timeoutId = null
+            }, delay)
+        }
     }
 
     const handleSort = (e) => {
@@ -114,6 +116,194 @@ export default function PropHouse({ initialData }) {
         setData(sortedData)
     }
 
+    // FILTERS
+
+    const filterBySearch = (data, search) => {
+        if (search === '') {
+            return data
+        } else {
+            const filteredData = data.filter((entry) => {
+                const tempTitle = entry['Project Title'].toLowerCase()
+                const tempDesc = entry.Description.toLowerCase()
+                const tempTeam = entry['Team']?.toLowerCase()
+                const tempCategory = entry['Category']
+                const tempRound = entry['Round'].toString()
+
+                return (
+                    tempTitle.includes(search) ||
+                    tempDesc.includes(search) ||
+                    tempTeam?.includes(search) ||
+                    tempCategory?.includes(search) ||
+                    tempRound.includes(search)
+                )
+            })
+            return filteredData
+        }
+    }
+
+    const filterByCategory = (data, category) => {
+        if (category === 'all') {
+            return data
+        } else {
+            const filteredData = data.filter((entry) => {
+                const tempCategory = entry.Category.map((item) =>
+                    item.toLowerCase(),
+                )
+                return tempCategory.includes(category)
+            })
+            return filteredData
+        }
+    }
+
+    const filterByRound = (data, round) => {
+        if (round === 'all') {
+            return data
+        } else {
+            const filteredData = data.filter((entry) => {
+                const tempRound = Array.isArray(entry.Round)
+                    ? entry.Round.map((item) => item.toString().toLowerCase())
+                    : [entry.Round.toString().toLowerCase()]
+
+                return tempRound.includes(round.toString().toLowerCase())
+            })
+            return filteredData
+        }
+    }
+
+    const filterByHouse = (data, house) => {
+        if (house === 'all') {
+            return data
+        } else {
+            const filteredData = initialData.filter((entry) => {
+                const tempHouse = entry.House.toLowerCase()
+
+                return tempHouse.includes(house.toLowerCase())
+            })
+
+            return filteredData
+        }
+    }
+
+    // HANDLERS
+
+    const handleSearch = (e) => {
+        const searchQuery = e.target.value.toLowerCase()
+        const filteredData = filterBySearch(initialData, searchQuery)
+        setData(filteredData)
+        setSearch(searchQuery)
+
+        setCategory('all')
+        setRound('all')
+        setHouse('all')
+        categorySelectRef.current.value = 'all'
+        roundSelectRef.current.value = 'all'
+        houseSelectRef.current.value = 'all'
+    }
+
+    const handleCategory = (e) => {
+        const filterQuery = e.target.value
+        const filteredData = filterByCategory(initialData, filterQuery)
+        setData(filteredData)
+        setCategory(filterQuery)
+
+        setRound('all')
+        setHouse('all')
+        setSearch('')
+        roundSelectRef.current.value = 'all'
+        houseSelectRef.current.value = 'all'
+        searchRef.current.value = ''
+    }
+
+    const handleRound = (e) => {
+        const roundQuery = e.target.value
+        const filteredData = filterByRound(initialData, roundQuery)
+        setData(filteredData)
+        setRound(roundQuery)
+
+        setCategory('all')
+        setHouse('all')
+        setSearch('')
+        categorySelectRef.current.value = 'all'
+        houseSelectRef.current.value = 'all'
+        searchRef.current.value = ''
+    }
+
+    const handleHouse = (e) => {
+        const houseQuery = e.target.value
+        const filteredData = filterByHouse(initialData, houseQuery)
+        setData(filteredData)
+        setHouse(houseQuery)
+
+        setCategory('all')
+        setRound('all')
+        setSearch('')
+        categorySelectRef.current.value = 'all'
+        roundSelectRef.current.value = 'all'
+        searchRef.current.value = ''
+    }
+
+    // USEEFFECTS
+
+    useEffect(() => {
+        if (category !== 'all') {
+            const filteredData = filterByCategory(initialData, category)
+            setData(filteredData)
+        }
+
+        if (round !== 'all') {
+            const filteredData = filterByRound(initialData, round)
+            setData(filteredData)
+        }
+
+        if (house !== 'all') {
+            const filteredData = filterByHouse(initialData, house)
+            setData(filteredData)
+        }
+
+        if (search !== '') {
+            const filteredData = filterBySearch(initialData, search)
+            setData(filteredData)
+        }
+
+        // debounce setCategory to prevent multiple calls
+        const debouncedSetCategory = debounce((value) => {
+            setCategory(value)
+        }, 100)
+
+        debouncedSetCategory(category)
+        categorySelectRef.current.value = category
+
+        // debounce setRound to prevent multiple calls
+        const debouncedSetRound = debounce((value) => {
+            setRound(value)
+        }, 100)
+
+        debouncedSetRound(round)
+        roundSelectRef.current.value = round
+
+        // debounce setHouse to prevent multiple calls
+        const debouncedSetHouse = debounce((value) => {
+            setHouse(value)
+        }, 100)
+
+        debouncedSetHouse(house)
+        houseSelectRef.current.value = house
+
+        searchRef.current.value = search
+    }, [
+        setCategory,
+        category,
+        setRound,
+        round,
+        setHouse,
+        house,
+        setSearch,
+        search,
+        initialData,
+    ])
+
+    // Setting up the dynamic select options
+
     const categories = Array.from(
         new Set(
             initialData
@@ -122,30 +312,6 @@ export default function PropHouse({ initialData }) {
                 .filter((category) => category),
         ),
     )
-
-    // handle filter by category
-    const handleFilter = (e) => {
-        const filterQuery = e.target.value
-
-        if (filterQuery === 'all') {
-            setData(initialData)
-        } else {
-            const filteredData = initialData.filter((entry) => {
-                const tempCategory = entry.Category.map((item) =>
-                    item.toLowerCase(),
-                )
-
-                return tempCategory.includes(filterQuery)
-            })
-
-            setData(filteredData)
-        }
-
-        roundSelectRef.current.value = 'all'
-        houseSelectRef.current.value = 'all'
-        searchRef.current.value = ''
-    }
-
     const rounds = Array.from(
         new Set(
             initialData
@@ -154,30 +320,6 @@ export default function PropHouse({ initialData }) {
                 .filter((round) => round),
         ),
     )
-
-    // handle filter by round
-    const handleRound = (e) => {
-        const roundQuery = e.target.value
-
-        if (roundQuery === 'all') {
-            setData(initialData)
-        } else {
-            const filteredData = initialData.filter((entry) => {
-                const tempRound = Array.isArray(entry.Round)
-                    ? entry.Round.map((item) => item.toString().toLowerCase())
-                    : [entry.Round.toString().toLowerCase()]
-
-                return tempRound.includes(roundQuery.toString().toLowerCase())
-            })
-
-            setData(filteredData)
-        }
-
-        categorySelectRef.current.value = 'all'
-        houseSelectRef.current.value = 'all'
-        searchRef.current.value = ''
-    }
-
     const houses = Array.from(
         new Set(
             initialData
@@ -187,188 +329,88 @@ export default function PropHouse({ initialData }) {
         ),
     )
 
-    // handle filter by house
-    const handleHouse = (e) => {
-        const houseQuery = e.target.value
-
-        if (houseQuery === 'all') {
-            setData(initialData)
-        } else {
-            const filteredData = initialData.filter((entry) => {
-                const tempHouse = entry.House.toLowerCase()
-
-                return tempHouse.includes(houseQuery.toLowerCase())
-            })
-
-            setData(filteredData)
-        }
-
-        categorySelectRef.current.value = 'all'
-        roundSelectRef.current.value = 'all'
-        searchRef.current.value = ''
-    }
-
     return (
         <BaseTemplate>
             <BackLink url="/props" name="Funded Proposals" />
             <Noggles />
             <Title title="Prop House" />
             <Description desc="Prop House KIV" />
-            {/* <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">
-                {JSON.stringify(data, null, 2)}
-            </p> */}
-            <div className="flex w-full flex-col items-center gap-2">
-                <SearchBar handleSearch={handleSearch} ref={searchRef} />
 
-                <div className="flex w-1/2 flex-row items-center justify-center gap-4">
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleFilter}
-                        ref={categorySelectRef}
-                    >
-                        <option value="all">Category</option>
-                        {categories.map((category) => (
-                            <option
-                                key={category}
-                                value={category.toLowerCase()}
-                            >
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleRound}
-                        ref={roundSelectRef}
-                    >
-                        <option value="all">Round</option>
-                        {rounds.map((round) => (
-                            <option key={round} value={round}>
-                                {round}
-                            </option>
-                        ))}
-                    </select>
-
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleHouse}
-                        ref={houseSelectRef}
-                    >
-                        <option value="all">House</option>
-                        {houses.map((house) => (
-                            <option key={house} value={house}>
-                                {house}
-                            </option>
-                        ))}
-                    </select>
-
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleSort}
-                    >
-                        <option value="oldest">Oldest</option>
-                        <option value="latest">Recent</option>
-                        <option value="atoz">A to Z</option>
-                        <option value="ztoa">Z to A</option>
-                    </select>
-                </div>
-            </div>
+            {DEBUG_MODE && (
+                <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">
+                    {JSON.stringify(data, null, 2)}
+                </p>
+            )}
+            <SearchBar handleSearch={handleSearch} ref={searchRef} />
+            <FilterSelectContainer>
+                <FilterSelect
+                    key="category"
+                    defaultOption="all"
+                    options={categories}
+                    handler={handleCategory}
+                    ref={categorySelectRef}
+                    name="Category"
+                />
+                <FilterSelect
+                    key="round"
+                    defaultOption="all"
+                    options={rounds}
+                    handler={handleRound}
+                    ref={roundSelectRef}
+                    name="Round"
+                />
+                <FilterSelect
+                    key="house"
+                    defaultOption="all"
+                    options={houses}
+                    handler={handleHouse}
+                    ref={houseSelectRef}
+                    name="House"
+                />
+                <FilterSelect
+                    key="sort"
+                    defaultOption="oldest"
+                    options={['oldest', 'latest', 'atoz', 'ztoa']}
+                    optionsTitle={{
+                        oldest: 'Oldest',
+                        latest: 'Latest',
+                        atoz: 'A-Z',
+                        ztoa: 'Z-A',
+                    }}
+                    handler={handleSort}
+                    name="Sort"
+                />
+            </FilterSelectContainer>
 
             <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
 
             <div className="p-4">
                 <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {data.map((proposal) => (
-                        <div
-                            className="transition-all duration-200 hover:-translate-y-2"
-                            key={proposal.id}
-                        >
-                            <div
-                                className="relative h-[410px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl [border-bottom-width:12px] hover:shadow-gray-300"
-                                key={proposal.id}
-                            >
-                                <Link
-                                    href={`/props/prop-house/${toSlug(
-                                        proposal['Project Title'],
-                                    )}`}
-                                    key={proposal.id}
-                                >
-                                    <Image
-                                        className="h-[236px] w-[300px] border-b-4 border-black object-cover"
-                                        src={
-                                            proposal.Thumbnails?.[0].url
-                                                ? proposal.Thumbnails?.[0].url
-                                                : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
-                                        }
-                                        alt={proposal.Thumbnails?.[0].name}
-                                        width={300}
-                                        height={236}
-                                    />
-                                </Link>
-
-                                <h1 className="h-12 overflow-hidden break-words px-5 py-4 text-xl font-medium">
-                                    {proposal['Project Title']?.length > 40 ? (
-                                        <>
-                                            {proposal['Project Title']?.slice(
-                                                0,
-                                                37,
-                                            )}{' '}
-                                            ...
-                                        </>
-                                    ) : (
-                                        <>{proposal['Project Title']}</>
-                                    )}
-                                </h1>
-                                <div className="px-5 py-1 ">
-                                    <div className="flex flex-row gap-2">
-                                        <PersonIcon />
-                                        <p className="h-6 overflow-hidden break-all text-sm">
-                                            {proposal['Team']
-                                                ?.split('\n')
-                                                .map((member) => (
-                                                    <span
-                                                        className="pr-2 leading-normal"
-                                                        key={
-                                                            member.split('|')[0]
-                                                        }
-                                                    >
-                                                        {member.split('|')[0]}
-                                                    </span>
-                                                ))}
-                                        </p>
-                                    </div>
-                                    <p className="flex flex-row gap-2 text-sm">
-                                        <CalendarIcon />
-                                        {formatDate(proposal.Date)}
-                                    </p>
-                                </div>
-
-                                <div className="flex w-96 flex-row gap-1 overflow-clip px-4 py-3">
-                                    {proposal.Category?.map((category) => (
-                                        <div
-                                            key={category}
-                                            className="flex h-8 flex-row items-center justify-center rounded-full border-2 border-black bg-transparent px-2 py-1 text-sm font-medium text-gray-900 hover:bg-[#FFBD12]"
-                                        >
-                                            {category}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="absolute top-2 right-2 rounded-full border-2 border-black bg-[#FBF9F5] px-4 py-2 font-bold hover:bg-[#FFBD12]">
-                                    {proposal.Round}
-                                </div>
-
-                                {/* <div className="absolute bottom-4 left-6">
-                                    <p className=" text-lg">Nouns Prop #{proposal.No}</p>
-                                    <p className="text-sm">Date: {proposal.Date}</p>
-                                </div> */}
-                            </div>
-                        </div>
+                        <PropHouseCard proposal={proposal} key={proposal.id} />
                     ))}
                 </div>
             </div>
-            {/* <h1 className="p-8 font-gibson text-7xl uppercase">Prop House</h1> */}
+
+            {DEBUG_MODE && (
+                <div className="fixed top-10 right-10 flex flex-col ">
+                    <span className="rounded-full border-2 border-black bg-white px-4 py-2 text-xl">
+                        {scroll.toFixed(2)}
+                    </span>
+                    <span className="rounded-full border-2 border-black bg-white px-4 py-2 text-xl">
+                        {category}
+                    </span>
+                    <span className="rounded-full border-2 border-black bg-white px-4 py-2 text-xl">
+                        {round}
+                    </span>
+                    <span className="rounded-full border-2 border-black bg-white px-4 py-2 text-xl">
+                        {house}
+                    </span>
+                    <span className="rounded-full border-2 border-black bg-white px-4 py-2 text-xl">
+                        {search ? search : 'none'}
+                    </span>
+                </div>
+            )}
         </BaseTemplate>
     )
 }

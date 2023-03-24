@@ -95,7 +95,7 @@ export async function getStaticProps({ params }) {
     const res3 = contestUrl ? await fetch(contestUrl) : ''
     const data3 = res3 ? await res3.json() : {}
 
-    // sort based on No, if No is not available, sort by title
+    // sort based on Winner number
     data3.sort((a, b) => {
         // If either "No" value is undefined, move to end of array
         if (a['No'] === undefined) {
