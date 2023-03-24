@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import PropSingleCard from '@/components/card/PropSingleCard'
 import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
@@ -6,41 +6,58 @@ import BackLink from '@/components/page/BackLink'
 import Title from '@/components/page/Title'
 import SearchBar from '@/components/page/SearchBar'
 import Description from '@/components/page/Description'
+import useLocalStorage from '@/hooks/useLocalStorage'
+import useScrollPosition from '@/hooks/useScrollPosition'
+import FilterSelectContainer from '@/components/page/FilterSelectContainer'
+import FilterSelect from '@/components/page/FilterSelect'
+
+const DEBUG_MODE = false
+
+export async function getStaticProps() {
+    const res = await fetch(
+        'https://notion-api.splitbee.io/v1/table/1330bf9251614e64ae3de2b26b522051',
+    )
+    const initialData = await res.json()
+
+    // sort the data by oldest
+    initialData.sort((a, b) => {
+        return new Date(a.Date) - new Date(b.Date)
+    })
+
+    return {
+        props: {
+            initialData,
+        },
+        revalidate: 60,
+    }
+}
 
 export default function OnChain({ initialData }) {
     const [data, setData] = useState(initialData)
+
+    const categorySelectRef = useRef(null)
+    const statusSelectRef = useRef(null)
     const searchRef = useRef(null)
-    const categoryRef = useRef(null)
-    const statusRef = useRef(null)
+    const [scroll, setScroll] = useLocalStorage(`onchain-scroll`, 0)
+    const [category, setCategory] = useLocalStorage(`onchain-category`, 'all')
+    const [status, setStatus] = useLocalStorage(`onchain-status`, 'all')
+    const [search, setSearch] = useLocalStorage(`onchain-search`, '')
 
-    // handle search base on project title and description
-    const handleSearch = (e) => {
-        const searchQuery = e.target.value.toLowerCase()
-        const filteredData = initialData.filter((entry) => {
-            const tempTitle = entry['Project Title'].toLowerCase()
-            const tempDesc = entry.Description.toLowerCase()
-            const tempTeam = entry['Team']?.toLowerCase()
-            const tempCategory = entry['Category']
-            const tempNumber = entry.No.toString()
+    useScrollPosition(setScroll, scroll)
 
-            console.log(tempCategory)
-
-            return (
-                tempTitle.includes(searchQuery) ||
-                tempDesc.includes(searchQuery) ||
-                tempTeam?.includes(searchQuery) ||
-                tempCategory?.includes(searchQuery) ||
-                tempNumber.includes(searchQuery)
-            )
-        })
-
-        setData(filteredData)
-
-        statusRef.current.value = 'all'
-        categoryRef.current.value = 'all'
+    function debounce(func, delay) {
+        let timeoutId
+        return function (...args) {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
+            timeoutId = setTimeout(() => {
+                func.apply(this, args)
+                timeoutId = null
+            }, delay)
+        }
     }
 
-    // handle sort by project alphabetical / date
     const handleSort = (e) => {
         const sortQuery = e.target.value
         const sortedData = [...data]
@@ -96,6 +113,144 @@ export default function OnChain({ initialData }) {
         setData(sortedData)
     }
 
+    // FILTERS
+
+    const filterBySearch = (data, search) => {
+        if (search === '') {
+            return data
+        } else {
+            const filteredData = data.filter((entry) => {
+                const tempTitle = entry['Project Title'].toLowerCase()
+                const tempDesc = entry.Description.toLowerCase()
+                const tempTeam = entry['Team']?.toLowerCase()
+                const tempCategory = entry['Category']
+                const tempStatus = entry['Status']?.toString()
+
+                return (
+                    tempTitle.includes(search) ||
+                    tempDesc.includes(search) ||
+                    tempTeam?.includes(search) ||
+                    tempCategory?.includes(search) ||
+                    tempStatus?.includes(search)
+                )
+            })
+            return filteredData
+        }
+    }
+
+    const filterByCategory = (data, category) => {
+        if (category === 'all') {
+            return data
+        } else {
+            const filteredData = data.filter((entry) => {
+                const tempCategory = entry.Category.map((item) =>
+                    item.toLowerCase(),
+                )
+                return tempCategory.includes(category)
+            })
+            return filteredData
+        }
+    }
+
+    const filterByStatus = (data, stat) => {
+        if (stat === 'all') {
+            return data
+        } else {
+            const filteredData = initialData.filter((entry) => {
+                const tempStatus = entry['Status']?.toLowerCase()
+
+                return tempStatus?.includes(stat.toLowerCase())
+            })
+
+            return filteredData
+        }
+    }
+
+    // HANDLERS
+
+    const handleSearch = (e) => {
+        const searchQuery = e.target.value.toLowerCase()
+        const filteredData = filterBySearch(initialData, searchQuery)
+        setData(filteredData)
+        setSearch(searchQuery)
+
+        setCategory('all')
+        setStatus('all')
+        categorySelectRef.current.value = 'all'
+        statusSelectRef.current.value = 'all'
+    }
+
+    const handleCategory = (e) => {
+        const filterQuery = e.target.value
+        const filteredData = filterByCategory(initialData, filterQuery)
+        setData(filteredData)
+        setCategory(filterQuery)
+
+        setStatus('all')
+        setSearch('')
+        statusSelectRef.current.value = 'all'
+        searchRef.current.value = ''
+    }
+
+    const handleStatus = (e) => {
+        const statusQuery = e.target.value
+        const filteredData = filterByStatus(initialData, statusQuery)
+        setData(filteredData)
+        setStatus(statusQuery)
+
+        setCategory('all')
+        setSearch('')
+        categorySelectRef.current.value = 'all'
+        searchRef.current.value = ''
+    }
+
+    // USEEFFECTS
+
+    useEffect(() => {
+        if (category !== 'all') {
+            const filteredData = filterByCategory(initialData, category)
+            setData(filteredData)
+        }
+
+        if (status !== 'all') {
+            const filteredData = filterByStatus(initialData, status)
+            setData(filteredData)
+        }
+
+        if (search !== '') {
+            const filteredData = filterBySearch(initialData, search)
+            setData(filteredData)
+        }
+
+        // debounce setCategory to prevent multiple calls
+        const debouncedSetCategory = debounce((value) => {
+            setCategory(value)
+        }, 100)
+
+        debouncedSetCategory(category)
+        categorySelectRef.current.value = category
+
+        // debounce setStatus to prevent multiple calls
+        const debouncedSetStatus = debounce((value) => {
+            setStatus(value)
+        }, 100)
+
+        debouncedSetStatus(status)
+        statusSelectRef.current.value = status
+
+        searchRef.current.value = search
+    }, [
+        setCategory,
+        category,
+        setStatus,
+        status,
+        setSearch,
+        search,
+        initialData,
+    ])
+
+    // Setting up the dynamic select options
+
     const categories = Array.from(
         new Set(
             initialData
@@ -104,58 +259,14 @@ export default function OnChain({ initialData }) {
                 .filter((category) => category),
         ),
     )
-
-    // handle filter by category
-    const handleFilter = (e) => {
-        const filterQuery = e.target.value
-
-        if (filterQuery === 'all') {
-            setData(initialData)
-        } else {
-            const filteredData = initialData.filter((entry) => {
-                const tempCategory = entry.Category.map((item) =>
-                    item.toLowerCase(),
-                )
-
-                return tempCategory.includes(filterQuery)
-            })
-
-            setData(filteredData)
-        }
-
-        statusRef.current.value = 'all'
-        searchRef.current.value = ''
-    }
-
-    const statusCategories = Array.from(
+    const statuses = Array.from(
         new Set(
             initialData
                 .map((entry) => entry.Status)
                 .flat()
-                .filter((category) => category),
+                .filter((status) => status),
         ),
     )
-
-    const handleStatusFilter = (e) => {
-        const filterQuery = e.target.value
-
-        if (filterQuery === 'all') {
-            setData(initialData)
-        } else {
-            const filteredData = initialData.filter((entry) => {
-                const tempStatus = entry.Status?.toLowerCase()
-
-                return tempStatus === filterQuery
-            })
-
-            setData(filteredData)
-        }
-
-        searchRef.current.value = ''
-        categoryRef.current.value = 'all'
-    }
-
-    // console.log(data)
 
     return (
         <BaseTemplate>
@@ -166,50 +277,44 @@ export default function OnChain({ initialData }) {
                 desc="Nouns govern Nouns DAO. Nouns can vote on proposals or delegate their vote to a third party. A minimum of 2 Nouns is required to submit proposals."
                 link={`NounsDAO Governance|https://nouns.wtf/vote`}
             />
-            <div className="flex w-full flex-col items-center gap-2">
-                <SearchBar handleSearch={handleSearch} ref={searchRef} />
 
-                <div className="flex w-1/2 flex-row items-center justify-center gap-4">
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleFilter}
-                        ref={categoryRef}
-                    >
-                        <option value="all">Category</option>
-                        {categories.map((category) => (
-                            <option
-                                key={category}
-                                value={category.toLowerCase()}
-                            >
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleStatusFilter}
-                        ref={statusRef}
-                    >
-                        <option value="all">Status</option>
-                        {statusCategories.map((status) => (
-                            <option key={status} value={status.toLowerCase()}>
-                                {status}
-                            </option>
-                        ))}
-                    </select>
-
-                    <select
-                        className="w-1/2 rounded-xl border-2 border-black bg-transparent p-2 md:w-1/4"
-                        onChange={handleSort}
-                    >
-                        <option value="oldest">Oldest</option>
-                        <option value="latest">Recent</option>
-                        <option value="atoz">A to Z</option>
-                        <option value="ztoa">Z to A</option>
-                    </select>
-                </div>
-            </div>
+            {DEBUG_MODE && (
+                <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">
+                    {JSON.stringify(data, null, 2)}
+                </p>
+            )}
+            <SearchBar handleSearch={handleSearch} ref={searchRef} />
+            <FilterSelectContainer>
+                <FilterSelect
+                    key="category"
+                    defaultOption="all"
+                    options={categories}
+                    handler={handleCategory}
+                    ref={categorySelectRef}
+                    name="Category"
+                />
+                <FilterSelect
+                    key="status"
+                    defaultOption="all"
+                    options={statuses}
+                    handler={handleStatus}
+                    ref={statusSelectRef}
+                    name="Status"
+                />
+                <FilterSelect
+                    key="sort"
+                    defaultOption="oldest"
+                    options={['oldest', 'latest', 'atoz', 'ztoa']}
+                    optionsTitle={{
+                        oldest: 'Oldest',
+                        latest: 'Latest',
+                        atoz: 'A-Z',
+                        ztoa: 'Z-A',
+                    }}
+                    handler={handleSort}
+                    name="Sort"
+                />
+            </FilterSelectContainer>
 
             <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
 
@@ -220,23 +325,4 @@ export default function OnChain({ initialData }) {
             </ul>
         </BaseTemplate>
     )
-}
-
-export async function getStaticProps() {
-    const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/1330bf9251614e64ae3de2b26b522051',
-    )
-    const initialData = await res.json()
-
-    // sort the data by oldest
-    initialData.sort((a, b) => {
-        return new Date(a.Date) - new Date(b.Date)
-    })
-
-    return {
-        props: {
-            initialData,
-        },
-        revalidate: 60,
-    }
 }

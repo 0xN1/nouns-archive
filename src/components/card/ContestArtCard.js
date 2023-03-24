@@ -102,7 +102,7 @@ export default function ContestArtCard({ artwork, onClick }) {
                                     id="outline"
                                     transform="translate(-2.097 -1.46)"
                                     fill="none"
-                                    stroke-miterlimit="10"
+                                    strokeMiterlimit="10"
                                 >
                                     <path
                                         d="M28.283,43.106l-14,8.087a1.954,1.954,0,0,1-2.888-2.1l3.366-15.811L2.747,22.47a1.954,1.954,0,0,1,1.1-3.4L19.927,17.39,26.5,2.62a1.954,1.954,0,0,1,3.57,0l6.571,14.77,16.077,1.685a1.954,1.954,0,0,1,1.1,3.4L41.8,33.283l3.366,15.811a1.954,1.954,0,0,1-2.888,2.1Z"

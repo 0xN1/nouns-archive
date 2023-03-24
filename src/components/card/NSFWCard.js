@@ -1,16 +1,21 @@
-import { formatDate } from '@/lib/utils'
+import { formatDate, toSlug } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CalendarIcon, PersonIcon } from '@/components/svg'
 
-export default function PropSingleCard({ proposal }) {
+export default function NSFWCard({ proposal }) {
     return (
         <div className="transition-all duration-200 hover:-translate-y-2">
             <div
                 className="relative h-[410px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl [border-bottom-width:12px] hover:shadow-gray-300"
                 key={proposal.id}
             >
-                <Link href={`/props/onchain/${proposal.No}`} key={proposal.id}>
+                <Link
+                    href={`/props/nsfw-small-grants/${toSlug(
+                        proposal['Project Title'],
+                    )}`}
+                    key={proposal.id}
+                >
                     <Image
                         className="h-[236px] w-[300px] border-b-4 border-black object-cover"
                         src={

@@ -6,6 +6,8 @@ import SearchBar from '@/components/page/SearchBar'
 import { useState } from 'react'
 import Description from '@/components/page/Description'
 import Title from '@/components/page/Title'
+import useLocalStorage from '@/hooks/useLocalStorage'
+import useScrollPosition from '@/hooks/useScrollPosition'
 
 export async function getStaticProps() {
     const res = await fetch(
@@ -24,6 +26,10 @@ export async function getStaticProps() {
 
 const Props = ({ initialData }) => {
     const [data, setData] = useState(initialData)
+
+    const [scroll, setScroll] = useLocalStorage('props-scroll', 0)
+
+    useScrollPosition(setScroll, scroll)
 
     const handleSearch = (e) => {
         const searchQuery = e.target.value.toLowerCase()
