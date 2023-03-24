@@ -97,19 +97,19 @@ export default function Proposal({ proposal }) {
             <Image
                 className=" w-[800px] scale-75 rounded-md object-cover shadow-xl shadow-[#878282] transition-all duration-500 ease-in-out hover:cursor-pointer hover:shadow-xl md:h-[400px] md:scale-100"
                 src={
-                    proposal.Thumbnails?.[0].url
-                        ? proposal.Thumbnails?.[0].url
+                    proposal.Thumbnails?.[0]?.url
+                        ? proposal.Thumbnails?.[0]?.url
                         : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                 }
                 alt={
-                    proposal.Thumbnails?.[0].name
-                        ? proposal.Thumbnails?.[0].name
+                    proposal.Thumbnails?.[0]?.name
+                        ? proposal.Thumbnails?.[0]?.name
                         : 'Nouns Archive'
                 }
                 onClick={() => {
                     setImageModalURL(
-                        proposal.Thumbnails?.[0].url
-                            ? proposal.Thumbnails?.[0].url
+                        proposal.Thumbnails?.[0]?.url
+                            ? proposal.Thumbnails?.[0]?.url
                             : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway',
                     )
                     setShowImageModal(true)
@@ -164,7 +164,7 @@ export default function Proposal({ proposal }) {
                                 src={item.url}
                                 alt={item.name}
                                 onClick={() => {
-                                    setImageModalURL(item.url)
+                                    setImageModalURL(item?.url)
                                     setShowImageModal(true)
                                 }}
                                 width={800}
