@@ -27,18 +27,24 @@ export default function ContestArtCard({ artwork, onClick }) {
                 <div className="mt-4 px-5 py-1 ">
                     <div className="flex flex-row gap-2">
                         <PersonIcon />
-                        <p className="h-6 overflow-hidden break-all text-sm">
-                            @{artwork['Artist']}
-                        </p>
+                        <a
+                            href={artwork[`Artist's Twitter`]}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <p className="h-6 overflow-hidden break-all text-sm">
+                                @{artwork['Artist']}
+                            </p>
+                        </a>
                     </div>
                     <p className="flex flex-row gap-2 text-sm">
                         <CalendarIcon />
-                        {formatDate(artwork['Dates'])}
+                        {formatDate(artwork['Date'])}
                     </p>
                 </div>
 
                 <div className="flex flex-row gap-2 px-4 py-2">
-                    {artwork.Categories?.map((category) => (
+                    {artwork['Category']?.map((category) => (
                         <div
                             key={category}
                             className="flex flex-row items-center justify-center rounded-full border-2 border-black bg-transparent px-2 py-1 text-sm font-medium text-gray-900 hover:bg-[#FFBD12]"

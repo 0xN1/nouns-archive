@@ -47,7 +47,7 @@ export default function Proposal({ proposal }) {
         <BaseTemplate>
             <BackLink
                 url="/props/nsfw-small-grants"
-                name="Back to NSFW: Small Grants"
+                name="NSFW: Small Grants"
             />
             <div className="spacer p-8"></div>
             <Title title={proposal['Project Title']} />

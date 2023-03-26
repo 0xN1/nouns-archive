@@ -22,7 +22,7 @@ import Stats from '@/components/page/Stats'
 
 const DEBUG_MODE = false
 
-export default function Contest({ initialData, contest, dao }) {
+export default function Contest({ initialData, contest, special }) {
     const [data, setData] = useState(initialData)
 
     const [showImageModal, setShowImageModal] = useState(false)
@@ -229,8 +229,8 @@ export default function Contest({ initialData, contest, dao }) {
     return (
         <BaseTemplate>
             <BackLink
-                url={`/subdao/${toSlug(dao['Project Title'])}`}
-                name={`${dao['Project Title']}`}
+                url={`/special/${toSlug(special['Project Title'])}`}
+                name={`${special['Project Title']}`}
             />
             <Noggles />
             <Title title={contest['Project Title']} />
@@ -324,7 +324,7 @@ export default function Contest({ initialData, contest, dao }) {
 
 export async function getStaticPaths() {
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
+        'https://notion-api.splitbee.io/v1/table/b319b929cd0c480696a802e052567daf',
     )
     const data = await res.json()
 
@@ -337,9 +337,9 @@ export async function getStaticPaths() {
         })
 
     const paths = await Promise.all(
-        filteredData.map(async (dao) => {
+        filteredData.map(async (special) => {
             const res2 = await fetch(
-                `https://notion-api.splitbee.io/v1/table/${dao.DB}`,
+                `https://notion-api.splitbee.io/v1/table/${special.DB}`,
             )
             const data2 = await res2.json()
 
@@ -349,7 +349,7 @@ export async function getStaticPaths() {
 
             const contestPaths = filteredData2.map((contest) => ({
                 params: {
-                    slug: toSlug(dao['Project Title']),
+                    slug: toSlug(special['Project Title']),
                     id: toSlug(contest['Project Title']),
                 },
             }))
@@ -370,7 +370,7 @@ export async function getStaticProps({ params }) {
     const { slug, id } = params
 
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
+        'https://notion-api.splitbee.io/v1/table/b319b929cd0c480696a802e052567daf',
     )
 
     const data = await res.json()
@@ -383,17 +383,19 @@ export async function getStaticProps({ params }) {
             return entry['DB'] !== undefined
         })
 
-    const dao = filteredData.find((d) => toSlug(d['Project Title']) === slug)
+    const special = filteredData.find(
+        (d) => toSlug(d['Project Title']) === slug,
+    )
 
-    if (!dao) {
-        // If no matching dao was found, return a 404 page
+    if (!special) {
+        // If no matching special was found, return a 404 page
         return { notFound: true }
     }
 
-    const daoUrl = dao.DB
-        ? `https://notion-api.splitbee.io/v1/table/${dao.DB}`
+    const specialUrl = special.DB
+        ? `https://notion-api.splitbee.io/v1/table/${special.DB}`
         : ''
-    const res2 = daoUrl ? await fetch(daoUrl) : ''
+    const res2 = specialUrl ? await fetch(specialUrl) : ''
     const data2 = res2 ? await res2.json() : {}
 
     const filteredData2 = data2.filter((entry) => {
@@ -430,7 +432,7 @@ export async function getStaticProps({ params }) {
         props: {
             initialData: data3,
             contest: contest,
-            dao: dao,
+            special: special,
         },
         revalidate: 60,
     }

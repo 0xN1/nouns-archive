@@ -1,16 +1,14 @@
+import { toSlug } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
-import { toSlug } from '@/lib/utils'
-import { ArtworkIcon, PersonIcon } from '@/components/svg'
+import { ArtworkIcon, PersonIcon } from '../svg'
 
-export default function ContestCard({ contest, parentSlug, grandparentSlug }) {
+export default function NogglesContestsCard({ contest, parentSlug }) {
     return (
         <div className="transition-all duration-200 hover:-translate-y-2">
             <div className="relative h-[410px] w-[300px] overflow-hidden rounded-3xl border-x-4 border-t-4 border-black shadow-xl [border-bottom-width:12px] hover:shadow-gray-300">
                 <Link
-                    href={`/${grandparentSlug}/${parentSlug}/${toSlug(
-                        contest['Project Title'],
-                    )}`}
+                    href={`/${parentSlug}/${toSlug(contest['Project Title'])}`}
                 >
                     <Image
                         className="h-[236px] w-[300px] border-b-4 border-black object-cover"
@@ -32,12 +30,6 @@ export default function ContestCard({ contest, parentSlug, grandparentSlug }) {
                         <>{contest['Project Title']}</>
                     )}
                 </h1>
-                {/* <div className="px-5 py-1">
-                    <p className="h-6 w-full gap-2 overflow-hidden text-sm">
-                        👨‍💻 {contest['Artists']} Artists
-                    </p>
-                    <p className="text-sm">🗓️ {contest['Artworks']} Artworks</p>
-                </div> */}
                 <div className="px-5 py-1">
                     <div className="flex flex-row gap-2">
                         <PersonIcon />
@@ -62,15 +54,6 @@ export default function ContestCard({ contest, parentSlug, grandparentSlug }) {
                         </div>
                     ))}
                 </div>
-
-                {/* <div className="absolute top-2 right-2 rounded-full border-2 border-black bg-[#FBF9F5] px-4 py-2 font-bold hover:bg-[#FFBD12]">
-                    {contest.No}
-                </div> */}
-
-                {/* <div className="absolute bottom-4 left-6">
-                        <p className=" text-lg">Nouns Prop #{proposal.No}</p>
-                        <p className="text-sm">Date: {proposal.Date}</p>
-                    </div> */}
             </div>
         </div>
     )

@@ -45,7 +45,7 @@ export default function Proposal({ proposal }) {
 
     return (
         <BaseTemplate>
-            <BackLink url="/props/prop-house" name="Back to Prop House" />
+            <BackLink url="/props/prop-house" name="Prop House" />
             <div className="spacer p-8"></div>
             <Title title={proposal['Project Title']} />
             <div className="mb-8 flex flex-row gap-4 p-4">

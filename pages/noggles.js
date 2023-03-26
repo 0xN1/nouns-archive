@@ -1,20 +1,24 @@
+import { useState, useRef, useEffect } from 'react'
 import { toSlug } from '@/lib/utils'
+
+import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
 import BackLink from '@/components/page/BackLink'
-import Noggles from '@/components/asset/noggles'
-import { useEffect, useRef, useState } from 'react'
-import ContestCard from '@/components/card/ContestCard'
 import Title from '@/components/page/Title'
-import Description from '@/components/page/Description'
 import SearchBar from '@/components/page/SearchBar'
+import FilterSelect from '@/components/page/FilterSelect'
+import CardWrapper from '@/components/card/CardWrapper'
+import Separator from '@/components/page/Separator'
+import Description from '@/components/page/Description'
+import FilterSelectContainer from '@/components/page/FilterSelectContainer'
+import NogglesContestsCard from '@/components/card/NogglesContestsCard'
+
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
-import FilterSelectContainer from '@/components/page/FilterSelectContainer'
-import FilterSelect from '@/components/page/FilterSelect'
-import Separator from '@/components/page/Separator'
-import CardWrapper from '@/components/card/CardWrapper'
 
-const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
+const DEBUG_MODE = false
+
+const NogglesContestList = ({ initialData, pageData }) => {
     const [data, setData] = useState(initialData)
 
     const parentSlug = toSlug(pageData['Project Title'])
@@ -242,14 +246,16 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
 
     return (
         <BaseTemplate>
-            <BackLink url={`/subdao`} name="SubDAOs" />
+            <BackLink url="/" name="Home" />
             <Noggles />
-            <Title title={pageData['Project Title']} />
-
+            <Title title="Noggles" />
+            {DEBUG_MODE && (
+                <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">
+                    {JSON.stringify(data, null, 2)}
+                </p>
+            )}
             <Description desc={pageData.Description} link={pageData.Link} />
-
             <SearchBar handleSearch={handleSearch} ref={searchRef} />
-
             <FilterSelectContainer>
                 <FilterSelect
                     key="category"
@@ -267,17 +273,29 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
                     ref={typeRef}
                     name="Type"
                 />
+                <FilterSelect
+                    key="sort"
+                    defaultOption="oldest"
+                    options={['oldest', 'latest', 'atoz', 'ztoa']}
+                    optionsTitle={{
+                        oldest: 'Oldest',
+                        latest: 'Latest',
+                        atoz: 'A-Z',
+                        ztoa: 'Z-A',
+                    }}
+                    handler={handleSort}
+                    name="Sort"
+                />
             </FilterSelectContainer>
 
             <Separator />
 
             <CardWrapper>
                 {data.map((contest) => (
-                    <ContestCard
+                    <NogglesContestsCard
                         contest={contest}
-                        key={contest.id}
-                        parentSlug={toSlug(dao['Project Title'])}
-                        grandparentSlug="subdao"
+                        key={contest.ID}
+                        parentSlug={parentSlug}
                     />
                 ))}
             </CardWrapper>
@@ -285,77 +303,28 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
     )
 }
 
-export default SubDAOContestList
+export default NogglesContestList
 
-export async function getStaticPaths() {
+export async function getStaticProps() {
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
+        'https://notion-api.splitbee.io/v1/table/6c4396c9d9c646799b292e7ff4ef5028',
     )
     const data = await res.json()
 
-    const filteredData = data
-        .filter((entry) => {
-            return entry['No'] > 0
-        })
-        .filter((entry) => {
-            return entry['DB'] !== undefined
-        })
+    const filteredData = data.filter((entry) => {
+        return entry['No'] > 0
+    })
 
-    const paths = filteredData.map((dao) => ({
-        params: {
-            slug: toSlug(dao['Project Title']),
-        },
-    }))
+    const pageData = data.filter((entry) => {
+        return entry['No'] === undefined
+    })
 
     return {
-        paths,
-        fallback: false,
-    }
-}
-
-export async function getStaticProps({ params }) {
-    const { slug } = params
-
-    const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
-    )
-    const data = await res.json()
-
-    const filteredData = data
-        .filter((entry) => {
-            return entry['No'] > 0
-        })
-        .filter((entry) => {
-            return entry['DB'] !== undefined
-        })
-
-    const dao = filteredData.find((d) => toSlug(d['Project Title']) === slug)
-
-    if (!dao) {
-        // If no matching dao was found, return a 404 page
-        return { notFound: true }
-    } else {
-        const res = await fetch(
-            `https://notion-api.splitbee.io/v1/table/${dao.DB}`,
-        )
-        const data = await res.json()
-
-        const filteredData = data.filter((entry) => {
-            return entry['No'] > 0
-        })
-
-        const pageData = data.filter((entry) => {
-            return entry['No'] === undefined
-        })
-
-        return {
-            props: {
-                initialData: filteredData,
-                pageData: pageData[0],
-                raw: data,
-                dao: dao,
-            },
-            revalidate: 60,
-        }
+        props: {
+            initialData: filteredData,
+            pageData: pageData[0],
+            raw: data,
+        },
+        revalidate: 60,
     }
 }

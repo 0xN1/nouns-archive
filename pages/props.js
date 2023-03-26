@@ -3,7 +3,7 @@ import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
 import BackLink from '@/components/page/BackLink'
 import SearchBar from '@/components/page/SearchBar'
-import { useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Description from '@/components/page/Description'
 import Title from '@/components/page/Title'
 import useLocalStorage from '@/hooks/useLocalStorage'
@@ -27,24 +27,52 @@ export async function getStaticProps() {
 const Props = ({ initialData }) => {
     const [data, setData] = useState(initialData)
 
-    const [scroll, setScroll] = useLocalStorage('props-scroll', 0)
+    const searchRef = useRef(null)
+    const [scroll, setScroll] = useLocalStorage(`props-scroll`, 0)
+    const [search, setSearch] = useLocalStorage(`props-search`, '')
 
     useScrollPosition(setScroll, scroll)
 
+    function debounce(func, delay) {
+        let timeoutId
+        return function (...args) {
+            if (timeoutId) {
+                clearTimeout(timeoutId)
+            }
+            timeoutId = setTimeout(() => {
+                func.apply(this, args)
+                timeoutId = null
+            }, delay)
+        }
+    }
+
+    const filterBySearch = (data, search) => {
+        if (search === '') {
+            return data
+        } else {
+            const filteredData = data.filter((entry) => {
+                const tempTitle = entry['Project Title'].toLowerCase()
+
+                return tempTitle.includes(search)
+            })
+            return filteredData
+        }
+    }
+
     const handleSearch = (e) => {
         const searchQuery = e.target.value.toLowerCase()
-        const filteredData = initialData.filter((entry) => {
-            const tempTitle = entry['Project Title']?.toLowerCase()
-            const tempDesc = entry.Description?.toLowerCase()
-
-            return (
-                tempTitle?.includes(searchQuery) ||
-                tempDesc?.includes(searchQuery)
-            )
-        })
-
+        const filteredData = filterBySearch(initialData, searchQuery)
         setData(filteredData)
+        setSearch(searchQuery)
     }
+
+    useEffect(() => {
+        if (search !== '') {
+            const filteredData = filterBySearch(initialData, search)
+            setData(filteredData)
+        }
+        searchRef.current.value = search
+    }, [setSearch, search, initialData])
 
     return (
         <BaseTemplate>
@@ -55,7 +83,7 @@ const Props = ({ initialData }) => {
                 desc="Looking to get funding for a Nounish project? There are many ways to go about doing so! Through NSFW : Small Grants, Prop House & On-Chain Proposals."
                 link={`Get Funded|https://nouns.center/funding\nDiscourse|https://discourse.nouns.wtf`}
             />
-            <SearchBar handleSearch={handleSearch} />
+            <SearchBar handleSearch={handleSearch} ref={searchRef} />
             <div className="p-4">
                 <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {data?.map((prop) => (

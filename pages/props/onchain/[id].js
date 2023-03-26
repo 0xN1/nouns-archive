@@ -42,7 +42,7 @@ export default function Proposal({ proposal }) {
 
     return (
         <BaseTemplate>
-            <BackLink url="/props/onchain" name="Back to On-Chain Proposal" />
+            <BackLink url="/props/onchain" name="On-Chain Proposal" />
             <div className="spacer p-8"></div>
             <Title title={proposal['Project Title']} />
 
