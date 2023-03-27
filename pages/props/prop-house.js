@@ -10,6 +10,9 @@ import PropHouseCard from '@/components/card/PropHouseCard'
 import FilterSelect from '@/components/page/FilterSelect'
 import FilterSelectContainer from '@/components/page/FilterSelectContainer'
 import useScrollPosition from '@/hooks/useScrollPosition'
+import { motion as m } from 'framer-motion'
+import CardWrapper from '@/components/card/CardWrapper'
+import Separator from '@/components/page/Separator'
 
 const DEBUG_MODE = false
 
@@ -382,15 +385,13 @@ export default function PropHouse({ initialData }) {
                 />
             </FilterSelectContainer>
 
-            <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
+            <Separator />
 
-            <div className="p-4">
-                <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {data.map((proposal) => (
-                        <PropHouseCard proposal={proposal} key={proposal.id} />
-                    ))}
-                </div>
-            </div>
+            <CardWrapper>
+                {data.map((proposal) => (
+                    <PropHouseCard proposal={proposal} key={proposal.id} />
+                ))}
+            </CardWrapper>
 
             {DEBUG_MODE && (
                 <div className="fixed top-10 right-10 flex flex-col ">

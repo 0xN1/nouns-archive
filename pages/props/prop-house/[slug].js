@@ -1,11 +1,13 @@
 import ImageModal from '@/components/modal/ImageModal'
 import BackLink from '@/components/page/BackLink'
+import Separator from '@/components/page/Separator'
 import Title from '@/components/page/Title'
 import { toSlug } from '@/lib/utils'
 import BaseTemplate from '@/template/BaseTemplate'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { motion as m } from 'framer-motion'
 
 export async function getStaticPaths() {
     // Fetch the data from the API
@@ -48,7 +50,12 @@ export default function Proposal({ proposal }) {
             <BackLink url="/props/prop-house" name="Prop House" />
             <div className="spacer p-8"></div>
             <Title title={proposal['Project Title']} />
-            <div className="mb-8 flex flex-row gap-4 p-4">
+            <m.div
+                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0.2, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-8 flex flex-row gap-4 p-4"
+            >
                 {proposal.Category.map((category) => (
                     <div
                         key={category}
@@ -57,8 +64,13 @@ export default function Proposal({ proposal }) {
                         {category}
                     </div>
                 ))}
-            </div>
-            <div className="grid grid-cols-4 justify-items-center gap-8 rounded-3xl border-2 border-black bg-white p-4 px-12 text-center">
+            </m.div>
+            <m.div
+                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0.2, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="grid grid-cols-4 justify-items-center gap-8 rounded-3xl border-2 border-black bg-white p-4 px-12 text-center"
+            >
                 <div className="flex flex-col gap-4 ">
                     <span className="text-md">House</span>
                     <span className="text-lg font-bold">{proposal.House}</span>
@@ -77,9 +89,9 @@ export default function Proposal({ proposal }) {
                     <span className="text-md">Status</span>
                     <span className="text-lg font-bold">{proposal.Status}</span>
                 </div>
-            </div>
+            </m.div>
 
-            <span className="my-8 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
+            <Separator />
 
             <ImageModal
                 isVisible={showImageModal}
@@ -245,14 +257,6 @@ export default function Proposal({ proposal }) {
                     </div>
                 </div>
             )}
-
-            <span className="my-8 mt-16 w-3/4 rounded-xl bg-[#b5b5b5] p-[1px]"></span>
-
-            <Link href="#">
-                <button className=" rounded-3xl bg-gray-600 py-2 px-4 font-bold text-white transition-all duration-200 ease-in-out hover:bg-gray-400">
-                    Top
-                </button>
-            </Link>
         </BaseTemplate>
     )
 }

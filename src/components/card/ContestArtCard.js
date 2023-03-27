@@ -1,6 +1,6 @@
 import { formatDate } from '@/lib/utils'
 import Image from 'next/image'
-import { CalendarIcon, PersonIcon } from '../svg'
+import { ArrowRightIcon, CalendarIcon, DownloadIcon, PersonIcon } from '../svg'
 
 export default function ContestArtCard({ artwork, onClick }) {
     // handle click
@@ -61,7 +61,10 @@ export default function ContestArtCard({ artwork, onClick }) {
                         rel="noopener noreferrer"
                     >
                         <div className="absolute bottom-[14px] right-12">
-                            <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`DL`}</div>
+                            {/* <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`DL`}</div> */}
+                            <div className="scale-125">
+                                <DownloadIcon className="hover:fill-[#FFBD12]" />
+                            </div>
                         </div>
                     </a>
                 )}
@@ -73,7 +76,10 @@ export default function ContestArtCard({ artwork, onClick }) {
                         rel="noopener noreferrer"
                     >
                         <div className="absolute bottom-[14px] right-4">
-                            <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`>`}</div>
+                            {/* <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`>`}</div> */}
+                            <div className="scale-125">
+                                <ArrowRightIcon className="hover:fill-[#FFBD12]" />
+                            </div>
                         </div>
                     </a>
                 )}

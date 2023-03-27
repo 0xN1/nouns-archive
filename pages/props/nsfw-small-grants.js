@@ -10,6 +10,8 @@ import SearchBar from '@/components/page/SearchBar'
 import FilterSelectContainer from '@/components/page/FilterSelectContainer'
 import FilterSelect from '@/components/page/FilterSelect'
 import NSFWCard from '@/components/card/NSFWCard'
+import Separator from '@/components/page/Separator'
+import CardWrapper from '@/components/card/CardWrapper'
 
 const DEBUG_MODE = false
 
@@ -319,15 +321,13 @@ export default function NSFWSmallGrants({ initialData }) {
                 />
             </FilterSelectContainer>
 
-            <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
+            <Separator />
 
-            <div className="p-4">
-                <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {data.map((proposal) => (
-                        <NSFWCard proposal={proposal} key={proposal.id} />
-                    ))}
-                </div>
-            </div>
+            <CardWrapper>
+                {data.map((proposal) => (
+                    <NSFWCard proposal={proposal} key={proposal.id} />
+                ))}
+            </CardWrapper>
         </BaseTemplate>
     )
 }

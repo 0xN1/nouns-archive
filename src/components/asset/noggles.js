@@ -1,6 +1,17 @@
+import { motion as m } from 'framer-motion'
+
 export default function Noggles() {
     return (
-        <div className="my-8 -translate-x-2 transition-all duration-500 ease-in-out hover:translate-x-3">
+        <m.div
+            drag={true}
+            dragSnapToOrigin={true}
+            dragElastic={0.8}
+            whileHover={{ translateX: 10 }}
+            transition={{ duration: 0.2, translateX: 0.15 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="my-8"
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="229.167"
@@ -60,6 +71,6 @@ export default function Noggles() {
                     />
                 </g>
             </svg>
-        </div>
+        </m.div>
     )
 }

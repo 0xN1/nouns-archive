@@ -1,4 +1,5 @@
 import { forwardRef, useEffect } from 'react'
+import { motion as m } from 'framer-motion'
 
 const SearchBar = forwardRef(({ handleSearch }, ref) => {
     useEffect(() => {
@@ -17,7 +18,12 @@ const SearchBar = forwardRef(({ handleSearch }, ref) => {
 
     return (
         <div className="mb-8 flex w-1/2 flex-col items-center gap-4">
-            <div className="relative w-full">
+            <m.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="relative w-full"
+            >
                 <input
                     className="mx-2 w-full rounded-xl border-2 border-black bg-transparent p-2"
                     type="text"
@@ -36,7 +42,7 @@ const SearchBar = forwardRef(({ handleSearch }, ref) => {
                         Clear
                     </div>
                 )}
-            </div>
+            </m.div>
             {/* {ref.current?.value === '' && (
                 <div className="flex flex-row items-center gap-2">
                     <p className="text-sm text-gray-500">

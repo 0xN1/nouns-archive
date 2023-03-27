@@ -1,5 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import {
+    DiscordIcon,
+    PersonIcon,
+    ProposalIcon,
+    TwitterIcon,
+    WebsiteIcon,
+} from '../svg'
 
 const Links = {
     'Prop House': '/props/prop-house',
@@ -27,30 +34,61 @@ function PropsCard({ prop }) {
                 />
             </Link>
 
-            <h1 className="h-20 overflow-hidden break-words px-5 py-4 text-xl font-medium">
+            <h1 className="h-20 overflow-hidden break-words px-5 py-6 text-2xl font-medium">
                 {prop['Project Title']}
             </h1>
 
-            <div className="absolute bottom-4 left-6">
-                <p className="text-lg">{prop.Builders} Builders</p>
-                <p className=" text-lg">{prop.Proposals} Proposals</p>
+            <div className="absolute bottom-4 left-6 flex flex-col gap-2">
+                <div className="flex flex-row gap-2">
+                    <PersonIcon />
+                    <p className="-mt-1 overflow-hidden break-all text-lg">
+                        {prop.Builders} Builders
+                    </p>
+                </div>
+                <div className="flex flex-row gap-2">
+                    <ProposalIcon />
+                    <p className="-mt-1 overflow-hidden break-all text-lg">
+                        {prop.Proposals} Proposals
+                    </p>
+                </div>
             </div>
 
             <div className="flex-rows absolute bottom-4 right-6 flex gap-2">
-                <a
-                    href={prop['Discord URL']}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <p className=" text-lg">DC</p>
-                </a>
-                <a
-                    href={prop['Twitter URL']}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <p className=" text-lg">TW</p>
-                </a>
+                {prop['Website URL'] && (
+                    <a
+                        href={prop['Website URL']}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div>
+                            <WebsiteIcon />
+                        </div>
+                    </a>
+                )}
+
+                {prop['Discord URL'] && (
+                    <a
+                        href={prop['Discord URL']}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div>
+                            <DiscordIcon />
+                        </div>
+                    </a>
+                )}
+
+                {prop['Twitter URL'] && (
+                    <a
+                        href={prop['Twitter URL']}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div>
+                            <TwitterIcon />
+                        </div>
+                    </a>
+                )}
             </div>
         </div>
     )

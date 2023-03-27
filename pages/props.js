@@ -8,6 +8,7 @@ import Description from '@/components/page/Description'
 import Title from '@/components/page/Title'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
+import CardWrapper from '@/components/card/CardWrapper'
 
 export async function getStaticProps() {
     const res = await fetch(
@@ -84,13 +85,11 @@ const Props = ({ initialData }) => {
                 link={`Get Funded|https://nouns.center/funding\nDiscourse|https://discourse.nouns.wtf`}
             />
             <SearchBar handleSearch={handleSearch} ref={searchRef} />
-            <div className="p-4">
-                <div className="grid-rows grid justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {data?.map((prop) => (
-                        <PropsCard key={prop.id} prop={prop} />
-                    ))}
-                </div>
-            </div>
+            <CardWrapper>
+                {data?.map((prop) => (
+                    <PropsCard key={prop.id} prop={prop} />
+                ))}
+            </CardWrapper>
         </BaseTemplate>
     )
 }

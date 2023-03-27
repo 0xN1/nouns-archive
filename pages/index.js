@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Noggles from '@/components/asset/noggles'
 import Link from 'next/link'
+import { motion as m } from 'framer-motion'
 
 const Home = () => {
     return (
@@ -10,7 +11,7 @@ const Home = () => {
                 <link rel="icon" href="/mono.svg" />
             </Head>
 
-            <Noggles />
+            {/* <Noggles /> */}
             <h1 className="w-full p-4 text-center font-gibson text-5xl uppercase leading-tight tracking-wide sm:p-8 md:w-10/12">
                 we archive{' '}
                 <span className="underline underline-offset-4">all medias</span>{' '}
@@ -48,90 +49,6 @@ const Home = () => {
                     </h1>
                 </Link>
             </div>
-            {/* <div className="columns-3 gap-4 p-2">
-                <Image
-                    src="https://placehold.co/300x700/000000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className=" rounded-b-full py-2"
-                    width={300}
-                    height={700}
-                />
-                <Image
-                    src="https://placehold.co/300x500/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-t-full py-2"
-                    width={300}
-                    height={500}
-                />
-                <Image
-                    src="https://placehold.co/300x300/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-b-full py-2"
-                    width={300}
-                    height={300}
-                />
-                <Image
-                    src="https://placehold.co/300x500/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-t-full py-2"
-                    height={500}
-                    width={300}
-                />
-                <Image
-                    src="https://placehold.co/300x700/000000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-full py-2"
-                    width={300}
-                    height={700}
-                />
-                <Image
-                    src="https://placehold.co/300x300/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-full py-2"
-                    width={300}
-                    height={300}
-                />
-                <Image
-                    src="https://placehold.co/300x300/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-full py-2"
-                    width={300}
-                    height={300}
-                />
-                <Image
-                    src="https://placehold.co/300x600/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-b-full py-2"
-                    width={300}
-                    height={600}
-                />
-                <Image
-                    src="https://placehold.co/300x600/ff0000/ffffff?text=Nouns+Archive&font=raleway"
-                    alt="Nouns Archive"
-                    className="rounded-t-full py-2"
-                    width={300}
-                    height={600}
-                />
-            </div> */}
-            {/* <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 font-inter text-white"> */}
-            {/* <div className="m-4 flex flex-col items-center">
-                <ConnectKitButton />
-            </div> */}
-            {/* <DatabaseView databaseId="5c168e32a5aa485eae3ad357aff8bf99" /> */}
-            {/* <DatabaseView databaseId="b15b373008624074a2da2600b1674ce5" /> */}
-            {/* <BlockView blockId="da52f93301dd4ed59e5b876bd5151d93" /> */}
-            {/* <BlockView blockId="f3f57f057fb1454393914d626d487648" /> */}
-            {/* <BlockView blockId="92a26d32-4ef3-4ad6-90f7-3d760f6ddcf6" /> */}
-            {/* <DatabaseView databaseId="67079226-a645-48ca-9d3f-feb7fe092bc0" /> */}
-            {/* <div className="mt-6 select-none text-center text-6xl font-bold">
-                {APP_NAME}
-            </div> */}
-            {/* <OnChainPropListView proposalDB="1330bf9251614e64ae3de2b26b522051" /> */}
-            {/* <ProposalListView proposalDB="7560d477d44b404baa2e70afd5ecf52b" /> */}
-            {/* <ProposalListView proposalDB="1330bf9251614e64ae3de2b26b522051" /> */}
-            {/* <PropSinglePage propId="80f38e6c-f846-4457-b811-1ff7cfbf5130" /> */}
-            {/* <OnChainView /> */}
-            {/* </div> */}
         </div>
     )
 }

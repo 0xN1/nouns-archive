@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { ArrowLeftIcon } from '../svg'
+import { motion as m } from 'framer-motion'
 
 export default function BackLink({ url, name }) {
     return (
@@ -6,10 +8,23 @@ export default function BackLink({ url, name }) {
             href={url}
             className="absolute left-20 top-32 flex flex-row items-center gap-4 self-start"
         >
-            <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-2 font-bold hover:bg-[#FFBD12]">{`<`}</div>
-            <h1 className="font-medium underline-offset-1 hover:underline">
+            {/* <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-2 font-bold hover:bg-[#FFBD12]">{`<`}</div> */}
+            <m.div
+                transition={{ duration: 0.25 }}
+                initial={{ opacity: 0.2, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="scale-125"
+            >
+                <ArrowLeftIcon className="hover:fill-[#FFBD12]" />
+            </m.div>
+            <m.h1
+                transition={{ duration: 0.45 }}
+                initial={{ opacity: 0.2, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="font-medium underline-offset-1 hover:underline"
+            >
                 {name}
-            </h1>
+            </m.h1>
         </Link>
     )
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion as m } from 'framer-motion'
 
 const Stats = ({ data }) => {
     const [numCols, setNumCols] = useState(4)
@@ -14,7 +15,10 @@ const Stats = ({ data }) => {
     }, [data])
 
     return (
-        <div
+        <m.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
             className={`my-8 grid grid-cols-${numCols} justify-items-center gap-8 rounded-3xl border-2 border-black bg-white p-4 px-12 text-center`}
         >
             {data.map((item, index) => (
@@ -27,7 +31,7 @@ const Stats = ({ data }) => {
                     ))}
                 </div>
             ))}
-        </div>
+        </m.div>
     )
 }
 

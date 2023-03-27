@@ -10,6 +10,8 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
 import FilterSelectContainer from '@/components/page/FilterSelectContainer'
 import FilterSelect from '@/components/page/FilterSelect'
+import Separator from '@/components/page/Separator'
+import CardWrapper from '@/components/card/CardWrapper'
 
 const DEBUG_MODE = false
 
@@ -125,13 +127,15 @@ export default function OnChain({ initialData }) {
                 const tempTeam = entry['Team']?.toLowerCase()
                 const tempCategory = entry['Category']
                 const tempStatus = entry['Status']?.toString()
+                const tempNo = entry['No']?.toString()
 
                 return (
                     tempTitle.includes(search) ||
                     tempDesc.includes(search) ||
                     tempTeam?.includes(search) ||
                     tempCategory?.includes(search) ||
-                    tempStatus?.includes(search)
+                    tempStatus?.includes(search) ||
+                    tempNo?.includes(search)
                 )
             })
             return filteredData
@@ -316,13 +320,12 @@ export default function OnChain({ initialData }) {
                 />
             </FilterSelectContainer>
 
-            <span className="my-8 w-3/4 rounded-xl bg-[#707070] p-[1px]"></span>
-
-            <ul className="grid-rows grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <Separator />
+            <CardWrapper>
                 {data.map((proposal) => (
                     <PropSingleCard key={proposal.id} proposal={proposal} />
                 ))}
-            </ul>
+            </CardWrapper>
         </BaseTemplate>
     )
 }

@@ -1,0 +1,6 @@
+<svg id="file-remove" xmlns="http://www.w3.org/2000/svg" width="15" height="17" viewBox="0 0 15 17">
+    <path id="Path_540" data-name="Path 540" d="M9,15h6V13H9Z" transform="translate(-4.5 -3.833)" />
+    <path id="Path_541" data-name="Path 541"
+        d="M5.5,2A2.525,2.525,0,0,0,3,4.55v11.9A2.525,2.525,0,0,0,5.5,19h10A2.525,2.525,0,0,0,18,16.45V7.95A5.893,5.893,0,0,0,12.167,2Zm0,1.7h5.833V7.95h5v8.5a.842.842,0,0,1-.833.85H5.5a.842.842,0,0,1-.833-.85V4.55A.842.842,0,0,1,5.5,3.7Zm7.5.085A4.193,4.193,0,0,1,15.987,6.25H13Z"
+        transform="translate(-3 -2)" fill-rule="evenodd" />
+</svg>

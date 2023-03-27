@@ -1,5 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import {
+    DiscordIcon,
+    PersonIcon,
+    ProposalIcon,
+    TwitterIcon,
+    WebsiteIcon,
+} from '../svg'
 import { toSlug } from '@/lib/utils'
 
 export default function SpecialCard({ special }) {
@@ -20,13 +27,23 @@ export default function SpecialCard({ special }) {
                     />
                 </Link>
 
-                <h1 className="h-20 overflow-hidden break-words px-5 py-4 text-xl font-medium">
+                <h1 className="h-20 overflow-hidden break-words px-5 py-6 text-2xl font-medium">
                     {special['Project Title']}
                 </h1>
 
-                <div className="absolute bottom-4 left-6">
-                    <p className="text-lg">{special.Builders} Builders</p>
-                    <p className=" text-lg">{special.Proposals} Proposals</p>
+                <div className="absolute bottom-4 left-6 flex flex-col gap-2">
+                    <div className="flex flex-row gap-2">
+                        <PersonIcon />
+                        <p className="-mt-1 overflow-hidden break-all text-lg">
+                            {special.Builders} Builders
+                        </p>
+                    </div>
+                    <div className="flex flex-row gap-2">
+                        <ProposalIcon />
+                        <p className="-mt-1 overflow-hidden break-all text-lg">
+                            {special.Proposals} Proposals
+                        </p>
+                    </div>
                 </div>
 
                 <div className="flex-rows absolute bottom-4 right-6 flex gap-2">
@@ -36,7 +53,9 @@ export default function SpecialCard({ special }) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <p className=" text-lg">WE</p>
+                            <div>
+                                <WebsiteIcon />
+                            </div>
                         </a>
                     )}
 
@@ -46,7 +65,9 @@ export default function SpecialCard({ special }) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <p className=" text-lg">DC</p>
+                            <div>
+                                <DiscordIcon />
+                            </div>
                         </a>
                     )}
 
@@ -56,7 +77,9 @@ export default function SpecialCard({ special }) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <p className=" text-lg">TW</p>
+                            <div>
+                                <TwitterIcon />
+                            </div>
                         </a>
                     )}
                 </div>

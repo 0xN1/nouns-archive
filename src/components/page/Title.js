@@ -1,7 +1,14 @@
+import { motion as m } from 'framer-motion'
+
 export default function Title({ title }) {
     return (
-        <h1 className="p-8 text-center font-gibson text-7xl uppercase">
+        <m.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="p-8 text-center font-gibson text-7xl uppercase"
+        >
             {title}
-        </h1>
+        </m.h1>
     )
 }

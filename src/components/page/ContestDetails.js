@@ -1,8 +1,14 @@
 import { getLink, getLinkName } from '@/lib/utils'
+import { motion as m } from 'framer-motion'
 
 export default function ContestDetails({ contest }) {
     return (
-        <div className="flex flex-col justify-center text-center">
+        <m.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="flex flex-col justify-center text-center"
+        >
             <h2 className="font-bold">Contest Brief</h2>
             <p className="mx-auto whitespace-pre-wrap break-words p-4 text-center">
                 {contest['Contest Brief']}
@@ -27,6 +33,6 @@ export default function ContestDetails({ contest }) {
                 </h2>
                 <h2 className="font-bold">Hosted By: {contest['Host']}</h2>
             </div>
-        </div>
+        </m.div>
     )
 }
