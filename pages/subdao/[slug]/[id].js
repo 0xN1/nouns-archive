@@ -362,7 +362,7 @@ export async function getStaticPaths() {
 
     return {
         paths: flattenedPaths,
-        fallback: false,
+        fallback: 'blocking',
     }
 }
 

@@ -21,7 +21,7 @@ export async function getStaticPaths() {
         params: { slug: toSlug(proposal['Project Title'].toLowerCase()) },
     }))
 
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {

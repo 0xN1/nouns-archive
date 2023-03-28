@@ -1,53 +1,66 @@
-import Head from 'next/head'
-import Noggles from '@/components/asset/noggles'
 import Link from 'next/link'
 import { motion as m } from 'framer-motion'
+import MainCard from '@/components/card/MainCard'
+
+const mainContents = [
+    {
+        name: 'Funded Proposal',
+        imageURL:
+            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+        link: '/props',
+        id: 1,
+    },
+    {
+        name: 'Noggles',
+        imageURL:
+            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+        link: '/noggles',
+        id: 2,
+    },
+    {
+        name: 'Nouns Special',
+        imageURL:
+            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+        link: '/special',
+        id: 3,
+    },
+    {
+        name: 'Nouns',
+        imageURL:
+            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+        link: '/nouns',
+        id: 4,
+    },
+    {
+        name: 'SubDAOs',
+        imageURL:
+            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+        link: '/subdao',
+        id: 5,
+    },
+    {
+        name: 'Nouns World',
+        imageURL:
+            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+        link: '/world',
+        id: 6,
+    },
+]
 
 const Home = () => {
     return (
-        <div className="flex flex-col items-center justify-center gap-4">
-            <Head>
-                <title>Nouns Archive</title>
-                <link rel="icon" href="/mono.svg" />
-            </Head>
-
-            {/* <Noggles /> */}
-            <h1 className="w-full p-4 text-center font-gibson text-5xl uppercase leading-tight tracking-wide sm:p-8 md:w-10/12">
+        <div className="flex flex-col items-center justify-between gap-4">
+            <h1 className="p-4 text-center font-gibson text-4xl uppercase leading-tight tracking-wide sm:w-3/4 sm:p-8 sm:text-5xl md:w-3/4 md:p-10 xl:w-3/4">
                 we archive{' '}
-                <span className="underline underline-offset-4">all medias</span>{' '}
+                <span className="underline underline-offset-4 hover:text-blue-500">
+                    all media
+                </span>{' '}
                 in nounsdao&apos;s ecosystem
             </h1>
-            <div className="grid w-2/3 grid-rows-1 items-center justify-center justify-items-center p-4 text-center md:grid-cols-3 ">
-                <Link href="/props">
-                    <h1 className="p-4 font-gibson text-3xl uppercase transition-all duration-150 ease-in hover:text-red-500 hover:underline">
-                        Funded Proposals
-                    </h1>
-                </Link>
-                <Link href="/noggles">
-                    <h1 className="p-4 font-gibson text-3xl uppercase transition-all duration-150 ease-in hover:text-red-500 hover:underline">
-                        Noggles
-                    </h1>
-                </Link>
-                <Link href="/world">
-                    <h1 className="p-4 font-gibson text-3xl uppercase transition-all duration-150 ease-in hover:text-red-500 hover:underline">
-                        Nouns World
-                    </h1>
-                </Link>
-                <Link href="/special">
-                    <h1 className="p-4 font-gibson text-3xl uppercase transition-all duration-150 ease-in hover:text-red-500 hover:underline">
-                        Nouns Special
-                    </h1>
-                </Link>
-                <Link href="/nouns">
-                    <h1 className="p-4 font-gibson text-3xl uppercase transition-all duration-150 ease-in hover:text-red-500 hover:underline">
-                        Nouns
-                    </h1>
-                </Link>
-                <Link href="/subdao">
-                    <h1 className="p-4 font-gibson text-3xl uppercase transition-all duration-150 ease-in hover:text-red-500 hover:underline">
-                        SubDAOs
-                    </h1>
-                </Link>
+            <div className="my-6 grid grid-cols-1 items-center justify-center gap-16 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+                {mainContents.map((content) => (
+                    <MainCard content={content} key={content.name} />
+                ))}
             </div>
         </div>
     )

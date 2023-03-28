@@ -1,20 +1,22 @@
-import { toSlug } from '@/lib/utils'
-import BaseTemplate from '@/template/BaseTemplate'
-import BackLink from '@/components/page/BackLink'
 import Noggles from '@/components/asset/noggles'
-import { useEffect, useRef, useState } from 'react'
+import CardWrapper from '@/components/card/CardWrapper'
 import ContestCard from '@/components/card/ContestCard'
-import Title from '@/components/page/Title'
+import BackLink from '@/components/page/BackLink'
 import Description from '@/components/page/Description'
+import FilterSelect from '@/components/page/FilterSelect'
+import FilterSelectContainer from '@/components/page/FilterSelectContainer'
 import SearchBar from '@/components/page/SearchBar'
+import Separator from '@/components/page/Separator'
+import Title from '@/components/page/Title'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
-import FilterSelectContainer from '@/components/page/FilterSelectContainer'
-import FilterSelect from '@/components/page/FilterSelect'
-import Separator from '@/components/page/Separator'
-import CardWrapper from '@/components/card/CardWrapper'
+import { toSlug } from '@/lib/utils'
+import BaseTemplate from '@/template/BaseTemplate'
+import { useState, useRef, useEffect } from 'react'
 
-const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
+const DEBUG_MODE = false
+
+export default function NounsList({ initialData, pageData, nouns }) {
     const [data, setData] = useState(initialData)
 
     const parentSlug = toSlug(pageData['Project Title'])
@@ -45,61 +47,6 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
                 timeoutId = null
             }, delay)
         }
-    }
-
-    const handleSort = (e) => {
-        const sortQuery = e.target.value
-        const sortedData = [...data]
-
-        if (sortQuery === 'atoz') {
-            sortedData.sort((a, b) => {
-                const titleA = a['Project Title'].toLowerCase()
-                const titleB = b['Project Title'].toLowerCase()
-
-                if (titleA < titleB) {
-                    return -1
-                }
-                if (titleA > titleB) {
-                    return 1
-                }
-                return 0
-            })
-        }
-
-        if (sortQuery === 'ztoa') {
-            sortedData.sort((a, b) => {
-                const titleA = a['Project Title'].toLowerCase()
-                const titleB = b['Project Title'].toLowerCase()
-
-                if (titleA < titleB) {
-                    return 1
-                }
-                if (titleA > titleB) {
-                    return -1
-                }
-                return 0
-            })
-        }
-
-        if (sortQuery === 'latest') {
-            sortedData.sort((a, b) => {
-                const dateA = new Date(a.Date)
-                const dateB = new Date(b.Date)
-
-                return dateB - dateA
-            })
-        }
-
-        if (sortQuery === 'oldest') {
-            sortedData.sort((a, b) => {
-                const dateA = new Date(a.Date)
-                const dateB = new Date(b.Date)
-
-                return dateA - dateB
-            })
-        }
-
-        setData(sortedData)
     }
 
     // FILTERS
@@ -242,11 +189,16 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
 
     return (
         <BaseTemplate>
-            <BackLink url={`/subdao`} name="SubDAOs" />
+            <BackLink url={'/nouns'} name={'Nouns'} />
             <Noggles />
             <Title title={pageData['Project Title']} />
-
             <Description desc={pageData.Description} link={pageData.Link} />
+
+            {DEBUG_MODE && (
+                <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">
+                    {JSON.stringify(data[0].DB, null, 2)}
+                </p>
+            )}
 
             <SearchBar handleSearch={handleSearch} ref={searchRef} />
 
@@ -276,8 +228,8 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
                     <ContestCard
                         contest={contest}
                         key={contest.id}
-                        parentSlug={toSlug(dao['Project Title'])}
-                        grandparentSlug="subdao"
+                        parentSlug={toSlug(nouns['Project Title'])}
+                        grandparentSlug="nouns"
                     />
                 ))}
             </CardWrapper>
@@ -285,11 +237,9 @@ const SubDAOContestList = ({ initialData, pageData, raw, dao }) => {
     )
 }
 
-export default SubDAOContestList
-
 export async function getStaticPaths() {
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
+        'https://notion-api.splitbee.io/v1/table/c6b83e5671e340f58b07083a03b3de13',
     )
     const data = await res.json()
 
@@ -301,23 +251,17 @@ export async function getStaticPaths() {
             return entry['DB'] !== undefined
         })
 
-    const paths = filteredData.map((dao) => ({
-        params: {
-            slug: toSlug(dao['Project Title']),
-        },
+    const paths = filteredData.map((nouns) => ({
+        params: { slug: toSlug(nouns['Project Title']) },
     }))
-
-    return {
-        paths,
-        fallback: 'blocking',
-    }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {
     const { slug } = params
 
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/df5655a805ee496dbc53fa6409fd2bd5',
+        'https://notion-api.splitbee.io/v1/table/c6b83e5671e340f58b07083a03b3de13',
     )
     const data = await res.json()
 
@@ -329,14 +273,17 @@ export async function getStaticProps({ params }) {
             return entry['DB'] !== undefined
         })
 
-    const dao = filteredData.find((d) => toSlug(d['Project Title']) === slug)
+    const nouns = filteredData.find((nouns) => {
+        return toSlug(nouns['Project Title']) === slug
+    })
 
-    if (!dao) {
-        // If no matching dao was found, return a 404 page
-        return { notFound: true }
+    if (!nouns) {
+        return {
+            notFound: true,
+        }
     } else {
         const res = await fetch(
-            `https://notion-api.splitbee.io/v1/table/${dao.DB}`,
+            `https://notion-api.splitbee.io/v1/table/${nouns.DB}`,
         )
         const data = await res.json()
 
@@ -353,7 +300,7 @@ export async function getStaticProps({ params }) {
                 initialData: filteredData,
                 pageData: pageData[0],
                 raw: data,
-                dao: dao,
+                nouns: nouns,
             },
             revalidate: 60,
         }

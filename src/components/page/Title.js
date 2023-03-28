@@ -6,7 +6,7 @@ export default function Title({ title }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="p-8 text-center font-gibson text-7xl uppercase"
+            className="p-4 text-center font-gibson text-4xl uppercase sm:p-8 sm:text-7xl"
         >
             {title}
         </m.h1>

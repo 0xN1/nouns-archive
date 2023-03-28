@@ -337,7 +337,10 @@ export default function PropHouse({ initialData }) {
             <BackLink url="/props" name="Funded Proposals" />
             <Noggles />
             <Title title="Prop House" />
-            <Description desc="Prop House KIV" />
+            <Description
+                desc="Prop House is public infrastructure funded by Nouns DAO. It is an experimental approach for communities to deploy capital. Through funding rounds, communities auction off fixed amounts of capital to builders with the best ideas."
+                link="Prop House|https://prop.house"
+            />
 
             {DEBUG_MODE && (
                 <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">

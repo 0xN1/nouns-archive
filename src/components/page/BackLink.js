@@ -6,7 +6,7 @@ export default function BackLink({ url, name }) {
     return (
         <Link
             href={url}
-            className="absolute left-20 top-32 flex flex-row items-center gap-4 self-start"
+            className="my-8 flex items-center gap-4 sm:absolute sm:left-20 sm:top-32 sm:my-0 sm:flex-row sm:self-start "
         >
             {/* <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-2 font-bold hover:bg-[#FFBD12]">{`<`}</div> */}
             <m.div

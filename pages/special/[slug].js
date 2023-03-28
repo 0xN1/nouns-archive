@@ -254,7 +254,7 @@ export async function getStaticPaths() {
     const paths = filteredData.map((special) => ({
         params: { slug: toSlug(special['Project Title']) },
     }))
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {

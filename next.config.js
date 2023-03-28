@@ -40,6 +40,3 @@ module.exports = {
         return config
     },
 }
-
-// webpack config to use @svgr/webpack
-//

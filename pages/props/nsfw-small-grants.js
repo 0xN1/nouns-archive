@@ -282,7 +282,12 @@ export default function NSFWSmallGrants({ initialData }) {
             <div className="pt-4"></div>
             <Noggles />
             <Title title="NSFW: Small Grants" />
-            <Description desc="Small Grants" />
+
+            <Description
+                desc={`NSFW: Nouns Strategic Funding Works run by a group of Nouners to be a "flexible pool of capital" that can be deployed when either the project is time sensitive, the ask is too small for an official proposal, or retroactive funding is merited because the work is already done.`}
+                link={`NSFW: Small Grants|https://nouns.center/funding/smallgrants`}
+            />
+
             {DEBUG_MODE && (
                 <p className="mx-auto my-8 h-96 w-2/3 overflow-auto whitespace-pre-wrap p-8 text-justify">
                     {JSON.stringify(data, null, 2)}

@@ -1,25 +1,28 @@
 import Noggles from '@/components/asset/noggles'
-import BackLink from '@/components/page/BackLink'
-import FilterSelectContainer from '@/components/page/FilterSelectContainer'
-import SearchBar from '@/components/page/SearchBar'
-import Separator from '@/components/page/Separator'
+import Description from '@/components/page/Description'
 import Title from '@/components/page/Title'
 import { toSlug } from '@/lib/utils'
 import BaseTemplate from '@/template/BaseTemplate'
+import BackLink from '@/components/page/BackLink'
+
 import { useState, useRef, useEffect } from 'react'
 import ContestArtCard from '@/components/card/ContestArtCard'
+import SearchBar from '@/components/page/SearchBar'
+
+import ImageModal from '@/components/modal/ImageModal'
+import Image from 'next/image'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
 import FilterSelect from '@/components/page/FilterSelect'
-import ImageModal from '@/components/modal/ImageModal'
-import Image from 'next/image'
-import Stats from '@/components/page/Stats'
-import ContestDetails from '@/components/page/ContestDetails'
+import FilterSelectContainer from '@/components/page/FilterSelectContainer'
+import Separator from '@/components/page/Separator'
 import CardWrapper from '@/components/card/CardWrapper'
+import ContestDetails from '@/components/page/ContestDetails'
+import Stats from '@/components/page/Stats'
 
 const DEBUG_MODE = false
 
-const NogglesContest = ({ initialData, contest }) => {
+export default function Contest({ initialData, contest, nouns }) {
     const [data, setData] = useState(initialData)
 
     const [showImageModal, setShowImageModal] = useState(false)
@@ -27,8 +30,8 @@ const NogglesContest = ({ initialData, contest }) => {
 
     const contestSlug = toSlug(contest['Project Title'])
 
-    const categoryRef = useRef(null)
     const searchRef = useRef(null)
+    const categoryRef = useRef(null)
     const cc0Ref = useRef(null)
 
     const [scroll, setScroll] = useLocalStorage(`${contestSlug}-scroll`, 0)
@@ -144,9 +147,9 @@ const NogglesContest = ({ initialData, contest }) => {
         setSearch(searchQuery)
 
         setCategory('all')
-        setCC0('all')
         categoryRef.current.value = 'all'
-        cc0Ref.current.value = 'no'
+        setCC0('all')
+        cc0Ref.current.value = 'all'
     }
 
     const handleCategory = (e) => {
@@ -156,9 +159,9 @@ const NogglesContest = ({ initialData, contest }) => {
         setCategory(filterQuery)
 
         setSearch('')
-        setCC0('all')
         searchRef.current.value = ''
-        cc0Ref.current.value = 'no'
+        setCC0('all')
+        cc0Ref.current.value = 'all'
     }
 
     const handleCC0 = (e) => {
@@ -225,20 +228,30 @@ const NogglesContest = ({ initialData, contest }) => {
 
     return (
         <BaseTemplate>
-            <BackLink url="/noggles" name="Noggles" />
+            <BackLink
+                url={`/nouns/${toSlug(nouns['Project Title'])}`}
+                name={`${nouns['Project Title']}`}
+            />
             <Noggles />
             <Title title={contest['Project Title']} />
+            {contest['Type'] === 'Collaboration' && (
+                <Description desc={contest['Description']} />
+            )}
 
-            <ContestDetails contest={contest} />
+            {contest['Type'] === 'Contest' && (
+                <ContestDetails contest={contest} />
+            )}
 
-            <Stats
-                data={[
-                    { 'Total Contributors': contest['Artists'] },
-                    { 'Total Entries': contest['Artworks'] },
-                    { 'Total Prize': `${contest['Prize']} ETH` },
-                    { Status: contest['Status'] },
-                ]}
-            />
+            {contest['Type'] === 'Contest' && (
+                <Stats
+                    data={[
+                        { 'Total Contributors': contest['Artists'] },
+                        { 'Total Entries': contest['Artworks'] },
+                        { 'Total Prize': `${contest['Prize']} ETH` },
+                        { Status: contest['Status'] },
+                    ]}
+                />
+            )}
 
             <SearchBar handleSearch={handleSearch} ref={searchRef} />
             <FilterSelectContainer>
@@ -309,77 +322,115 @@ const NogglesContest = ({ initialData, contest }) => {
     )
 }
 
-export default NogglesContest
-
 export async function getStaticPaths() {
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/6c4396c9d9c646799b292e7ff4ef5028',
+        'https://notion-api.splitbee.io/v1/table/c6b83e5671e340f58b07083a03b3de13',
     )
     const data = await res.json()
 
-    const filteredData = data.filter((contest) => {
-        return contest['No'] > 0
-    })
+    const filteredData = data
+        .filter((entry) => {
+            return entry['No'] > 0
+        })
+        .filter((entry) => {
+            return entry['DB'] !== undefined
+        })
 
-    const paths = filteredData.map((contest) => {
-        return {
-            params: {
-                slug: toSlug(contest['Project Title']),
-            },
-        }
-    })
+    const paths = await Promise.all(
+        filteredData.map(async (nouns) => {
+            const res2 = await fetch(
+                `https://notion-api.splitbee.io/v1/table/${nouns.DB}`,
+            )
+            const data2 = await res2.json()
+
+            const filteredData2 = data2.filter((entry) => {
+                return entry['No'] > 0
+            })
+
+            const contestPaths = filteredData2.map((contest) => ({
+                params: {
+                    slug: toSlug(nouns['Project Title']),
+                    id: toSlug(contest['Project Title']),
+                },
+            }))
+
+            return contestPaths
+        }),
+    )
+
+    const flattenedPaths = paths.flat()
 
     return {
-        paths,
+        paths: flattenedPaths,
         fallback: 'blocking',
     }
 }
 
 export async function getStaticProps({ params }) {
-    const { slug } = params
+    const { slug, id } = params
 
     const res = await fetch(
-        'https://notion-api.splitbee.io/v1/table/6c4396c9d9c646799b292e7ff4ef5028',
+        'https://notion-api.splitbee.io/v1/table/c6b83e5671e340f58b07083a03b3de13',
     )
+
     const data = await res.json()
 
-    const filteredData = data.filter((contest) => {
-        return contest['No'] > 0
-    })
+    const filteredData = data
+        .filter((entry) => {
+            return entry['No'] > 0
+        })
+        .filter((entry) => {
+            return entry['DB'] !== undefined
+        })
 
-    const contest = filteredData.find(
-        (d) => toSlug(d['Project Title']) === slug,
-    )
+    const nouns = filteredData.find((d) => toSlug(d['Project Title']) === slug)
 
-    if (!contest) {
-        return {
-            notFound: true,
-        }
+    if (!nouns) {
+        // If no matching special was found, return a 404 page
+        return { notFound: true }
     }
 
-    const contestURL = contest.DB
+    const specialUrl = nouns.DB
+        ? `https://notion-api.splitbee.io/v1/table/${nouns.DB}`
+        : ''
+    const res2 = specialUrl ? await fetch(specialUrl) : ''
+    const data2 = res2 ? await res2.json() : {}
+
+    const filteredData2 = data2.filter((entry) => {
+        return entry['No'] > 0
+    })
+
+    const contest = filteredData2.find((c) => toSlug(c['Project Title']) === id)
+
+    if (!contest) {
+        // If no matching contest was found, return a 404 page
+        return { notFound: true }
+    }
+
+    const contestUrl = contest.DB
         ? `https://notion-api.splitbee.io/v1/table/${contest.DB}`
         : ''
+    const res3 = contestUrl ? await fetch(contestUrl) : ''
+    const data3 = res3 ? await res3.json() : {}
 
-    const contestRes = contestURL ? await fetch(contestURL) : ''
-    const contestData = contestRes ? await contestRes.json() : {}
-
-    // filter by winner no
-    contestData.sort((a, b) => {
+    // sort based on Winner number
+    data3.sort((a, b) => {
         // If either "No" value is undefined, move to end of array
         if (a['No'] === undefined) {
             return 1
         } else if (b['No'] === undefined) {
             return -1
         }
+
         // Sort based on "No" value
         return a['No'] - b['No']
     })
 
     return {
         props: {
-            initialData: contestData,
+            initialData: data3,
             contest: contest,
+            nouns: nouns,
         },
         revalidate: 60,
     }

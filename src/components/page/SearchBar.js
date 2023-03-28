@@ -33,7 +33,7 @@ const SearchBar = forwardRef(({ handleSearch }, ref) => {
                 />
                 {ref.current?.value !== '' && (
                     <div
-                        className="absolute top-3 right-2 text-sm text-gray-500"
+                        className="absolute top-3 right-2 text-sm text-gray-500 hover:cursor-pointer"
                         onClick={() => {
                             ref.current.value = ''
                             handleSearch({ target: { value: '' } })

@@ -11,7 +11,7 @@ export default function Description({ desc, link }) {
         >
             <div className="break-words text-center">{desc}</div>
             {link && (
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-col gap-0 sm:flex-row sm:gap-4">
                     {link?.split('\n').map((l) => (
                         <a
                             key={getLinkName(l)}

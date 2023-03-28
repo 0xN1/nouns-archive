@@ -20,7 +20,7 @@ export async function getStaticPaths() {
         params: { id: proposal.No.toString() },
     }))
 
-    return { paths, fallback: false }
+    return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {
