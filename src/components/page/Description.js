@@ -7,7 +7,7 @@ export default function Description({ desc, link }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="mb-16 mt-4 flex w-2/3 flex-col items-center justify-center gap-2 rounded-3xl border-x-4 border-t-4 border-black bg-[#FFF3F8] p-8 shadow-xl [border-bottom-width:12px]"
+            className="mb-16 mt-4 flex w-4/5 flex-col items-center justify-center gap-2 rounded-3xl border-x-4 border-t-4 border-black bg-[#FFF3F8] p-8 shadow-xl [border-bottom-width:12px] sm:w-2/3"
         >
             <div className="break-words text-center">{desc}</div>
             {link && (

@@ -63,7 +63,7 @@ export default function Proposal({ proposal }) {
                 {proposal.Category.map((category) => (
                     <div
                         key={category}
-                        className=" text-md flex flex-row items-center justify-center rounded-full border-2 border-black bg-[#FFBD12] px-4 py-2 font-medium text-gray-900"
+                        className="text-md  flex flex-row items-center justify-center rounded-full border-2 border-black bg-[#FFBD12] px-4 py-2 font-medium text-gray-900"
                     >
                         {category}
                     </div>
@@ -74,19 +74,19 @@ export default function Proposal({ proposal }) {
                 transition={{ duration: 0.25 }}
                 initial={{ opacity: 0.2, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="grid grid-cols-3 justify-items-center gap-8 rounded-3xl border-2 border-black bg-white p-4 px-12 text-center"
+                className="className={`my-8 mx-8 grid grid-cols-2 justify-items-center gap-4 rounded-3xl  border-2 border-black bg-white p-4 px-12 text-center sm:grid-cols-3 md:gap-8"
             >
-                <div className="flex flex-col gap-4 ">
+                <div className="flex flex-col gap-0 sm:gap-4">
                     <span className="text-md">Proposal No</span>
                     <span className="text-lg font-bold">{proposal.No}</span>
                 </div>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-0 sm:gap-4">
                     <span className="text-md">Total Funded</span>
                     <span className="text-lg font-bold">
                         {proposal.ETH} ETH
                     </span>
                 </div>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-0 md:gap-4">
                     <span className="text-md">Status</span>
                     <span className="text-lg font-bold">{proposal.Status}</span>
                 </div>

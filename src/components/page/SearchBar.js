@@ -17,7 +17,7 @@ const SearchBar = forwardRef(({ handleSearch }, ref) => {
     }, [ref])
 
     return (
-        <div className="mb-8 flex w-1/2 flex-col items-center gap-4">
+        <div className="mb-8 flex w-4/5 flex-col items-center gap-4 px-4 sm:w-1/2">
             <m.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
