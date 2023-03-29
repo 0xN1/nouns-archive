@@ -29,8 +29,8 @@ function PropsCard({ prop }) {
                             : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                     }
                     alt={prop.Thumbnails?.[0].name}
-                    width={300}
-                    height={236}
+                    width={1000}
+                    height={1000}
                 />
             </Link>
 

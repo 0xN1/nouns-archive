@@ -17,17 +17,23 @@ export default function Header() {
                             Nouns Archive
                         </h1>
                         <h1 className="font-semibold">
-                            Archive Center for NounsDAOs
+                            Archive Center for Nouns DAO
                         </h1>
                     </div>
                 </div>
             </Link>
             <div className="hidden sm:flex">
-                <Link href="/faq">
+                {/* <Link href="/faq"> */}
+                <a
+                    href="https://twitter.com/nounsarchive"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     <span className="rounded-2xl border-2 border-black bg-transparent px-6 py-2 font-gibson text-xl tracking-wide transition-all duration-500 ease-in-out hover:bg-[#FFBD12]">
                         FAQ
                     </span>
-                </Link>
+                </a>
+                {/* </Link> */}
             </div>
         </header>
     )

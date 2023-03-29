@@ -18,11 +18,11 @@ export default function Footer() {
             </p>
 
             <p className="text-xs text-gray-500">
-                We love CC0. Every entry serves mostly as a reference.
+                We love CC0. Every item serves mostly as a reference.
             </p>
             <p className="text-xs text-gray-500">
-                You can refer to your respective artist for their consent to use
-                / create derivatives by referring to them.
+                You can refer to the respective artist/builder for their consent
+                to use / create derivatives by referring to them.
             </p>
         </footer>
     )

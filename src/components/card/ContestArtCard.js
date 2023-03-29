@@ -19,8 +19,8 @@ export default function ContestArtCard({ artwork, onClick }) {
                             : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                     }
                     alt={artwork.Thumbnails?.[0].name}
-                    width={300}
-                    height={236}
+                    width={800}
+                    height={800}
                     onClick={handleClick}
                 />
 
@@ -43,7 +43,7 @@ export default function ContestArtCard({ artwork, onClick }) {
                     </p>
                 </div>
 
-                <div className="flex flex-row gap-2 px-4 py-2">
+                <div className="flex flex-row gap-1 px-2 py-2">
                     {artwork['Category']?.map((category) => (
                         <div
                             key={category}
@@ -60,7 +60,7 @@ export default function ContestArtCard({ artwork, onClick }) {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <div className="absolute bottom-[14px] right-12">
+                        <div className="absolute bottom-[14px] right-10">
                             {/* <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`DL`}</div> */}
                             <div className="scale-125">
                                 <DownloadIcon className="hover:fill-[#FFBD12]" />
@@ -75,7 +75,7 @@ export default function ContestArtCard({ artwork, onClick }) {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <div className="absolute bottom-[14px] right-4">
+                        <div className="absolute bottom-[14px] right-2">
                             {/* <div className="rounded-full border-2 border-black bg-[#FBF9F5] px-1.5 font-bold hover:bg-[#FFBD12]">{`>`}</div> */}
                             <div className="scale-125">
                                 <ArrowRightIcon className="hover:fill-[#FFBD12]" />

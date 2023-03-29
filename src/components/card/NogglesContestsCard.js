@@ -18,8 +18,8 @@ export default function NogglesContestsCard({ contest, parentSlug }) {
                                 : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                         }
                         alt={contest.Thumbnails?.[0]?.name}
-                        width={300}
-                        height={236}
+                        width={1000}
+                        height={1000}
                     />
                 </Link>
 

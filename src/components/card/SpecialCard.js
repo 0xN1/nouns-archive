@@ -22,8 +22,8 @@ export default function SpecialCard({ special }) {
                                 : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                         }
                         alt={special.Thumbnails?.[0].name}
-                        width={300}
-                        height={236}
+                        width={800}
+                        height={800}
                     />
                 </Link>
 

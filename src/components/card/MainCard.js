@@ -18,8 +18,8 @@ export default function MainCard({ content }) {
                                 : 'https://placehold.co/300x300/FBF9F5/000000?text=Nouns+Archive&font=raleway'
                         }
                         alt={content.name}
-                        width={300}
-                        height={300}
+                        width={1000}
+                        height={1000}
                     />
                 </Link>
             </div>

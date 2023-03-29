@@ -4,44 +4,45 @@ import MainCard from '@/components/card/MainCard'
 
 const mainContents = [
     {
-        name: 'Funded Proposal',
-        imageURL:
-            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
-        link: '/props',
-        id: 1,
-    },
-    {
         name: 'Noggles',
         imageURL:
-            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+            'http://arweave.net/57OeUO6-Py-RVIR1SK6cmI3OlOZ7y03YMfgEMXipfy4',
         link: '/noggles',
-        id: 2,
-    },
-    {
-        name: 'Nouns Special',
-        imageURL:
-            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
-        link: '/special',
-        id: 3,
+        id: 1,
     },
     {
         name: 'Nouns',
         imageURL:
-            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+            'http://arweave.net/neTxQkw8jHEhouWgpSepbTk-YdD0nEHIjm62zG2IRKA',
         link: '/nouns',
+        id: 2,
+    },
+    {
+        name: 'Funded Proposal',
+        imageURL:
+            'http://arweave.net/Dhe92aOiTY3HN6SZRBS8N3sQ_EZGVjO7HQJWSyatciM',
+        link: '/props',
+        id: 3,
+    },
+    {
+        name: 'Nouns Special',
+        imageURL:
+            'http://arweave.net/FwaSZN9g7G677SBYzfmN_HjHnUf3xBQAFaJIZ2n48rg',
+        link: '/special',
         id: 4,
     },
+
     {
         name: 'SubDAOs',
         imageURL:
-            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+            'http://arweave.net/c0lRON-PHQ5KwPq1k6qCQIxu-VHcjfeq8ZeRrWcbn-0',
         link: '/subdao',
         id: 5,
     },
     {
         name: 'Nouns World',
         imageURL:
-            'https://arweave.net/76pyRGBY6B6fD2ly77Um5fJoUBHehB1Irt-SwUMVfN4',
+            'http://arweave.net/_lH_ghkQFzYATBG0sWJ_bNkkpxTNT885WzqwnRPjABg',
         link: '/world',
         id: 6,
     },

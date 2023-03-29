@@ -9,7 +9,10 @@ export default function Description({ desc, link }) {
             transition={{ duration: 0.3 }}
             className="mb-16 mt-4 flex w-4/5 flex-col items-center justify-center gap-2 rounded-3xl border-x-4 border-t-4 border-black bg-[#FFF3F8] p-8 shadow-xl [border-bottom-width:12px] sm:w-2/3"
         >
-            <div className="break-words text-center">{desc}</div>
+            {/* <div className="break-words text-center">{desc}</div> */}
+            <p className="max-w-prose whitespace-pre-wrap break-words p-2 text-center">
+                {desc}
+            </p>
             {link && (
                 <div className="flex flex-col gap-0 sm:flex-row sm:gap-4">
                     {link?.split('\n').map((l) => (

@@ -301,8 +301,8 @@ export default function Contest({ initialData, contest, dao }) {
                     className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
                     src={imageModalURL}
                     alt={imageModalURL}
-                    width={800}
-                    height={400}
+                    width={1000}
+                    height={1000}
                 />
             </ImageModal>
 

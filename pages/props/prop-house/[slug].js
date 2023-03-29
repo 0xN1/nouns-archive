@@ -101,8 +101,8 @@ export default function Proposal({ proposal }) {
                     className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
                     src={imageModalURL}
                     alt={imageModalURL}
-                    width={800}
-                    height={400}
+                    width={1000}
+                    height={1000}
                 />
             </ImageModal>
 
@@ -126,16 +126,24 @@ export default function Proposal({ proposal }) {
                     )
                     setShowImageModal(true)
                 }}
-                width={800}
-                height={400}
+                width={1000}
+                height={1000}
             />
 
             <h1 className="mt-8 mb-8 p-8 text-center font-gibson text-5xl uppercase">
                 Description
             </h1>
-            <p className="w-3/4 whitespace-pre-wrap break-words p-2 text-justify">
+            {/* <p className="w-3/4 whitespace-pre-wrap break-words p-2 text-justify xl:w-3/5">
+                {proposal.Description}
+            </p> */}
+            {/* <p className="w-3/4 whitespace-pre-wrap break-words p-2 text-justify sm:w-3/4 md:w-3/4 lg:w-3/4 xl:w-3/5 2xl:w-2/5">
+                {proposal.Description}
+            </p> */}
+
+            <p className="max-w-prose whitespace-pre-wrap break-words px-8 text-justify">
                 {proposal.Description}
             </p>
+
             {/* <a
                 href={`https://nouns.wtf/vote/${proposal.No}`}
                 target="_blank"
@@ -164,8 +172,8 @@ export default function Proposal({ proposal }) {
                                 className="w-full rounded-lg object-cover shadow-lg shadow-gray-600"
                                 src={imageModalURL}
                                 alt={imageModalURL}
-                                width={800}
-                                height={400}
+                                width={1000}
+                                height={1000}
                             />
                         </ImageModal>
 
@@ -179,8 +187,8 @@ export default function Proposal({ proposal }) {
                                     setImageModalURL(item?.url)
                                     setShowImageModal(true)
                                 }}
-                                width={800}
-                                height={400}
+                                width={1000}
+                                height={1000}
                             />
                         ))}
                     </div>
