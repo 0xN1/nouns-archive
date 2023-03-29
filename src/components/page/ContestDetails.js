@@ -7,10 +7,10 @@ export default function ContestDetails({ contest }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.25 }}
-            className="flex flex-col justify-center text-center"
+            className="flex w-full flex-col justify-center text-center"
         >
             <h2 className="font-bold">Contest Brief</h2>
-            <p className="mx-auto whitespace-pre-wrap break-words p-4 text-center">
+            <p className="sm:text-md mx-auto w-4/5 max-w-prose whitespace-pre-wrap break-words p-4 text-center text-sm">
                 {contest['Contest Brief']}
             </p>
             <div className="flex flex-row justify-center gap-4">
@@ -27,8 +27,8 @@ export default function ContestDetails({ contest }) {
                     </a>
                 ))}
             </div>
-            <div className="mt-8">
-                <h2 className="font-bold">
+            <div className="md:text-md mt-8 text-sm">
+                <h2 className=" font-bold">
                     Contest Duration: {contest['Contest Duration']}
                 </h2>
                 <h2 className="font-bold">Hosted By: {contest['Host']}</h2>
