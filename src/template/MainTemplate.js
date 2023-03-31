@@ -12,6 +12,24 @@ function MainTemplate({ children, ...props }) {
                     property="og:image"
                     content="https://archives.wtf/api/og"
                 />
+                <meta property="og:title" content="Nouns Archive" key="title" />
+                <meta
+                    property="og:description"
+                    content="We archive all media in Nouns DAO ecosystem"
+                    key="description"
+                />
+                <meta
+                    property="og:url"
+                    content="https://archives.wtf"
+                    key="url"
+                />
+                <meta
+                    property="og:site_name"
+                    content="Nouns Archive"
+                    key="site_name"
+                />
+                <meta property="og:type" content="website" key="type" />
+                <meta property="og:locale" content="en_US" key="locale" />
             </Head>
             <Header />
 
