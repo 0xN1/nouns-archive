@@ -5,7 +5,6 @@ import Title from '@/components/page/Title'
 import { toSlug } from '@/lib/utils'
 import BaseTemplate from '@/template/BaseTemplate'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useState } from 'react'
 import { motion as m } from 'framer-motion'
 
@@ -69,7 +68,7 @@ export default function Proposal({ proposal }) {
                 transition={{ duration: 0.25 }}
                 initial={{ opacity: 0.2, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="className={`my-8 mx-8 grid grid-cols-2 justify-items-center gap-4 rounded-3xl  border-2 border-black bg-white p-4 px-12 text-center sm:grid-cols-4 md:gap-8"
+                className="className={`my-8 mx-4 grid grid-cols-2 justify-items-center gap-4 rounded-3xl  border-2 border-black bg-white p-4 px-8 text-center sm:px-12 md:grid-cols-4 md:gap-8"
             >
                 <div className="flex flex-col gap-0 sm:gap-4">
                     <span className="text-md">House</span>
@@ -80,7 +79,12 @@ export default function Proposal({ proposal }) {
                     <span className="text-lg font-bold">{proposal.Round}</span>
                 </div>
                 <div className="flex flex-col gap-0 sm:gap-4">
-                    <span className="text-md">Total Funded</span>
+                    <span className="text-md">
+                        {' '}
+                        {proposal.Status !== 'Cancelled'
+                            ? 'Total Funded'
+                            : 'Total Requested'}
+                    </span>
                     <span className="text-lg font-bold">
                         {proposal.ETH} ETH
                     </span>

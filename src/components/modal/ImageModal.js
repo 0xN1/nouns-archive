@@ -18,7 +18,7 @@ const ImageModal = ({ isVisible, onClose, children }) => {
             className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto bg-black bg-opacity-25 p-10 backdrop-blur-sm"
             onClick={handleClose}
         >
-            <div className="w-3/4">{children}</div>
+            <div className="w-11/12">{children}</div>
         </m.div>
     )
 }

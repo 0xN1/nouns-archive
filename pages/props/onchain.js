@@ -40,10 +40,12 @@ export default function OnChain({ initialData }) {
     const categorySelectRef = useRef(null)
     const statusSelectRef = useRef(null)
     const searchRef = useRef(null)
+    const votingRef = useRef(null)
     const [scroll, setScroll] = useLocalStorage(`onchain-scroll`, 0)
     const [category, setCategory] = useLocalStorage(`onchain-category`, 'all')
     const [status, setStatus] = useLocalStorage(`onchain-status`, 'all')
     const [search, setSearch] = useLocalStorage(`onchain-search`, '')
+    const [voting, setVoting] = useLocalStorage(`onchain-voting`, 'all')
 
     useScrollPosition(setScroll, scroll)
 
@@ -170,6 +172,20 @@ export default function OnChain({ initialData }) {
         }
     }
 
+    const filterByVoting = (data, voting) => {
+        if (voting === 'all') {
+            return data
+        } else {
+            const filteredData = initialData.filter((entry) => {
+                const tempVoting = entry['Voting']?.toLowerCase()
+
+                return tempVoting?.includes(voting.toLowerCase())
+            })
+
+            return filteredData
+        }
+    }
+
     // HANDLERS
 
     const handleSearch = (e) => {
@@ -180,8 +196,10 @@ export default function OnChain({ initialData }) {
 
         setCategory('all')
         setStatus('all')
+        setVoting('all')
         categorySelectRef.current.value = 'all'
         statusSelectRef.current.value = 'all'
+        votingRef.current.value = 'all'
     }
 
     const handleCategory = (e) => {
@@ -192,8 +210,10 @@ export default function OnChain({ initialData }) {
 
         setStatus('all')
         setSearch('')
+        setVoting('all')
         statusSelectRef.current.value = 'all'
         searchRef.current.value = ''
+        votingRef.current.value = 'all'
     }
 
     const handleStatus = (e) => {
@@ -204,8 +224,24 @@ export default function OnChain({ initialData }) {
 
         setCategory('all')
         setSearch('')
+        setVoting('all')
         categorySelectRef.current.value = 'all'
         searchRef.current.value = ''
+        votingRef.current.value = 'all'
+    }
+
+    const handleVoting = (e) => {
+        const votingQuery = e.target.value
+        const filteredData = filterByVoting(initialData, votingQuery)
+        setData(filteredData)
+        setVoting(votingQuery)
+
+        setCategory('all')
+        setSearch('')
+        setStatus('all')
+        categorySelectRef.current.value = 'all'
+        searchRef.current.value = ''
+        statusSelectRef.current.value = 'all'
     }
 
     // USEEFFECTS
@@ -226,6 +262,11 @@ export default function OnChain({ initialData }) {
             setData(filteredData)
         }
 
+        if (voting !== 'all') {
+            const filteredData = filterByVoting(initialData, voting)
+            setData(filteredData)
+        }
+
         // debounce setCategory to prevent multiple calls
         const debouncedSetCategory = debounce((value) => {
             setCategory(value)
@@ -242,6 +283,11 @@ export default function OnChain({ initialData }) {
         debouncedSetStatus(status)
         statusSelectRef.current.value = status
 
+        const debouncedSetVoting = debounce((value) => {
+            setVoting(value)
+        }, 100)
+        votingRef.current.value = voting
+
         searchRef.current.value = search
     }, [
         setCategory,
@@ -250,6 +296,8 @@ export default function OnChain({ initialData }) {
         status,
         setSearch,
         search,
+        setVoting,
+        voting,
         initialData,
     ])
 
@@ -269,6 +317,14 @@ export default function OnChain({ initialData }) {
                 .map((entry) => entry.Status)
                 .flat()
                 .filter((status) => status),
+        ),
+    )
+    const votings = Array.from(
+        new Set(
+            initialData
+                .map((entry) => entry.Voting)
+                .flat()
+                .filter((voting) => voting),
         ),
     )
 
@@ -304,6 +360,14 @@ export default function OnChain({ initialData }) {
                     handler={handleStatus}
                     ref={statusSelectRef}
                     name="Status"
+                />
+                <FilterSelect
+                    key="voting"
+                    defaultOption="all"
+                    options={votings}
+                    handler={handleVoting}
+                    ref={votingRef}
+                    name="Voting"
                 />
                 <FilterSelect
                     key="sort"
