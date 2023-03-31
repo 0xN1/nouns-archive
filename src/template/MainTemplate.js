@@ -8,6 +8,10 @@ function MainTemplate({ children, ...props }) {
             <Head>
                 <title>Nouns Archive</title>
                 <link rel="icon" href="/nouns-archive.svg" />
+                <meta
+                    property="og:image"
+                    content="https://archives.wtf/api/og"
+                />
             </Head>
             <Header />
 
