@@ -9,27 +9,42 @@ function MainTemplate({ children, ...props }) {
                 <title>Nouns Archive</title>
                 <link rel="icon" href="/nouns-archive.svg" />
                 <meta
-                    property="og:image"
-                    content="https://archives.wtf/api/og"
-                />
-                <meta property="og:title" content="Nouns Archive" key="title" />
-                <meta
-                    property="og:description"
-                    content="We archive all media in Nouns DAO ecosystem"
-                    key="description"
-                />
-                <meta
-                    property="og:url"
-                    content="https://archives.wtf"
-                    key="url"
-                />
-                <meta
                     property="og:site_name"
                     content="Nouns Archive"
                     key="site_name"
                 />
-                <meta property="og:type" content="website" key="type" />
                 <meta property="og:locale" content="en_US" key="locale" />
+
+                <title>Nouns Archive</title>
+                <meta
+                    name="description"
+                    content="We archive all media in Nouns DAO ecosystem"
+                />
+
+                <meta property="og:url" content="https://archives.wtf" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Nouns Archive" />
+                <meta
+                    property="og:description"
+                    content="We archive all media in Nouns DAO ecosystem"
+                />
+                <meta
+                    property="og:image"
+                    content="https://archives.wtf/api/og"
+                />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta property="twitter:domain" content="archives.wtf" />
+                <meta property="twitter:url" content="https://archives.wtf" />
+                <meta name="twitter:title" content="Nouns Archive" />
+                <meta
+                    name="twitter:description"
+                    content="We archive all media in Nouns DAO ecosystem"
+                />
+                <meta
+                    name="twitter:image"
+                    content="https://archives.wtf/api/og"
+                />
             </Head>
             <Header />
 
