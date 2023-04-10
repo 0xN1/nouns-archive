@@ -12,6 +12,8 @@ import FilterSelectContainer from '@/components/page/FilterSelectContainer'
 import FilterSelect from '@/components/page/FilterSelect'
 import Separator from '@/components/page/Separator'
 import CardWrapper from '@/components/card/CardWrapper'
+import generateRSSFeed from '@/lib/generateRSSFeed'
+import { BASE_URL } from '@/lib/constants'
 
 const DEBUG_MODE = false
 
@@ -25,6 +27,21 @@ export async function getStaticProps() {
     initialData.sort((a, b) => {
         return new Date(a.Date) - new Date(b.Date)
     })
+
+    const rssData = initialData.map((entry) => {
+        return {
+            id: entry.id,
+            title: entry['Project Title'],
+            link: `/props/onchain/${entry.No}`,
+            description: entry.Description,
+            date: entry.Date,
+        }
+    })
+
+    const baseURL = BASE_URL
+    const rssPath = '/props/onchain'
+
+    generateRSSFeed(rssData, baseURL, rssPath)
 
     return {
         props: {

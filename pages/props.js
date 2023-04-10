@@ -9,6 +9,8 @@ import Title from '@/components/page/Title'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
 import CardWrapper from '@/components/card/CardWrapper'
+import generateRSSFeed from '@/lib/generateRSSFeed'
+import { BASE_URL } from '@/lib/constants'
 
 export async function getStaticProps() {
     const res = await fetch(
@@ -16,6 +18,27 @@ export async function getStaticProps() {
     )
 
     const data = await res.json()
+
+    const Links = {
+        'Prop House': '/props/prop-house',
+        'NSFW : Small Grants': '/props/nsfw-small-grants',
+        'On-Chain Proposals': '/props/onchain',
+    }
+
+    const rssData = data.map((entry) => {
+        return {
+            id: entry.id,
+            title: entry['Project Title'],
+            link: `${Links[entry['Project Title']]}`,
+            description: entry.Description,
+            date: new Date(),
+        }
+    })
+
+    const baseURL = BASE_URL
+    const rssPath = '/props'
+
+    generateRSSFeed(rssData, baseURL, rssPath)
 
     return {
         props: {
