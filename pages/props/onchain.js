@@ -14,6 +14,7 @@ import Separator from '@/components/page/Separator'
 import CardWrapper from '@/components/card/CardWrapper'
 import generateRSSFeed from '@/lib/generateRSSFeed'
 import { BASE_URL } from '@/lib/constants'
+import { fixURL } from '@/lib/utils'
 
 const DEBUG_MODE = false
 
@@ -34,6 +35,7 @@ export async function getStaticProps() {
             title: entry['Project Title'],
             link: `/props/onchain/${entry.No}`,
             description: entry.Description,
+            image: fixURL(entry.Thumbnails?.[0]?.url),
             date: entry.Date,
         }
     })

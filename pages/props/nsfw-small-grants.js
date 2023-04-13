@@ -12,6 +12,9 @@ import FilterSelect from '@/components/page/FilterSelect'
 import NSFWCard from '@/components/card/NSFWCard'
 import Separator from '@/components/page/Separator'
 import CardWrapper from '@/components/card/CardWrapper'
+import { fixURL, toSlug } from '@/lib/utils'
+import { BASE_URL } from '@/lib/constants'
+import generateRSSFeed from '@/lib/generateRSSFeed'
 
 const DEBUG_MODE = false
 
@@ -32,6 +35,22 @@ export async function getStaticProps() {
 
         return dateA - dateB
     })
+
+    const rssData = filteredData.map((entry) => {
+        return {
+            id: entry.id,
+            title: entry['Project Title'],
+            link: `/props/nsfw-small-grants/${toSlug(entry['Project Title'])}`,
+            description: entry.Description,
+            image: fixURL(entry.Thumbnails?.[0]?.url),
+            date: entry.Date,
+        }
+    })
+
+    const baseURL = BASE_URL
+    const rssPath = '/props/nsfw-small-grants'
+
+    generateRSSFeed(rssData, baseURL, rssPath)
 
     return {
         props: {

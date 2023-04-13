@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { toSlug } from '@/lib/utils'
+import { fixURL, toSlug } from '@/lib/utils'
 
 import BaseTemplate from '@/template/BaseTemplate'
 import Noggles from '@/components/asset/noggles'
@@ -12,6 +12,8 @@ import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
 import CardWrapper from '@/components/card/CardWrapper'
 import Separator from '@/components/page/Separator'
+import generateRSSFeed from '@/lib/generateRSSFeed'
+import { BASE_URL } from '@/lib/constants'
 
 export default function SubDAOList({ initialData, pageData, raw }) {
     const [data, setData] = useState(initialData)
@@ -97,6 +99,22 @@ export async function getStaticProps() {
     const pageData = data.filter((entry) => {
         return entry['No'] === undefined
     })
+
+    const rssData = filteredData.map((entry) => {
+        return {
+            id: entry.id,
+            title: entry['Project Title'],
+            link: `/subdao/${toSlug(entry['Project Title'])}`,
+            description: entry.Description,
+            image: fixURL(entry.Thumbnails?.[0]?.url),
+            date: entry.Date ? new Date(entry.Date) : new Date(),
+        }
+    })
+
+    const baseURL = BASE_URL
+    const rssPath = '/subdao'
+
+    generateRSSFeed(rssData, baseURL, rssPath)
 
     return {
         props: {

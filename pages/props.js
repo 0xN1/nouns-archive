@@ -31,6 +31,7 @@ export async function getStaticProps() {
             title: entry['Project Title'],
             link: `${Links[entry['Project Title']]}`,
             description: entry.Description,
+            image: entry.Thumbnails?.[0]?.url,
             date: new Date(),
         }
     })

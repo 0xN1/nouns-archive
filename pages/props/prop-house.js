@@ -13,6 +13,9 @@ import useScrollPosition from '@/hooks/useScrollPosition'
 import { motion as m } from 'framer-motion'
 import CardWrapper from '@/components/card/CardWrapper'
 import Separator from '@/components/page/Separator'
+import generateRSSFeed from '@/lib/generateRSSFeed'
+import { fixURL, toSlug } from '@/lib/utils'
+import { BASE_URL } from '@/lib/constants'
 
 const DEBUG_MODE = false
 
@@ -25,6 +28,22 @@ export async function getStaticProps() {
     const filteredData = data.filter((entry) => {
         return entry['Project Title'] !== ''
     })
+
+    const rssData = filteredData.map((entry) => {
+        return {
+            id: entry.id,
+            title: entry['Project Title'],
+            link: `/props/prop-house/${toSlug(entry['Project Title'])}`,
+            description: entry.Description,
+            image: fixURL(entry.Thumbnails?.[0]?.url),
+            date: entry.Date,
+        }
+    })
+
+    const baseURL = BASE_URL
+    const rssPath = '/props/prop-house'
+
+    generateRSSFeed(rssData, baseURL, rssPath)
 
     return {
         props: {

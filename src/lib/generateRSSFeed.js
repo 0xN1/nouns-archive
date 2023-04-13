@@ -30,6 +30,7 @@ function generateRSSFeed(pageData, baseUrl, pagePath) {
             link: `${baseUrl}${item.link}`,
             description: item.description,
             content: item.description,
+            image: item.image,
             author: [
                 {
                     name: 'Nouns Archive',

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { toSlug } from '@/lib/utils'
+import { fixURL, toSlug } from '@/lib/utils'
 
 import Noggles from '@/components/asset/noggles'
 import BaseTemplate from '@/template/BaseTemplate'
@@ -15,6 +15,8 @@ import NogglesContestsCard from '@/components/card/NogglesContestsCard'
 
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
+import generateRSSFeed from '@/lib/generateRSSFeed'
+import { BASE_URL } from '@/lib/constants'
 
 const DEBUG_MODE = false
 
@@ -318,6 +320,22 @@ export async function getStaticProps() {
     const pageData = data.filter((entry) => {
         return entry['No'] === undefined
     })
+
+    const rssData = filteredData.map((entry) => {
+        return {
+            id: entry.id,
+            title: entry['Project Title'],
+            link: `/noggles/${toSlug(entry['Project Title'])}`,
+            description: entry.Description,
+            image: fixURL(entry.Thumbnails?.[0]?.url),
+            date: entry.Date ? new Date(entry.Date) : new Date(),
+        }
+    })
+
+    const baseURL = BASE_URL
+    const rssPath = '/noggles'
+
+    generateRSSFeed(rssData, baseURL, rssPath)
 
     return {
         props: {

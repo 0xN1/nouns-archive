@@ -10,7 +10,9 @@ import Separator from '@/components/page/Separator'
 import Title from '@/components/page/Title'
 import useLocalStorage from '@/hooks/useLocalStorage'
 import useScrollPosition from '@/hooks/useScrollPosition'
-import { toSlug } from '@/lib/utils'
+import { BASE_URL } from '@/lib/constants'
+import generateRSSFeed from '@/lib/generateRSSFeed'
+import { fixURL, toSlug } from '@/lib/utils'
 import BaseTemplate from '@/template/BaseTemplate'
 import { useState, useRef, useEffect } from 'react'
 
@@ -294,6 +296,24 @@ export async function getStaticProps({ params }) {
         const pageData = data.filter((entry) => {
             return entry['No'] === undefined
         })
+
+        const rssData = filteredData.map((entry) => {
+            return {
+                id: entry.id,
+                title: entry['Project Title'],
+                link: `/special/${toSlug(special['Project Title'])}/${toSlug(
+                    entry['Project Title'],
+                )}`,
+                description: entry.Description,
+                image: fixURL(entry.Thumbnails?.[0]?.url),
+                date: entry.Date ? new Date(entry.Date) : new Date(),
+            }
+        })
+
+        const baseURL = BASE_URL
+        const rssPath = `/special/${toSlug(special['Project Title'])}`
+
+        generateRSSFeed(rssData, baseURL, rssPath)
 
         return {
             props: {

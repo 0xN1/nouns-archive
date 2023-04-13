@@ -24,3 +24,9 @@ export function formatDate(dateStr) {
     }
     return date.toLocaleDateString('en-GB', options).replace(',', '')
 }
+
+export function fixURL(url) {
+    if (url !== undefined) {
+        return url.replace(/&/g, '&amp;')
+    }
+}
